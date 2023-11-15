@@ -1,24 +1,24 @@
-    #Activation du réécriveur de liens d'appache
-    RewriteEngine On
-    # si le lien n'emène pas sur un fichier ou un répertoire
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
+    # #Activation du réécriveur de liens d'appache
+    # RewriteEngine On
+    # # si le lien n'emène pas sur un fichier ou un répertoire
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteCond %{REQUEST_FILENAME} !-f
 
-    #URL Rewriting, réécrit l'url de facon a l'embellir:
-    #l'utilisateur verra http://suiviapp.loc/page lorsque le code, lui va
-    #transformer:  http://suiviapp.loc/page
-    #en :          http://suiviapp.loc/router.php?page="/page"
-    #Il suffit de récupérer le $_GET["page"] dans router.php et de redirriger sur la page correspondante
+    # #URL Rewriting, réécrit l'url de facon a l'embellir:
+    # #l'utilisateur verra http://suiviapp.loc/page lorsque le code, lui va
+    # #transformer:  http://suiviapp.loc/page
+    # #en :          http://suiviapp.loc/router.php?page="/page"
+    # #Il suffit de récupérer le $_GET["page"] dans router.php et de redirriger sur la page correspondante
 
-    RewriteRule ^(.*)$ index.php?page=/$1 [L,QSA]
+    # RewriteRule ^(.*)$ index.php?page=/$1 [L,QSA]
 
-    #autorise à réécrire même si on tente d'ouvrir un fichier pour les règles suivantes
-    RewriteCond %{REQUEST_FILENAME} !-f [or]
-    RewriteCond %{REQUEST_FILENAME} -f
+    # #autorise à réécrire même si on tente d'ouvrir un fichier pour les règles suivantes
+    # RewriteCond %{REQUEST_FILENAME} !-f [or]
+    # RewriteCond %{REQUEST_FILENAME} -f
 
-    #Les règles suivantes vont réécrire et redirriger sur la page 404 personnalisée toute tentative d'accès aux dossiers, sous-dossiers et fichiers suivants
-    RewriteRule ^(app/.*)$ Views/404.php [L]            #app/*
+    # #Les règles suivantes vont réécrire et redirriger sur la page 404 personnalisée toute tentative d'accès aux dossiers, sous-dossiers et fichiers suivants
+    # RewriteRule ^(app/.*)$ Views/404.php [L]            #app/*
 
-    #L'utilisateur ne pourra alors voir que ce que le serveur lui donne.
-    #Les fichiers à la racine demeureront accessibles, l'objectif est de n'avoir que index.php qui redirrige vers /home
-    #et router.php qui est le controlleur principal du site.
+    # #L'utilisateur ne pourra alors voir que ce que le serveur lui donne.
+    # #Les fichiers à la racine demeureront accessibles, l'objectif est de n'avoir que index.php qui redirrige vers /home
+    # #et router.php qui est le controlleur principal du site.

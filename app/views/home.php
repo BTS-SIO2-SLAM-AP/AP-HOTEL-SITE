@@ -1,4 +1,7 @@
 <?php
+    //VUE d'affichage accueil
+    //Préparation flux HTML pour le template
+    ob_start();
     $title = "Balladins";
     $data = isset($data) ? $data : [];
     $content = isset($content) ? $content : "";
@@ -9,7 +12,6 @@
 <?php require_once "app/views/layouts/filtre.php" ?>
 <div>
     <?php
-    
 
     echo("<br/>Hotels :<br/>");
 

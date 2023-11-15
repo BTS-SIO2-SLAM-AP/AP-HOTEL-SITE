@@ -1,5 +1,6 @@
 <?php
     $title = isset($title) ? $title : "";
+    $title = isset($_GET[""]) ? $title : "";
     $content = isset($content) ? $content : "";
 ?>
 
@@ -12,17 +13,17 @@
     <meta http-equiv="X-UA-Compatible">
     <title><?= $title ?></title>
     <link rel="icon" type="image" href="/assets/media/logo.png" />
-    <link rel="stylesheet" href="<?= Asset::get("/assets/css/app.css"); ?>">
+    <!-- <link rel="stylesheet" href="<?= Asset::get("/assets/css/app.css"); ?>"> -->
 </head>
 <body>
     <nav>
         <div>
             <img class="nav-brand" src="<?= Asset::get("/assets/media/logo/logo-balladins.svg") ?>" alt="logo"/>
-            <a class="nav-link" href="<?= Asset::url("/home") ?>">Accueil</a>
+            <a class="nav-link" href="index.php?page=home">Accueil</a>
             
-            <a class="nav-link" href="<?= Asset::url("/create") ?>">Res Create</a>
+            <a class="nav-link" href="index.php?page=create">Res Create</a>
 
-            <a class="nav-link" href="<?= Asset::url("/view") ?>">Res View</a>
+            <a class="nav-link"  href="index.php?page=view">Res View</a>
         </div>
     </nav>
     <div class="main">

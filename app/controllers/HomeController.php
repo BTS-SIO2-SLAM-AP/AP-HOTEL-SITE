@@ -1,10 +1,9 @@
 <?php
-require_once "app/utils/DB.php";
 $_SESSION = isset($_SESSION) ? $_SESSION : [];
 
 class HomeController
 {
-    public static function index(){
+    public static function home(){
         
         require_once "app/views/home.php";
     }
