@@ -16,6 +16,19 @@ class DBModel
 			$user = "sa";
 			$password = "mdpsa";
 			$this->db = new PDO("sqlsrv:Server=$server;Database=$dbname", $user, $password);
+		} 
+		catch(Exception $e) 
+		{
+			die('Erreur : '.$e->getMessage());
+		}		
+
+		try
+		{
+			$server="DESKTOP-leon";
+			$dbname = "bdhotel_lepers-vieillard";
+			$user = "sa";
+			$password = "mdpsa";
+			$this->db = new PDO("sqlsrv:Server=$server;Database=$dbname", $user, $password);
 		}
 		catch(Exception $e) 
 		{
