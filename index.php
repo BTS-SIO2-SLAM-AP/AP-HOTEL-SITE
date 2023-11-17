@@ -20,7 +20,7 @@ switch ($action)
 	{
 		require('controller/_____.php');
 		break;
-	}
+	}	
 	default :
 	{
 		require('controller/accueilController.php');
