@@ -11,7 +11,7 @@ class DBModel
     {
 		try
 		{
-			$server = if(true) ? "VGTom\\SQLSERVEREXPRESS" : "DESKTOP-DOBTUVE";
+			$server = true ? "VGTom\\SQLSERVEREXPRESS" : "DESKTOP-DOBTUVE";
 			$dbname = "bdhotel_lepers-vieillard";
 			$user = "sa";
 			$password = "mdpsa";
