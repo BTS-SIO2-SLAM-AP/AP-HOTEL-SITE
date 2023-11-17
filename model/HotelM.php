@@ -20,11 +20,8 @@ class HotelM extends DBModel
 	//Retourne la liste complète des hôtels
     public function getAllHotel($columnNameOrderBy)
 	{
-		// $columnNameOrderBy = ColumnNameIsValid($columnNameOrderBy);
+		$columnNameOrderBy = $this->ColumnNameIsValid($columnNameOrderBy);
 		$reqresult = parent::getDb()->prepare("select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix, password from hotel order by $columnNameOrderBy");
-		// affichage de la requete préparée
-		echo $reqresult->queryString;
-
 		$reqresult->execute();
 		return $reqresult->fetchAll();
     }

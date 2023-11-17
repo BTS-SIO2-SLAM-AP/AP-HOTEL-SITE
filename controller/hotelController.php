@@ -6,7 +6,7 @@ require_once 'model/HotelM.php';
 
 // Récupération de la liste des hotel pour affichage liste
 $hotelM = new HotelM();
-$hotelList=$hotelM->getAllHotel($hotelM->ColumnNameIsValid("nom"));
+$hotelList=$hotelM->getAllHotel("nom");
 
 // Affichage du résultat dans la vue
 require_once 'view/hotel/listHotel.php';
