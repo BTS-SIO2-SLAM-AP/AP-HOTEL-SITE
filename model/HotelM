@@ -2,9 +2,9 @@
 //MODELE HotelM
 //Permettant la gestion de la table HOTEL
 
-require_once("DBModele.php"); 
+require_once("DBModel.php"); 
 
-class HotelM extends DBModele
+class HotelM extends DBModel
 {
 	//Retourne la liste complète des hôtels
     public function getAllHotel($columnOrderBy = "nohotel")
