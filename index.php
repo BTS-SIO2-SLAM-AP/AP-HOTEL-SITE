@@ -11,29 +11,14 @@ else
 }
 switch ($action)
 {
-	case 'listclaetu' :
+	case 'listhotel' :
 	{ 
-		require('controller/claEtuController.php');
+		require('controller/hotelController.php');
 		break;
 	}
-	case 'listcla' :
+	case '_____' :
 	{
-		require('controller/claController.php');
-		break;
-	}
-	case 'listetu' :
-	{
-		require('controller/etuController.php');
-		break;
-	}
-	case 'insertetu' :
-	{
-		require('controller/insertEtuController.php');
-		break;
-	}
-	case 'updateetu' :
-	{
-		require('controller/updateEtuController.php');
+		require('controller/_____.php');
 		break;
 	}
 	default :
