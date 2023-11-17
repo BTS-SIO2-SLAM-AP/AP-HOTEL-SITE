@@ -2,9 +2,9 @@
 //MODELE EtuManager
 //Permettant la gestion de la table ETUDIANT
 
-require_once("DBManager.php"); 
+require_once("DBModele.php"); 
 
-class EtuManager extends Manager
+class EtuManager extends DBModele
 {
 	//Retourne la liste des étudiants d'une classe
 	public function getAllEtu($uncodcla)

@@ -2,9 +2,9 @@
 //MODELE ClaManager
 //Permettant la gestion de la table CLASSE
 
-require_once("DBManager.php"); 
+require_once("DBModele.php"); 
 
-class ClaManager extends Manager
+class ClaManager extends DBModele
 {
 	//Retourne la liste complète des classes
     public function getAllCla()
