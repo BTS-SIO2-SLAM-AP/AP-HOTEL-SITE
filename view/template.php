@@ -13,6 +13,7 @@
 			<a href="index.php?action=listhotel" class="menu">Liste Hôtel</a>
 			<hr/>
 		</header>
+    <?php if(isset($filtre)) include 'view/layouts/filtre.php';  ?>
 		<?php echo $content ?>
     </body>
 </html>

@@ -1,18 +1,16 @@
-<?php
-    require_once("app/utils/DB.php");
-    $lesequ = DB::query("SELECT noequ, lib FROM equipement ORDER BY noequ");
-?>
-
 <div>
-    <label for="equipement-select">Sélecctionnez un équipement :</label>
-
-    <select name="equipements" id="equipement-select">
-        <?php
-        Foreach ($lesequ as $unequ)
-        { 
-            echo ("<option value='$unequ[noequ]'>$unequ[lib]</option>");
-        }
-        ?>
-    </select>
-    
+    <form method="post" action="index.php">
+        <input type="hidden" name="action" value="<?php echo $action ?>">
+        Sélectionnez un équipement :
+        <select name="equipements" id="equipement-select" onchange="this.form.submit()">
+            <option hidden disabled selected value> -- aucun -- </option>
+            <?php Foreach ($listEquipement as $unequ) { ?>
+                <option value='<?php echo $unequ["noequ"]?>' <?php echo isset($_POST["equipements"]) && $_POST["equipements"] == $unequ["noequ"] ? "selected" : ""; ?>><?php echo $unequ["lib"] ?></option>
+            <?php } ?>
+        </select>
+    </form>
+    <form method="post" action="index.php">
+        <input type="hidden" name="action" value="<?php echo $action ?>">
+        <button type="submit">Reset Filtre</button>
+    </form>
 </div>

@@ -1,9 +1,9 @@
 <?php
 // ROUTEUR de l'application
 // Permet de sélectionner le controleur adapté, en fonction de l'action dans l'URL
-if (isset($_GET['action'])) 
+if (isset($_POST['action'])) 
 {
-	$action=$_GET['action'];
+	$action=$_POST['action'];
 }
 else
 {
@@ -23,7 +23,7 @@ switch ($action)
 	}	
 	default :
 	{
-		require('controller/accueilController.php');
+		require('controller/hotelController.php');
 		break;
 	}
 }
