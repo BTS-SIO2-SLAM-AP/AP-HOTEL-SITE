@@ -11,7 +11,7 @@ class DBModel
     {
 		try
 		{
-			$server="VGTom\\SQLSERVEREXPRESS";
+			$server = if(true) ? "VGTom\\SQLSERVEREXPRESS" : "DESKTOP-DOBTUVE";
 			$dbname = "bdhotel_lepers-vieillard";
 			$user = "sa";
 			$password = "mdpsa";
@@ -19,18 +19,7 @@ class DBModel
 		} 
 		catch(Exception $e) 
 		{
-			try
-			{
-				$server="DESKTOP-leon";
-				$dbname = "bdhotel_lepers-vieillard";
-				$user = "sa";
-				$password = "mdpsa";
-				$this->db = new PDO("sqlsrv:Server=$server;Database=$dbname", $user, $password);
-			}
-			catch(Exception $e) 
-			{
-				die('Erreur : '.$e->getMessage());
-			}
+			die('Erreur : '.$e->getMessage());
 		}		
 
 		
