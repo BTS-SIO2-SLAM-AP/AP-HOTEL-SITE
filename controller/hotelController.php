@@ -29,12 +29,12 @@ if(isset($_POST["equipements"]))
     }
 }
 
-if(isset($_POST["villes"]))
+if(isset($_POST["ville"]) && !empty($_POST["ville"]))
 {
     $listHotelFiltred=[];
-    $villes = isset($_POST["villes"]) ? $_POST["villes"] : [];
+    $ville = isset($_POST["ville"]) ? $_POST["ville"] : [];
 
-    foreach ($equipementM->getHotelsVille($villes) as $unHotel) {
+    foreach ($hotelM->getHotelsVille($ville) as $unHotel) {
         $hotel = $hotelM->getHotel($listHotel, $unHotel["nohotel"]);
 
         if (!empty($hotel)) {

@@ -88,5 +88,13 @@ class HotelM extends DBModel
 		}
 		return "nohotel";
 	}
+
+	// Retourne les hotels d'une ville
+	public function getHotelsVille($nomville) {
+		$reqresult = parent::getDb()->prepare("select hotel.nohotel from hotel where ville like '$nomville'");
+		$reqresult->execute();
+		$lesHotels = $reqresult->fetchAll();
+		return $lesHotels;
+	}
 }
 //Absence volontaire de la balise fermeture php

@@ -13,7 +13,7 @@
 
         <input type="hidden" name="action" value="<?php echo $action ?>">
         Indiquez une ville
-        <input type="text" name="villes" id="ville-search" onchange="this.form.submit()">
+        <input type="text" name="ville" id="ville-search" value="<?php if(isset($_POST["ville"]) && !empty($_POST["ville"])) {echo $_POST["ville"];} {} ?>" onchange="this.form.submit()">
 
     </form>
     <form method="post" action="index.php">
