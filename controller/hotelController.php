@@ -29,6 +29,20 @@ if(isset($_POST["equipements"]))
     }
 }
 
+if(isset($_POST["villes"]))
+{
+    $listHotelFiltred=[];
+    $villes = isset($_POST["villes"]) ? $_POST["villes"] : [];
+
+    foreach ($equipementM->getHotelsVille($villes) as $unHotel) {
+        $hotel = $hotelM->getHotel($listHotel, $unHotel["nohotel"]);
+
+        if (!empty($hotel)) {
+            $listHotelFiltred[] = $hotel;
+        }
+    }
+}
+
 if(isset($listHotelFiltred)){
     $listHotel=$listHotelFiltred;
 }

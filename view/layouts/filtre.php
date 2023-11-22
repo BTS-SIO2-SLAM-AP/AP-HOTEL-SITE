@@ -5,9 +5,16 @@
         <select name="equipements" id="equipement-select" onchange="this.form.submit()">
             <option hidden disabled selected value> -- aucun -- </option>
             <?php Foreach ($listEquipement as $unequ) { ?>
-                <option value='<?php echo $unequ["noequ"]?>' <?php echo isset($_POST["equipements"]) && $_POST["equipements"] == $unequ["noequ"] ? "selected" : ""; ?>><?php echo $unequ["lib"] ?></option>
+            <option value='<?php echo $unequ["noequ"]?>'
+                <?php echo isset($_POST["equipements"]) && $_POST["equipements"] == $unequ["noequ"] ? "selected" : ""; ?>>
+                <?php echo $unequ["lib"] ?></option>
             <?php } ?>
         </select>
+
+        <input type="hidden" name="action" value="<?php echo $action ?>">
+        Indiquez une ville
+        <input type="text" name="villes" id="ville-search" onchange="this.form.submit()">
+
     </form>
     <form method="post" action="index.php">
         <input type="hidden" name="action" value="<?php echo $action ?>">
