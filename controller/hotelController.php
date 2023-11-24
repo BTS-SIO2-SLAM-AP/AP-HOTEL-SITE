@@ -11,41 +11,43 @@ $listEquipement=$equipementM->getAllEquipement();
 
 // Récupération de la liste des hotel pour affichage liste
 $hotelM = new HotelM();
-$listHotel=$hotelM->getAllHotel("nom");
+// $listHotel=$hotelM->getAllHotel("nom");
 
-if(isset($_POST["equipements"]))
-{
-    $listHotelFiltred = [];
-    $equipements = isset($_POST["equipements"]) ? $_POST["equipements"] : [];
+$listHotel=$hotelM->getAllHotel("nom", isset($_REQUEST["equipements"]) ? $_REQUEST["equipements"] : "", isset($_REQUEST["ville"]) ? $_REQUEST["ville"] : "", isset($_REQUEST["prix"]) ? $_REQUEST["prix"] : 9999);
+
+// if(isset($_REQUEST["equipements"]))
+// {
+//     $listHotelFiltred = [];
+//     $equipements = isset($_REQUEST["equipements"]) ? $_REQUEST["equipements"] : [];
     
-    foreach ($equipementM->getHotelsEquipement($equipements) as $unHotel) {
-        // J'assume que $listHotel est une variable existante
-        $hotel = $hotelM->getHotel($listHotel, $unHotel["nohotel"]);
+//     foreach ($equipementM->getHotelsEquipement($equipements) as $unHotel) {
+//         // J'assume que $listHotel est une variable existante
+//         $hotel = $hotelM->getHotel($listHotel, $unHotel["nohotel"]);
     
-        // Assurez-vous que l'hôtel n'est pas vide avant de l'ajouter à la liste filtrée
-        if (!empty($hotel)) {
-            $listHotelFiltred[] = $hotel;
-        }
-    }
-}
+//         // Assurez-vous que l'hôtel n'est pas vide avant de l'ajouter à la liste filtrée
+//         if (!empty($hotel)) {
+//             $listHotelFiltred[] = $hotel;
+//         }
+//     }
+// }
 
-if(isset($_POST["ville"]) && !empty($_POST["ville"]))
-{
-    $listHotelFiltred=[];
-    $ville = isset($_POST["ville"]) ? $_POST["ville"] : [];
+// if(isset($_REQUEST["ville"]) && !empty($_REQUEST["ville"]))
+// {
+//     $listHotelFiltred=[];
+//     $ville = isset($_REQUEST["ville"]) ? $_REQUEST["ville"] : [];
 
-    foreach ($hotelM->getHotelsVille($ville) as $unHotel) {
-        $hotel = $hotelM->getHotel($listHotel, $unHotel["nohotel"]);
+//     foreach ($hotelM->getHotelsVille($ville) as $unHotel) {
+//         $hotel = $hotelM->getHotel($listHotel, $unHotel["nohotel"]);
 
-        if (!empty($hotel)) {
-            $listHotelFiltred[] = $hotel;
-        }
-    }
-}
+//         if (!empty($hotel)) {
+//             $listHotelFiltred[] = $hotel;
+//         }
+//     }
+// }
 
-if(isset($listHotelFiltred)){
-    $listHotel=$listHotelFiltred;
-}
+// if(isset($listHotelFiltred)){
+//     $listHotel=$listHotelFiltred;
+// }
 
 $nbHotel = count($listHotel);
 

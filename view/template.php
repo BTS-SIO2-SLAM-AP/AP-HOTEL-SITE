@@ -3,7 +3,9 @@
     <head>
         <meta charset="utf-8" />
         <title><?php echo $title ?></title>
-        <link href="style/style.css" rel="stylesheet" /> 
+        <link href="assets/css/main.css" rel="stylesheet" /> 
+        <link href="assets/css//mobiscroll.javascript.min.css" rel="stylesheet" />
+        <script src="assets/js/mobiscroll.javascript.min.js"></script>
     </head>
     <body>
 		<header>

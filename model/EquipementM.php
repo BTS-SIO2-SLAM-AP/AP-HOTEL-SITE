@@ -10,7 +10,7 @@ class EquipementM extends DBModel
     //Retourne la liste complète des equipements
     public function getAllEquipement()
 	{
-		$reqresult = parent::getDb()->prepare("select noequ, lib from equipement order by noequ");
+		$reqresult = parent::getDb()->prepare("select noequ, lib, imgequ from equipement order by noequ");
 		$reqresult->execute();
 		$lesEquipements = $reqresult->fetchAll();
 		foreach ($lesEquipements as &$unEquipement) {

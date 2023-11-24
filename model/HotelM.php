@@ -7,10 +7,18 @@ require_once("DBModel.php");
 class HotelM extends DBModel
 {
 	//Retourne la liste complète des hôtels
-    public function getAllHotel($columnNameOrderBy)
+    public function getAllHotel($columnNameOrderBy, $equiments = [], $ville = "", $prixMax = 9999)
 	{
 		$columnNameOrderBy = $this->ColumnNameIsValid($columnNameOrderBy);
-		$reqresult = parent::getDb()->prepare("select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix, password from hotel order by $columnNameOrderBy");
+		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix, password from hotel inner join equiper on equiper.nohotel=hotel.nohotel where ville like '%$ville%' AND prix BETWEEN 0 AND $prixMax ";
+
+		if (!empty($equiments)) {
+			$requete .= "AND equiper.noequ in (".implode(",", $equiments).") ";
+		}
+		
+		$requete .= "order by $columnNameOrderBy";
+		
+		$reqresult = parent::getDb()->prepare($requete);
 		$reqresult->execute();
 		$lesHotels = $reqresult->fetchAll();
 		foreach ($lesHotels as &$unHotel) {
@@ -27,7 +35,7 @@ class HotelM extends DBModel
 		$reqresult->execute();
 		$lesChambres = $reqresult->fetchAll();
 		foreach ($lesChambres as &$uneChambre) {
-			$uneChambre["equipements"] = $this->getReservationsChambre($nohotel, $uneChambre["nochambre"]);
+			$uneChambre["reservations"] = $this->getReservationsChambre($nohotel, $uneChambre["nochambre"]);
 		}
 		return $lesChambres;
 	}
@@ -41,7 +49,7 @@ class HotelM extends DBModel
 
 	// Retourne tous les équipements d'un hôtel
 	public function getEquipementsHotel($nohotel) {
-		$reqresult = parent::getDb()->prepare("select equipement.noequ as noequ, lib from equiper inner join equipement on equiper.noequ = equipement.noequ where nohotel = $nohotel");
+		$reqresult = parent::getDb()->prepare("select equipement.noequ as noequ, lib, imgequ from equiper inner join equipement on equiper.noequ = equipement.noequ where nohotel = $nohotel");
 		$reqresult->execute();
 		return $reqresult->fetchAll();
 	}
