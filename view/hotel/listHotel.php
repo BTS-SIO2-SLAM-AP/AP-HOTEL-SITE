@@ -15,7 +15,7 @@ include 'view/layouts/filtre.php';
 	foreach ($listHotel as $unHotel) { 
 		$noHotel = $unHotel["nohotel"];
 		?>
-		<div class='hotel-item' onclick="document.getElementById('form_<?php echo $noHotel?>').submit()" style='cursor: pointer'>
+		<div class='hotel-item' onclick="document.getElementById('form_<?php echo $noHotel?>').submit()" style='cursor: pointer' data-equipements="<?php echo implode(",", array_column($unHotel["equipements"], "noequ")); ?>" data-ville="<?php echo $unHotel["ville"] ?>" data-prix="<?php echo htmlentities($unHotel["prix"]) ?>">
 			<?php
 			echo "<h1>$unHotel[nom]</h1>";
 			echo "$unHotel[adr1]";
@@ -45,8 +45,9 @@ include 'view/layouts/filtre.php';
 			</form>
 		</div>
 	<?php } ?>
-	
 </div>
+
+
 
 
 <?php
