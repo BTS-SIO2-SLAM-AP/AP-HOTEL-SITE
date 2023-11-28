@@ -25,13 +25,6 @@ class EquipementM extends DBModel
         $reqresult = parent::getDb()->prepare("select hotel.nohotel from hotel inner join equiper on hotel.nohotel = equiper.nohotel where noequ = $noequ");
         $reqresult->execute();
         $lesHotels = $reqresult->fetchAll();
-        // $hotelModel = new HotelM();
-		// foreach ($lesHotels as &$unHotel) {
-		// 	// appel de la méthode getChambersHotel de la classe HotelM
-        //     $unHotel["chambres"] = $hotelModel->getChambersHotel($unHotel["nohotel"]);
-		// 	$unHotel["equipements"] = $hotelModel->getEquipementsHotel($unHotel["nohotel"]);
-		// 	$unHotel["reservations"] = $hotelModel->getReservationsHotel($unHotel["nohotel"]);
-		// }
 		return $lesHotels;
     }
 }

@@ -2,6 +2,7 @@
 //VUE liste des classes avec lien hypertexte
 //Préparation flux HTML pour le template
 ob_start();
+include 'view/layouts/filtre.php';
 ?>
 
 <h1>Liste des hôtels (<?php echo $nbHotel ?> hôtel trouvé)</h1>
@@ -11,8 +12,10 @@ ob_start();
 
 	<?php
 	// Parcours liste des hotels
-	foreach ($listHotel as $unHotel) { ?>
-		<div class='hotel-item' onclick='document.getElementById("form_<?php echo $unHotel["nohotel"] ?>").submit()' style="cursor: pointer;">
+	foreach ($listHotel as $unHotel) { 
+		$noHotel = $unHotel["nohotel"];
+		?>
+		<div class='hotel-item' onclick="document.getElementById('form_<?php echo $noHotel?>').submit()" style='cursor: pointer'>
 			<?php
 			echo "<h1>$unHotel[nom]</h1>";
 			echo "$unHotel[adr1]";
@@ -37,7 +40,7 @@ ob_start();
 			
 			<form id='form_<?php echo $unHotel["nohotel"] ?>' method='post' action="index.php">
 				<input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
-				<input type='hidden' name='action' value='info-hotel'>
+				<input type='hidden' name='action' value='ficheHotel'>
 				<input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
 			</form>
 		</div>
@@ -48,7 +51,7 @@ ob_start();
 
 <?php
 //Ouverture du template
-$title = 'Liste des hôtels';
+$title = 'Accueil';
 $content = ob_get_clean();
 $filtre = true;
 require('view/template.php');

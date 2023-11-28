@@ -1,6 +1,6 @@
 <div>
-    <form id="filtreForm" method="get" action="index.php">
-        <input type="hidden" name="action" value="<?php echo $action ?>">
+    <form id="filtreForm" method="post" action="index.php">
+        <input type="hidden" name="action" value="listHotel">
 
         <!-- Sélectionnez un équipement :
         <select name="equipements[]" id="equipement-select" onchange="this.form.submit()" multiple>
@@ -19,9 +19,11 @@
         </label>
         <select name="equipements[]" id="demo-multiple-select" multiple>
             <?php foreach ($listEquipement as $unequ) { ?>
-                <option value='<?php echo $unequ["noequ"] ?>' <?php if (isset($_REQUEST["equipements[]"])) {
-                                                                    echo in_array($unequ["noequ"], $_REQUEST["equipements[]"]) ? "selected" : "";
-                                                                }; ?>>
+                <option value='<?php echo $unequ["noequ"] ?>' 
+                   <?php /*if (isset($_REQUEST["equipements[]"])) {
+                        echo in_array($unequ["noequ"], $_REQUEST["equipements[]"]) ? "selected" : "";
+                    }; */?>
+                    >
                     <?php echo $unequ["lib"] ?></option>
             <?php } ?>
         </select>
@@ -30,8 +32,6 @@
                 inputElement: document.getElementById('demo-multiple-select-input')
             });
         </script>
-
-        <input type="hidden" name="action" value="<?php echo $action ?>">
 
         Indiquez une ville
         <input type="text" name="ville" id="ville-search" value="<?php if (isset($_REQUEST["ville"]) && !empty($_REQUEST["ville"])) {

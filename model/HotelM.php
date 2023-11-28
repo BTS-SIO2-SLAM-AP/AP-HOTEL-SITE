@@ -10,7 +10,7 @@ class HotelM extends DBModel
     public function getAllHotel($columnNameOrderBy, $equiments = [], $ville = "", $prixMax = 9999)
 	{
 		$columnNameOrderBy = $this->ColumnNameIsValid($columnNameOrderBy);
-		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix, password from hotel inner join equiper on equiper.nohotel=hotel.nohotel where ville like '%$ville%' AND prix BETWEEN 0 AND $prixMax ";
+		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel inner join equiper on equiper.nohotel=hotel.nohotel where ville like '%$ville%' AND prix BETWEEN 0 AND $prixMax ";
 
 		if (!empty($equiments)) {
 			$requete .= "AND equiper.noequ in (".implode(",", $equiments).") ";
@@ -25,6 +25,7 @@ class HotelM extends DBModel
 			$unHotel["chambres"] = $this->getChambersHotel($unHotel["nohotel"]);
 			$unHotel["equipements"] = $this->getEquipementsHotel($unHotel["nohotel"]);
 			$unHotel["reservations"] = $this->getReservationsHotel($unHotel["nohotel"]);
+			$unHotel["photos"] = $this->getPhotosHotel($unHotel["nohotel"]);
 		}
 		return $lesHotels;
     }
@@ -72,19 +73,36 @@ class HotelM extends DBModel
 		return $reqresult->fetchAll();
 	}
 
+	public function getPhotosHotel($nohotel) {
+		$reqresult = parent::getDb()->prepare("select nophoto, nomfichier from photo where nohotel = $nohotel");
+		$reqresult->execute();
+		return $reqresult->fetchAll();
+	}
+
+
 
 	//Retourne les informations d'un hôtel
-	public function getHotel($listHotel, $noHotel)
+	public function getHotel($noHotel)
 	{
-		foreach ($listHotel as $unHotel) {
-			if ($unHotel["nohotel"] == $noHotel) {
-				return $unHotel;
-			}
-		}
-		return null;
+		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel inner join equiper on equiper.nohotel=hotel.nohotel where hotel.nohotel=$noHotel";
+		
+		$reqresult = parent::getDb()->prepare($requete);
+		$reqresult->execute();
+		$unHotel = $reqresult->fetch();
+
+		$unHotel["chambres"] = $this->getChambersHotel($noHotel);
+		$unHotel["equipements"] = $this->getEquipementsHotel($noHotel);
+		$unHotel["reservations"] = $this->getReservationsHotel($noHotel);
+		$unHotel["photos"] = $this->getPhotosHotel($noHotel);
+		return $unHotel;
     }
 
-
+	// Retourne tous les id des hotels
+	public function getAllIdHotel() {
+		$reqresult = parent::getDb()->prepare("select nohotel from hotel");
+		$reqresult->execute();
+		return $reqresult->fetchAll(PDO::FETCH_COLUMN);
+	}
 
 	
 	public function ColumnNameIsValid($columnName){

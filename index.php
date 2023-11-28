@@ -13,9 +13,14 @@ switch ($action)
 {
 	case 'listhotel' :
 	{ 
-		require('controller/hotelController.php');
+		require('controller/accueilC.php');
 		break;
 	}
+	case 'ficheHotel' :
+	{
+		require('controller/hotelC.php');
+		break;
+	}	
 	case '_____' :
 	{
 		require('controller/_____.php');
@@ -23,7 +28,7 @@ switch ($action)
 	}	
 	default :
 	{
-		require('controller/hotelController.php');
+		require('controller/accueilC.php');
 		break;
 	}
 }

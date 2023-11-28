@@ -9,12 +9,11 @@
     </head>
     <body>
 		<header>
-      <img src="assets/media/logo/logo-balladins.png" alt="logo" class="logo"/>
+      <img src="assets/media/logo/logo-balladins.png" style="height: 50px;" alt="logo" class="logo"/>
 			<a href="index.php" class="menu">Accueil</a>
-			<a href="index.php?action=listhotel" class="menu">Liste Hôtel</a>
+			<!-- <a href="index.php?action=listhotel" class="menu">Liste Hôtel</a> -->
 			<hr/>
 		</header>
-    <?php if(isset($filtre)) include 'view/layouts/filtre.php';  ?>
 		<?php echo $content ?>
     </body>
 </html>
