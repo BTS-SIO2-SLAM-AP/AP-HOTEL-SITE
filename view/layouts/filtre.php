@@ -18,7 +18,7 @@
 
     <script>
         function filterHotels() {
-            var maxPrice = document.getElementById("price-range").value;
+            var maxPrice = parseFloat(document.getElementById("price-range").value);
             var selectedEquipement = document.getElementById("equipements").value;
             var citySearch = document.getElementById("city-search").value.toLowerCase();
 
@@ -26,7 +26,7 @@
             var displayedHotelCount = 0; // Variable de comptage
 
             hotels.forEach(function(hotel) {
-                var price = hotel.getAttribute("data-prix");
+                var price = parseFloat(hotel.getAttribute("data-prix"));
                 var equipements = hotel.getAttribute("data-equipements");
                 var ville = hotel.getAttribute("data-ville").toLowerCase();
 
