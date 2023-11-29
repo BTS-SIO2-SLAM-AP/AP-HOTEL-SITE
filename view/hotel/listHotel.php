@@ -8,14 +8,12 @@ include 'view/layouts/filtre.php';
 <h1>Liste des hôtels (<?php echo $nbHotel ?> hôtel trouvé)</h1>
 
 <div class="list-hotels">
-
-
 	<?php
 	// Parcours liste des hotels
 	foreach ($listHotel as $unHotel) { 
 		$noHotel = $unHotel["nohotel"];
 		?>
-		<div class='hotel-item' onclick="document.getElementById('form_<?php echo $noHotel?>').submit()" style='cursor: pointer' data-equipements="<?php echo implode(",", array_column($unHotel["equipements"], "noequ")); ?>" data-ville="<?php echo $unHotel["ville"] ?>" data-prix="<?php echo htmlentities($unHotel["prix"]) ?>">
+		<div class='hotel-item' onclick="document.getElementById('form_<?php echo $noHotel?>').submit()" style='cursor: pointer' data-equipements="<?php echo implode(",", array_column($unHotel["equipements"], "noequ")); ?>" data-ville="<?php echo $unHotel["ville"] ?>" data-prix="<?php echo $unHotel["prix"] ?>" data-nom="<?php echo $unHotel["nom"] ?>">
 			<?php
 			echo "<h1>$unHotel[nom]</h1>";
 			echo "$unHotel[adr1]";

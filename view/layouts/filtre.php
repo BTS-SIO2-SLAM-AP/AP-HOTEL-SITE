@@ -15,6 +15,12 @@
 
     <p id="hotel-count">Nombre d'hôtels trouvé : <span>0</span></p>
 
+    <label for="sorting">Trier par :</label>
+    <select id="sorting" onchange="sortHotels()">
+        <option value="prixAsc">Prix -/+</option>
+        <option value="prixDesc">Prix +/-</option>
+        <option value="nom" selected>Nom A-Z</option>
+    </select>
 
     <script>
         function filterHotels() {
@@ -66,6 +72,33 @@
             var priceRange = document.getElementById("price-range").value;
             priceLabel.textContent = priceRange;
             filterHotels();
+        }
+
+        function sortHotels() {
+            var sortingSelect = document.getElementById("sorting");
+            var sortOrder = sortingSelect.value;
+
+            var hotels = document.querySelectorAll(".hotel-item");
+
+            hotels.forEach(function(hotel) {
+                var orderValue;
+
+                switch (sortOrder) {
+                    case "prixAsc":
+                        orderValue = parseFloat(hotel.getAttribute("data-prix"));
+                        break;
+                    case "prixDesc":
+                        orderValue = -parseFloat(hotel.getAttribute("data-prix"));
+                        break;
+                    case "nom":
+                        orderValue = 0;
+                        break;
+                    default:
+                        orderValue = 0; // Valeur par défaut
+                }
+
+                hotel.style.order = orderValue;
+            });
         }
     </script>
 
