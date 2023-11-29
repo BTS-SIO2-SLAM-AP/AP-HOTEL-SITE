@@ -1,6 +1,6 @@
 <div id="filtre" class="filter-bar">
     Sélectionnez un équipement :
-    <select name="equipements[]" id="equipements" onchange="filterHotels()" multiple>
+    <select name="equipements-list[]" id="equipements-list" onchange="filterHotels()" multiple>
         <?php foreach ($listEquipement as $unequ) { ?>
             <option value='<?php echo $unequ["noequ"] ?>'><?php echo $unequ["lib"] ?></option>
         <?php } ?>
@@ -19,24 +19,35 @@
     <script>
         function filterHotels() {
             var maxPrice = parseFloat(document.getElementById("price-range").value);
-            var selectedEquipement = document.getElementById("equipements").value;
+            // var selectedEquipement = document.getElementById("equipements-list").value;
+
+            // var selectedEquipements = [];
+            // var selectedOptions = document.getElementById("equipements-list").selectedOptions;
+            // for (var i = 0; i < selectedOptions.length; i++) {
+            //     selectedEquipements.push(selectedOptions[i].value);
+            // }
+            var selectedEquipements = Array.from(document.getElementById("equipements-list").selectedOptions).map(option => option.value);
+
+
             var citySearch = document.getElementById("city-search").value.toLowerCase();
 
             var hotels = document.querySelectorAll(".hotel-item");
             var displayedHotelCount = 0; // Variable de comptage
 
             hotels.forEach(function(hotel) {
-                var price = parseFloat(hotel.getAttribute("data-prix"));
-                var equipements = hotel.getAttribute("data-equipements");
-                var ville = hotel.getAttribute("data-ville").toLowerCase();
+                var priceHotel = parseFloat(hotel.getAttribute("data-prix"));
+                var equipementsHotel = hotel.getAttribute("data-equipements");
+                var villeHotel = hotel.getAttribute("data-ville").toLowerCase();
 
+                // var isEquipementMatch = equipementsHotel.split(",").includes(selectedEquipement) || selectedEquipement == "";
 
-                // faire multiselect
-                var isEquipementMatch = equipements.split(",").includes(selectedEquipement) || selectedEquipement == "";
+                var isEquipementMatch = selectedEquipements == "" || selectedEquipements.every(function(selected) {
+                    return equipementsHotel.split(",").includes(selected);
+                });
 
-                var isPriceMatch = price <= maxPrice;
+                var isPriceMatch = priceHotel <= maxPrice;
 
-                var isCityMatch = ville.includes(citySearch);
+                var isCityMatch = villeHotel.includes(citySearch);
 
                 if (isEquipementMatch && isPriceMatch && isCityMatch) {
                     hotel.style.display = "block";
