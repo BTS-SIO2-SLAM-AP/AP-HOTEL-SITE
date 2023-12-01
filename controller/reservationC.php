@@ -6,7 +6,7 @@ require_once 'model/HotelM.php';
 
 // Récupération de la liste des hotel pour affichage liste
 $hotelM = new HotelM();
-if(isset($_POST["nohotel"]) && in_array($_POST["nohotel"],$hotelM->getAllIdHotel())) $unHotel=$hotelM->getHotel($_POST["nohotel"]); else header("Location: index.php");
+if(isset($_POST["nohotel"]) && in_array($_POST["nohotel"],$hotelM->getAllIdHotel())) $unHotel=$hotelM->getHotel($_POST["nohotel"]); else echo "<script src='assets/js/gestion404.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {redirection404('Hotel inconnu');});</script>";
 
 // Affichage du résultat dans la vue
 require_once 'view/reservation/ficheReservation.php';
