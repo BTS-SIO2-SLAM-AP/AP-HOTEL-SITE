@@ -43,10 +43,18 @@ ob_start();
             </div>
         <?php } ?>
     </div>
+</div>
 
-    <?php
-    //Ouverture du template
-    $title = "Hotel $infoHotel[nom]";
-    $content = ob_get_clean();
-    require('view/template.php');
-    ?>
+<div class="button-reservation">
+    <form action="index.php" method="post">
+        <button onclick="this.submit()">Réserver dans cette hôtel</button>
+        <input type="hidden" name="page" value="ficheReservation">
+        <input type="hidden" name="nohotel" value="<?php echo $infoHotel["nohotel"] ?>">
+    </form>
+</div>
+<?php
+//Ouverture du template
+$title = "Balladins - Hotel $infoHotel[nom]";
+$content = ob_get_clean();
+require('view/template.php');
+?>

@@ -38,7 +38,7 @@ include 'view/layouts/filtre.php';
 			
 			<form id='form_<?php echo $unHotel["nohotel"] ?>' method='post' action="index.php">
 				<input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
-				<input type='hidden' name='action' value='ficheHotel'>
+				<input type='hidden' name='page' value='ficheHotel'>
 				<input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
 			</form>
 		</div>
@@ -50,7 +50,7 @@ include 'view/layouts/filtre.php';
 
 <?php
 //Ouverture du template
-$title = 'Accueil';
+$title = 'Balladins - Accueil';
 $content = ob_get_clean();
 $filtre = true;
 require('view/template.php');

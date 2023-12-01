@@ -1,15 +1,15 @@
 <?php
 // ROUTEUR de l'application
-// Permet de sélectionner le controleur adapté, en fonction de l'action dans l'URL
-if (isset($_POST['action'])) 
+// Permet de sélectionner le controleur adapté, en fonction de la page dans l'URL
+if (isset($_POST['page'])) 
 {
-	$action=$_POST['action'];
+	$page=$_POST['page'];
 }
 else
 {
-	$action="";
+	$page="";
 }
-switch ($action)
+switch ($page)
 {
 	case 'listhotel' :
 	{ 
@@ -21,6 +21,16 @@ switch ($action)
 		require('controller/hotelC.php');
 		break;
 	}	
+	case 'ficheReservation':
+	{
+		require('controller/reservationC.php');
+		break;
+	}
+	case '404' :
+	{
+		require('view/404.php');
+		break;
+	}
 	case '_____' :
 	{
 		require('controller/_____.php');

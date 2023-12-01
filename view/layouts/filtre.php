@@ -25,13 +25,7 @@
     <script>
         function filterHotels() {
             var maxPrice = parseFloat(document.getElementById("price-range").value);
-            // var selectedEquipement = document.getElementById("equipements-list").value;
 
-            // var selectedEquipements = [];
-            // var selectedOptions = document.getElementById("equipements-list").selectedOptions;
-            // for (var i = 0; i < selectedOptions.length; i++) {
-            //     selectedEquipements.push(selectedOptions[i].value);
-            // }
             var selectedEquipements = Array.from(document.getElementById("equipements-list").selectedOptions).map(option => option.value);
 
 
@@ -44,8 +38,6 @@
                 var priceHotel = parseFloat(hotel.getAttribute("data-prix"));
                 var equipementsHotel = hotel.getAttribute("data-equipements");
                 var villeHotel = hotel.getAttribute("data-ville").toLowerCase();
-
-                // var isEquipementMatch = equipementsHotel.split(",").includes(selectedEquipement) || selectedEquipement == "";
 
                 var isEquipementMatch = selectedEquipements == "" || selectedEquipements.every(function(selected) {
                     return equipementsHotel.split(",").includes(selected);
@@ -103,7 +95,7 @@
     </script>
 
     <form method="post" action="index.php">
-        <input type="hidden" name="action" value="<?php echo $action ?>">
+        <input type="hidden" name="page" value="<?php echo $page ?>">
         <button type="submit">Reset Filtre</button>
     </form>
 </div>
