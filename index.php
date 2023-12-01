@@ -23,7 +23,16 @@ switch ($page)
 	}	
 	case 'ficheReservation':
 	{
-		require('controller/reservationC.php');
+		require_once 'controller/reservationC.php';
+		$classReservation = new reservationC();
+		$classReservation->loadView();
+		break;
+	}
+	case 'saveReservation':
+	{
+		require_once 'controller/reservationC.php';
+		$classReservation = new reservationC();
+		$classReservation->saveReservation();
 		break;
 	}
 	case '404' :

@@ -13,7 +13,7 @@ $listEquipement=$equipementM->getAllEquipement();
 $hotelM = new HotelM();
 // $listHotel=$hotelM->getAllHotel("nom");
 
-$listHotel=$hotelM->getAllHotel("nom", isset($_REQUEST["equipements"]) ? $_REQUEST["equipements"] : "", isset($_REQUEST["ville"]) ? $_REQUEST["ville"] : "", isset($_REQUEST["prix"]) ? $_REQUEST["prix"] : 9999);
+$listHotel=$hotelM->getAllHotel("prix", isset($_REQUEST["equipements"]) ? $_REQUEST["equipements"] : "", isset($_REQUEST["ville"]) ? $_REQUEST["ville"] : "", isset($_REQUEST["prix"]) ? $_REQUEST["prix"] : 9999);
 
 $nbHotel = count($listHotel);
 

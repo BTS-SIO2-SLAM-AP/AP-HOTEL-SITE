@@ -10,7 +10,7 @@ class HotelM extends DBModel
     public function getAllHotel($columnNameOrderBy, $equiments = [], $ville = "", $prixMax = 9999)
 	{
 		$columnNameOrderBy = $this->ColumnNameIsValid($columnNameOrderBy);
-		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel inner join equiper on equiper.nohotel=hotel.nohotel where ville like '%$ville%' AND prix BETWEEN 0 AND $prixMax ";
+		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel inner join equiper on equiper.nohotel=hotel.nohotel where ville like '%$ville%' AND prix BETWEEN 0 AND $prixMax";
 
 		if (!empty($equiments)) {
 			$requete .= "AND equiper.noequ in (".implode(",", $equiments).") ";
