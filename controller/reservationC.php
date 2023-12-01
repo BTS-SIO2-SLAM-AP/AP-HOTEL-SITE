@@ -13,7 +13,7 @@ class reservationC
         if(isset($_POST["nohotel"]) && in_array($_POST["nohotel"],$hotelM->getAllIdHotel())) $unHotel=$hotelM->getHotel($_POST["nohotel"]); else echo "<script src='assets/js/gestion404.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {redirection404('Hotel inconnu');});</script>";
 
         // Affichage du résultat dans la vue
-        require_once 'view/reservation/ficheReservation.php';
+        if (isset($unHotel)) require_once 'view/reservation/ficheReservation.php';
     }
 
     function saveReservation() {
@@ -29,7 +29,7 @@ class reservationC
         $no = $modelRes->saveReservation($_POST["nohotel"]);
         
 
-        require_once 'view/reservation/reservationSaved.php';
+        if (isset($unHotel)) require_once 'view/reservation/reservationSaved.php';
     }
 }
     
