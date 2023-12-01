@@ -12,14 +12,8 @@
     <body>
 		<header>
       <img src="assets/media/logo/logo-balladins.svg" style="height: 50px;" alt="logo" class="logo"/>
-      <!-- image svg -->
-
-      
 			<a href="index.php" class="menu">Accueil</a>
-			<!-- <a href="index.php?action=listhotel" class="menu">Liste Hôtel</a> -->
-			<hr/>
 		</header>
 		<?php echo $content ?>
-    <script src="assets/js/gestion404.js"></script>
     </body>
 </html>
