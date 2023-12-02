@@ -266,9 +266,8 @@ input, select {
 .equipements-container {
     display: flex;
     flex-wrap: wrap;
-    /* gap: 100px; */
+    gap: 5px;
     justify-content: center;
-    background-color: darkgray;
 }
 
 .equipement-item img {
@@ -276,5 +275,6 @@ input, select {
     flex-direction: column;
     align-items: center;
     height: 50px;
+    border-radius: 100%;
 }
 
