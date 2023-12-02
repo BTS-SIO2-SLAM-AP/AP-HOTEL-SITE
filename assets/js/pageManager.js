@@ -1,4 +1,4 @@
-function redirection404(messageErreur = '') {
+function pageRedirection(targetPage = 'index.php', messageErreur = '') {
     // Créez dynamiquement un formulaire
     var formulaire = document.createElement('form');
     formulaire.method = 'post';
@@ -8,14 +8,16 @@ function redirection404(messageErreur = '') {
     var page = document.createElement('input');
     page.type = 'hidden';
     page.name = 'page';
-    page.value = '404';
+    page.value = targetPage;
     formulaire.appendChild(page);
 
-    var message = document.createElement('input');
-    message.type = 'hidden';
-    message.name = 'messageErreur';
-    message.value = messageErreur;
-    formulaire.appendChild(message);
+    if (messageErreur == '') {
+        var message = document.createElement('input');
+        message.type = 'hidden';
+        message.name = 'messageErreur';
+        message.value = messageErreur;
+        formulaire.appendChild(message);
+    }
 
     // Ajoutez le formulaire à la page
     document.body.appendChild(formulaire);

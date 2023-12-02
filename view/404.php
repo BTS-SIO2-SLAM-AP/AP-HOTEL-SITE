@@ -1,7 +1,10 @@
 <?php
 ob_start();
 
-echo $_POST["messageErreur"];
+if(isset($_POST["messageErreur"])) {
+    echo $_POST["messageErreur"];
+}
+else header('Location: index.php');
 
 $title = "Balladins - 404";
 $content = ob_get_clean();
