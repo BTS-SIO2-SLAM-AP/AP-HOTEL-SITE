@@ -1,4 +1,4 @@
-function pageRedirection(targetPage = 'index.php', messageErreur = '') {
+function pageRedirection(targetPage = 'index.php', datas = {}) {
     // Créez dynamiquement un formulaire
     var formulaire = document.createElement('form');
     formulaire.method = 'post';
@@ -11,12 +11,14 @@ function pageRedirection(targetPage = 'index.php', messageErreur = '') {
     page.value = targetPage;
     formulaire.appendChild(page);
 
-    if (messageErreur == '') {
-        var message = document.createElement('input');
-        message.type = 'hidden';
-        message.name = 'messageErreur';
-        message.value = messageErreur;
-        formulaire.appendChild(message);
+    if (datas != null) {
+        for (var champKey in datas) {
+            var champ = document.createElement('input');
+            champ.type = 'hidden';
+            champ.name = champKey;
+            champ.value = datas[champKey];
+            formulaire.appendChild(champ);
+        }
     }
 
     // Ajoutez le formulaire à la page

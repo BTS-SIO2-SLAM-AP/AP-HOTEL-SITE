@@ -13,7 +13,7 @@ ob_start();
             // Parcours liste des photos
             foreach ($infoHotel["photos"] as $unePhoto) { ?>
                 <div class="photo-item">
-                    <img src='assets/media/photo/<?php echo $unePhoto["nomfichier"] ?>' title='<?php echo $unePhoto["nomfichier"] ?>'>
+                    <img src='assets/media/photo/<?php echo $unePhoto["nomfichier"] ?>' title='Photo hôtel <?php echo $infoHotel["nom"] ?>'>
                 </div>
             <?php } ?>
         </div>

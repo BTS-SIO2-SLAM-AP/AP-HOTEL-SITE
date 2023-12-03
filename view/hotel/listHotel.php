@@ -15,7 +15,7 @@ include 'view/layouts/filtre.php';
 				<?php echo "<h1>$unHotel[nom]</h1>";?>
 				
 				<div class="photo-container">
-					<img src='assets/media/photo/<?php echo $unHotel["photos"][0]["nomfichier"] ?>' title='<?php echo $unHotel["nom"] ?>'>
+					<img src='assets/media/photo/<?php echo $unHotel["photos"][0]["nomfichier"] ?>' title='Hôtel <?php echo $unHotel["nom"] ?>'>
 				</div>
 				<?php
 				echo "$unHotel[adr1]";
