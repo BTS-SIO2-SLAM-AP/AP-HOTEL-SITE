@@ -3,7 +3,7 @@
 //Préparation flux HTML pour le template
 ob_start();
 
-echo $unHotel["nom"];
+echo $nomHotel . "<br/>";
 
 echo $nom."<br/>";
 echo $mail."<br/>";
@@ -13,14 +13,14 @@ echo $codeacces."<br/>";
 
 // affichage des chambre réservées
 foreach ($chambres as $uneChambre) {
-    echo $uneChambre."<br/>";
+    echo $uneChambre["nochambre"]."<br/>";
 }
 
 ?>
 
 <?php
 //Ouverture du template
-$title = "Balladins - Réservation $unHotel[nom]";
+$title = "Balladins - Réservation hôtel $nomHotel";
 $content = ob_get_clean();
 require('view/template.php');
 ?>

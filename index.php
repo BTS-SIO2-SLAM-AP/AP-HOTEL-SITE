@@ -35,6 +35,13 @@ switch ($page)
 		$classReservation->saveReservation();
 		break;
 	}
+	case 'reservationSaved':
+	{
+		require_once 'controller/reservationC.php';
+		$classReservation = new reservationC();
+		$classReservation->loadReservationSaved();
+		break;
+	}
 	case '404' :
 	{
 		require('view/404.php');
