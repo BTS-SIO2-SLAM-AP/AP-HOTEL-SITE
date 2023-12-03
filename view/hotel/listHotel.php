@@ -28,7 +28,6 @@ include 'view/layouts/filtre.php';
 
 				Les équipements : <br/>
 				<div class="equipements-container">
-					
 					<?php
 					// Parcours liste des equipements
 					foreach ($unHotel["equipements"] as $unEquipement) { ?>

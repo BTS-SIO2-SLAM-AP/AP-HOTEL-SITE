@@ -12,8 +12,8 @@
         
         <div class="filter-prix">
             <label for="price-range">Prix maximum :</label>
-            <input type="range" id="price-range" name="price_range" min="0" max="100" value="60" oninput="updatePriceLabel()">
-            <span id="price-label">60€</span>
+            <input type="range" id="price-range" name="price_range" min="0" max="<?php echo $prixMax; ?>" value="<?php echo $prixMax; ?>" oninput="updatePriceLabel()">
+            <span id="price-label"></span>
         </div>
 
         <div class="filter-ville">
@@ -38,6 +38,7 @@
         <script>
             // filter les hotels après que la page soit chargée
             window.addEventListener("load", function() {
+                updatePriceLabel();
                 filterHotels();
                 sortHotels();
             });
@@ -91,6 +92,9 @@
             function updatePriceLabel() {
                 var priceLabel = document.getElementById("price-label");
                 var priceRange = document.getElementById("price-range").value;
+                if (priceRange > <?php echo $prixMax; ?>) {
+                    priceRange = <?php echo $prixMax; ?>;
+                }
                 priceLabel.textContent = priceRange + "€";
                 filterHotels();
             }
@@ -123,7 +127,9 @@
             }
 
             function resetFilters() {
-                document.getElementById("price-range").value = 60;
+                
+                // get valeur par défaut du range
+                document.getElementById("price-range").value = <?php echo $prixMax; ?>; 
                 updatePriceLabel();
                 document.getElementById("city-search").value = "";
                 document.getElementById("equipements-list").value = [];

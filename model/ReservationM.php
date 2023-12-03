@@ -17,18 +17,19 @@ class ReservationM extends DBModel
         }
 		return $newNoRes;
     }
+
 	//Retourne la liste complète des hôtels
-    public function saveReservation($nohotel = 0, $lesChambres = [], $mail = "", $datedebut = "", $datefin="")
+    public function saveReservation($nohotel, $lesChambres, $datedebut, $datefin, $nom, $mail, $codeacces)
 	{
-        if ($nohotel != 0) {
+        if ($nohotel != null) {
             try {
                 $newNoRes = $this->getNewNoRes($nohotel);
-                $reqsql = "insert into reservation values ()";
-            
+
+                $reqsql = "insert into reservation(nohotel, nores, datedeb,datefin, nom, email, codeacces) values ($nohotel, $newNoRes, '$datedebut', '$datefin', '$nom', '$mail', '$codeacces')";
                 $req = parent::getDb()->prepare($reqsql);
                 $req->execute();
 
-                $noResGlobale = $this->getNoResGlobale();
+                $noResGlobale = parent::getDb()->lastInsertId();
                 $this->saveChambresReservation($noResGlobale, $nohotel, $lesChambres);
             }catch (Exception $e) {
                 return false;
@@ -41,12 +42,11 @@ class ReservationM extends DBModel
     public function saveChambresReservation($noResGlobale = 0, $nohotel = 0, $lesChambres = [])
 	{
         try {
-            $reqsql = "insert into reserve values(";
+            $reqsql = "insert into reserver values ";
             foreach ($lesChambres as $uneChambre) {
-                $reqsql .= "($noResGlobale, $nohotel, $uneChambre),";
+                $reqsql .= "($nohotel, $uneChambre, $noResGlobale),";
             }
-            $reqsql = substr($reqsql,0,-1).")";
-
+            $reqsql = substr($reqsql,0,-1);
             $req = parent::getDb()->prepare($reqsql);
             $req->execute();
         }catch (Exception $e) {
@@ -58,6 +58,7 @@ class ReservationM extends DBModel
     public function getNoResGlobale(){
         $noRes = parent::getDb()->prepare("SELECT SCOPE_IDENTITY() AS last_id");
         $noRes->execute();
-        return $noRes;
+        $noRes = $noRes->fetch();
+        return $noRes["last_id"];
     }
 }

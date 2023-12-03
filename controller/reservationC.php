@@ -19,17 +19,24 @@ class reservationC
     function saveReservation() {
         
         $hotelM = new HotelM();
-        if(isset($_POST["nohotel"]) && in_array($_POST["nohotel"],$hotelM->getAllIdHotel())) $unHotel=$hotelM->getHotel($_POST["nohotel"]); else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', 'Hotel inconnu');});</script>";
+        if (isset($_POST["nohotel"]) && in_array($_POST["nohotel"],$hotelM->getAllIdHotel())) $unHotel=$hotelM->getHotel($_POST["nohotel"]); else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', 'Hotel inconnu');});</script>";
         
-        $mail = $_POST["txtmail"];
-        $nom = $_POST["txtnom"];
-        $datedebut = $_POST["datedebut"];
-        $datefin = $_POST["datefin"];
-        $modelRes = new ReservationM();
-        $no = $modelRes->saveReservation($_POST["nohotel"]);
-        
+        if (isset($unHotel)) {
+            $nohotel = $_POST["nohotel"];
+            $nom = $_POST["txtnom"];
+            $mail = $_POST["txtmail"];
+            $datedebut = $_POST["datedebut"];
+            $datefin = $_POST["datefin"];
+            $chambres = $_POST["chambres"];
 
-        if (isset($unHotel)) require_once 'view/reservation/reservationSaved.php';
+            // génération du code d'accès à 5 chiffres
+            $codeacces = str_pad(rand(0, 99999), 5, "0", STR_PAD_LEFT);
+    
+            $modelRes = new ReservationM();
+            $no = $modelRes->saveReservation($nohotel, $chambres, $datedebut, $datefin, $nom, $mail, $codeacces);
+
+            require_once 'view/reservation/reservationSaved.php';
+        }
     }
 }
     

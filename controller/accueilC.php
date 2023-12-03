@@ -11,9 +11,9 @@ $listEquipement=$equipementM->getAllEquipement();
 
 // Récupération de la liste des hotel pour affichage liste
 $hotelM = new HotelM();
-$listHotel=$hotelM->getAllHotel("prix", isset($_REQUEST["equipements"]) ? $_REQUEST["equipements"] : "", isset($_REQUEST["ville"]) ? $_REQUEST["ville"] : "", isset($_REQUEST["prix"]) ? $_REQUEST["prix"] : 9999);
+$listHotel=$hotelM->getAllHotel("nom");
 
-$nbHotel = count($listHotel);
+$prixMax = $hotelM->getMaxPrice();
 
 // Affichage du résultat dans la vue
 require_once 'view/hotel/listHotel.php';

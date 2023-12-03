@@ -7,16 +7,10 @@ require_once("DBModel.php");
 class HotelM extends DBModel
 {
 	//Retourne la liste complète des hôtels
-    public function getAllHotel($columnNameOrderBy, $equiments = [], $ville = "", $prixMax = 9999)
+    public function getAllHotel($columnNameOrderBy)
 	{
 		$columnNameOrderBy = $this->ColumnNameIsValid($columnNameOrderBy);
-		$requete = "select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel inner join equiper on equiper.nohotel=hotel.nohotel where ville like '%$ville%' AND prix BETWEEN 0 AND $prixMax";
-
-		if (!empty($equiments)) {
-			$requete .= "AND equiper.noequ in (".implode(",", $equiments).") ";
-		}
-		
-		$requete .= "order by $columnNameOrderBy";
+		$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel order by $columnNameOrderBy";
 		
 		$reqresult = parent::getDb()->prepare($requete);
 		$reqresult->execute();
@@ -115,12 +109,19 @@ class HotelM extends DBModel
 		return "nohotel";
 	}
 
-	// Retourne les hotels d'une ville
-	public function getHotelsVille($nomville) {
-		$reqresult = parent::getDb()->prepare("select hotel.nohotel from hotel where ville like '%$nomville%'");
+	// // Retourne les hotels d'une ville
+	// public function getHotelsVille($nomville) {
+	// 	$reqresult = parent::getDb()->prepare("select nohotel from hotel where ville like '%$nomville%'");
+	// 	$reqresult->execute();
+	// 	$lesHotels = $reqresult->fetchAll();
+	// 	return $lesHotels;
+	// }
+
+	// Retourne le prix d'hotel le plus élévé
+	public function getMaxPrice() {
+		$reqresult = parent::getDb()->prepare("select max(prix) as maxprice from hotel");
 		$reqresult->execute();
-		$lesHotels = $reqresult->fetchAll();
-		return $lesHotels;
+		return $reqresult->fetch()["maxprice"];
 	}
 }
 //Absence volontaire de la balise fermeture php

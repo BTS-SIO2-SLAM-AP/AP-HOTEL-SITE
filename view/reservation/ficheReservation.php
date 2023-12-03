@@ -10,6 +10,13 @@ echo $unHotel["nom"];
     <input type="date" name="datefin" value="<?php echo date("Y-m-d");  ?>" style="background-color:pink;">
     <input type="email" name="txtmail">
     <input type="text" name="txtnom">
+    <select name="chambres[]" multiple>
+        <?php
+        foreach ($unHotel["chambres"] as $uneChambre) {
+            echo "<option value='$uneChambre[nochambre]'>N°$uneChambre[nochambre]</option>";
+        }
+        ?>
+    </select>
 
     <input type='submit' name='btnvalider' value='valider'>
 
@@ -18,10 +25,6 @@ echo $unHotel["nom"];
     <input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
 </form>
 <?php
-foreach ($unHotel["chambres"] as $uneChambre) {
-echo $uneChambre["nochambre"]."<br />";
-}
-
 //Ouverture du template
 $title = "Balladins - Réservation $unHotel[nom]";
 $content = ob_get_clean();
