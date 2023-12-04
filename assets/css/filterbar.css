@@ -40,3 +40,45 @@
 .filter-bar .content button:hover {
     background-color: #f7b11a;
 }
+
+.equipement-item {
+	font-size: 24px;
+	cursor: pointer;
+    caret-color: transparent;
+	display: block;
+	display: flex;
+   	align-items: center;
+}
+
+.equipement-item img { padding-right: 5px;}
+
+
+/* Hide the browser's default checkbox */
+.equipement-item input {
+  display: none;
+}
+
+/* Hide the checked checkbox */
+.img-checked {
+	display: none;
+}
+
+/*  Display the checked image when checked */
+.equipement-item input:checked ~ .img-checked {
+	display: inline;
+}
+
+/*  Hide the unchecked image when checked */
+.equipement-item input:checked ~ .img-unchecked {
+	display: none;
+}
+
+/*  Display the checked image when checked */
+.equipement-item input:not(checked) ~ .img-checked {
+	display: none;
+}
+
+/*  Hide the unchecked image when checked */
+.equipement-item input:not(checked) ~ .img-unchecked {
+	display: inline;
+}
