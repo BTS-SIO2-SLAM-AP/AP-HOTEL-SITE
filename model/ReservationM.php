@@ -3,6 +3,7 @@
 //Permettant la gestion de la table HOTEL
 
 require_once("DBModel.php"); 
+require_once("ChambreM.php");
 
 class ReservationM extends DBModel
 {
@@ -12,17 +13,30 @@ class ReservationM extends DBModel
         $reqresult = parent::getDb()->prepare("select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation where noresglobale = $noresglobale");
         $reqresult->execute();
         $uneReservation = $reqresult->fetch();
-        $uneReservation["chambres"] = $this->getChambresReservation($noresglobale);
+        $ChambreM = new ChambreM();
+        $uneReservation["chambres"] = $ChambreM->getChambresReservation($noresglobale);
         return $uneReservation;
     }
 
-    // Retourne toutes les chambres d'une réservation en fonction de son numéro
-    public function getChambresReservation($noresglobale)
+    // Retourne toutes les réservations d'un hôtel
+	public function getReservationsHotel($nohotel) {
+		$reqresult = parent::getDb()->prepare("select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation where nohotel = $nohotel");
+		$reqresult->execute();
+		$lesReservations = $reqresult->fetchAll();
+		foreach ($lesReservations as &$uneReservation) {
+            $ChambreM = new ChambreM();
+			$uneReservation["chambres"] = $ChambreM->getChambresReservation($uneReservation["noresglobale"]);
+		}
+		return $lesReservations;
+	}
+
+    // Retourne toutes les réservations d'une chambre
+	public function getReservationsChambre($nohotel, $nochambre) 
     {
-        $reqresult = parent::getDb()->prepare("select reserver.nochambre from reserver inner join reservation on reserver.noresglobale = reservation.noresglobale where reservation.noresglobale=$noresglobale;");
-        $reqresult->execute();
-        return $reqresult->fetchAll();
-    }
+		$reqresult = parent::getDb()->prepare("select reservation.noresglobale, reservation.nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation inner join reserver on reservation.noresglobale = reserver.noresglobale where reservation.nohotel = $nohotel and nochambre = $nochambre;");
+		$reqresult->execute();
+		return $reqresult->fetchAll();
+	}
 
     // Retourne tous les numéros de réservation
     public function getAllIdReservation()

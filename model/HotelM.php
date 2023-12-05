@@ -3,77 +3,42 @@
 //Permettant la gestion de la table HOTEL
 
 require_once("DBModel.php"); 
+require_once("ReservationM.php");
+require_once("ChambreM.php");
+require_once("EquipementM.php");
 
 class HotelM extends DBModel
 {
-	//Retourne la liste complète des hôtels
-    public function getAllHotel($columnNameOrderBy)
+	// Retourne la liste complète des hôtels
+    public function getAllHotel()
 	{
-		$columnNameOrderBy = $this->ColumnNameIsValid($columnNameOrderBy);
-		$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel order by $columnNameOrderBy";
+		$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel order by nom";
 		
 		$reqresult = parent::getDb()->prepare($requete);
 		$reqresult->execute();
 		$lesHotels = $reqresult->fetchAll();
 		foreach ($lesHotels as &$unHotel) {
-			$unHotel["chambres"] = $this->getChambersHotel($unHotel["nohotel"]);
-			$unHotel["equipements"] = $this->getEquipementsHotel($unHotel["nohotel"]);
-			$unHotel["reservations"] = $this->getReservationsHotel($unHotel["nohotel"]);
+			$ChambreM = new ChambreM();
+			$unHotel["chambres"] = $ChambreM->getChambresHotel($unHotel["nohotel"]);
+			$EquipementM = new EquipementM();
+			$unHotel["equipements"] = $EquipementM->getEquipementsHotel($unHotel["nohotel"]);
+			$ReservationM = new ReservationM();
+			$unHotel["reservations"] = $ReservationM->getReservationsHotel($unHotel["nohotel"]);
 			$unHotel["photos"] = $this->getPhotosHotel($unHotel["nohotel"]);
 		}
+
 		return $lesHotels;
     }
-	
-	//Retourne toutes les chambres d'un hôtel
-	public function getChambersHotel($nohotel) {
-		$reqresult = parent::getDb()->prepare("select nochambre from chambre where nohotel=$nohotel");
-		$reqresult->execute();
-		$lesChambres = $reqresult->fetchAll();
-		foreach ($lesChambres as &$uneChambre) {
-			$uneChambre["reservations"] = $this->getReservationsChambre($nohotel, $uneChambre["nochambre"]);
-		}
-		return $lesChambres;
-	}
 
-	//Retourne toutes les chambres d'un hôtel
-	public function getChambersReservation($noHotel, $noResGlobale) {
-		$reqresult = parent::getDb()->prepare("select chambre.nochambre from chambre inner join reserver on chambre.nochambre = reserver.nochambre where chambre.nohotel=$noHotel and noresglobale=$noResGlobale;");
-		$reqresult->execute();
-		return $reqresult->fetchAll();
-	}
-
-	// Retourne tous les équipements d'un hôtel
-	public function getEquipementsHotel($nohotel) {
-		$reqresult = parent::getDb()->prepare("select equipement.noequ as noequ, lib, imgequ from equiper inner join equipement on equiper.noequ = equipement.noequ where nohotel = $nohotel");
-		$reqresult->execute();
-		return $reqresult->fetchAll();
-	}
-
-	// Retourne toutes les réservations d'un hôtel
-	public function getReservationsHotel($nohotel) {
-		$reqresult = parent::getDb()->prepare("select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation where nohotel = $nohotel");
-		$reqresult->execute();
-		$lesReservations = $reqresult->fetchAll();
-		foreach ($lesReservations as &$uneReservation) {
-			$uneReservation["chambres"] = $this->getChambersReservation($nohotel, $uneReservation["noresglobale"]);
-		}
-		return $lesReservations;
-	}
-
-	// Retourne toutes les réservations d'une chambre
-	public function getReservationsChambre($nohotel, $nochambre) {
-		$reqresult = parent::getDb()->prepare("select reservation.noresglobale, reservation.nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation inner join reserver on reservation.noresglobale = reserver.noresglobale where reservation.nohotel = $nohotel and nochambre = $nochambre;");
-		$reqresult->execute();
-		return $reqresult->fetchAll();
-	}
-
+	//Retourne les photos d'un hôtel
 	public function getPhotosHotel($nohotel) {
-		$reqresult = parent::getDb()->prepare("select nophoto, nomfichier from photo where nohotel = $nohotel");
+		$requete = "select nophoto, nomfichier from photo where nohotel = $nohotel";
+
+		$reqresult = parent::getDb()->prepare($requete);
 		$reqresult->execute();
+
 		return $reqresult->fetchAll();
 	}
-
-
 
 	//Retourne les informations d'un hôtel
 	public function getHotel($noHotel)
@@ -84,43 +49,34 @@ class HotelM extends DBModel
 		$reqresult->execute();
 		$unHotel = $reqresult->fetch();
 
-		$unHotel["chambres"] = $this->getChambersHotel($noHotel);
-		$unHotel["equipements"] = $this->getEquipementsHotel($noHotel);
-		$unHotel["reservations"] = $this->getReservationsHotel($noHotel);
+		$ChambreM = new ChambreM();
+		$unHotel["chambres"] = $ChambreM->getChambresHotel($noHotel);
+		$EquipementM = new EquipementM();
+		$unHotel["equipements"] = $EquipementM->getEquipementsHotel($noHotel);
+		$ReservationM = new ReservationM();
+		$unHotel["reservations"] = $ReservationM->getReservationsHotel($noHotel);
 		$unHotel["photos"] = $this->getPhotosHotel($noHotel);
+
 		return $unHotel;
     }
 
 	// Retourne tous les id des hotels
 	public function getAllIdHotel() {
-		$reqresult = parent::getDb()->prepare("select nohotel from hotel");
+		$requete = "select nohotel from hotel";
+		
+		$reqresult = parent::getDb()->prepare($requete);
 		$reqresult->execute();
+
 		return $reqresult->fetchAll(PDO::FETCH_COLUMN);
 	}
 
-	
-	public function ColumnNameIsValid($columnName){
-		// Vérifier si la colonne spécifiée est valide
-		$allowedColumns = ["nohotel", "nom", "adr1", "adr2", "cp", "ville", "tel", "descourt", "deslong", "prix", "password"];
-
-		if (in_array($columnName, $allowedColumns)) {
-			return $columnName;
-		}
-		return "nohotel";
-	}
-
-	// // Retourne les hotels d'une ville
-	// public function getHotelsVille($nomville) {
-	// 	$reqresult = parent::getDb()->prepare("select nohotel from hotel where ville like '%$nomville%'");
-	// 	$reqresult->execute();
-	// 	$lesHotels = $reqresult->fetchAll();
-	// 	return $lesHotels;
-	// }
-
 	// Retourne le prix d'hotel le plus élévé
 	public function getMaxPrice() {
-		$reqresult = parent::getDb()->prepare("select max(prix) as maxprice from hotel");
+		$requete = "select max(prix) as maxprice from hotel";
+
+		$reqresult = parent::getDb()->prepare($requete);
 		$reqresult->execute();
+
 		return $reqresult->fetch()["maxprice"];
 	}
 }
