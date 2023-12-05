@@ -10,100 +10,136 @@ class ReservationM extends DBModel
     // Retourne toutes les informations d'une réservation en fonction de son numéro
     public function getReservation($noresglobale)
     {
-        $reqresult = parent::getDb()->prepare("select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation where noresglobale = $noresglobale");
-        $reqresult->execute();
-        $uneReservation = $reqresult->fetch();
+        $requete =  "select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation ".
+                    "where noresglobale = :noresglobale";
+
+        $result = parent::getDb()->prepare($requete);
+        $result->bindParam(":noresglobale",$noresglobale,PDO::PARAM_INT);
+        $result->execute();
+
+        $uneReservation = $result->fetch();
         $ChambreM = new ChambreM();
         $uneReservation["chambres"] = $ChambreM->getChambresReservation($noresglobale);
+
         return $uneReservation;
     }
 
     // Retourne toutes les réservations d'un hôtel
 	public function getReservationsHotel($nohotel) {
-		$reqresult = parent::getDb()->prepare("select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation where nohotel = $nohotel");
-		$reqresult->execute();
-		$lesReservations = $reqresult->fetchAll();
+        $requete =  "select noresglobale, nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation ".
+                    "where nohotel = :nohotel";
+
+		$result = parent::getDb()->prepare($requete);
+        $result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
+		$result->execute();
+
+		$lesReservations = $result->fetchAll();
 		foreach ($lesReservations as &$uneReservation) {
             $ChambreM = new ChambreM();
 			$uneReservation["chambres"] = $ChambreM->getChambresReservation($uneReservation["noresglobale"]);
 		}
+
 		return $lesReservations;
 	}
 
     // Retourne toutes les réservations d'une chambre
 	public function getReservationsChambre($nohotel, $nochambre) 
     {
-		$reqresult = parent::getDb()->prepare("select reservation.noresglobale, reservation.nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation inner join reserver on reservation.noresglobale = reserver.noresglobale where reservation.nohotel = $nohotel and nochambre = $nochambre;");
-		$reqresult->execute();
-		return $reqresult->fetchAll();
+        $requete =  "select reservation.noresglobale, reservation.nohotel, nores, datedeb, datefin, nom, email, codeacces from reservation ".
+                    "inner join reserver on reservation.noresglobale = reserver.noresglobale ".
+                    "where reservation.nohotel = :nohotel and nochambre = :nochambre;";
+		
+        $result = parent::getDb()->prepare($requete);
+        $result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
+        $result->bindParam(":nochambre",$nochambre,PDO::PARAM_INT);
+		$result->execute();
+
+		return $result->fetchAll();
 	}
 
     // Retourne tous les numéros de réservation
     public function getAllIdReservation()
     {
-        $reqresult = parent::getDb()->prepare("select noresglobale from reservation");
-        $reqresult->execute();
-        return $reqresult->fetchAll(PDO::FETCH_COLUMN);
+        $requete = "select noresglobale from reservation";
+
+        $result = parent::getDb()->prepare($requete);
+        $result->execute();
+
+        return $result->fetchAll(PDO::FETCH_COLUMN);
     }
 
     // Retourne le numéro de réservation suivant
     public function getNewNoRes($nohotel=0)
 	{
-        $newNoRes = null;
         if ($nohotel != 0) {
-            $req = parent::getDb()->prepare("select MAX(nores) as nores from reservation where nohotel=$nohotel");
-            $req->execute();
-            $result = $req->fetch();
-            $newNoRes = $result["nores"] + 1;
+            $requete =  "select MAX(nores) as nores from reservation ".
+                        "where nohotel = :nohotel";
+
+            $result = parent::getDb()->prepare($requete);
+            $result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
+            $result->execute();
+
+            $newNoRes = $result->fetch()["nores"] + 1;
+        } else {
+            $newNoRes = null;
         }
+
 		return $newNoRes;
     }
 
 	//Retourne la liste complète des hôtels
-    public function saveReservation($nohotel, $lesChambres, $datedebut, $datefin, $nom, $mail, $codeacces)
+    public function saveReservation($nohotel, $lesChambres, $datedebut, $datefin, $nom, $email, $codeacces)
 	{
         if ($nohotel != null) {
             try {
+                $requete =  "insert into reservation(nohotel, nores, datedeb, datefin, nom, email, codeacces) ".
+                            "values (:nohotel, :nores, :datedeb, :datefin, :nom, :email, :codeacces)";
+                
+                $result = parent::getDb()->prepare($requete);
+                $result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
                 $newNoRes = $this->getNewNoRes($nohotel);
-
-                $reqsql = "insert into reservation(nohotel, nores, datedeb,datefin, nom, email, codeacces) values ($nohotel, $newNoRes, '$datedebut', '$datefin', '$nom', '$mail', '$codeacces')";
-                $req = parent::getDb()->prepare($reqsql);
-                $req->execute();
+                $result->bindParam(":nores",$newNoRes,PDO::PARAM_INT);
+                $datedebut = date("d-m-Y", strtotime($datedebut));
+                $result->bindParam(":datedeb",$datedebut,PDO::PARAM_STR);
+                $datefin = date("d-m-Y", strtotime($datefin));
+                $result->bindParam(":datefin",$datefin,PDO::PARAM_STR);
+                $result->bindParam(":nom",$nom,PDO::PARAM_STR);
+                $result->bindParam(":email",$email,PDO::PARAM_STR);
+                $result->bindParam(":codeacces",$codeacces,PDO::PARAM_STR);
+                $result->execute();
 
                 $noResGlobale = parent::getDb()->lastInsertId();
-                $reqChambreHasWorked = $this->saveChambresReservation($noResGlobale, $nohotel, $lesChambres);
+                $reqChambreHasWorked = $this->saveChambresReservation($nohotel, $lesChambres, $noResGlobale);
             }catch (Exception $e) {
                 return false;
             }
+
             return $reqChambreHasWorked ? $noResGlobale : 0;
         }
         return 0;
     }
 
-    public function saveChambresReservation($noResGlobale = 0, $nohotel = 0, $lesChambres = [])
+    public function saveChambresReservation($nohotel = 0, $lesChambres = [], $noResGlobale = 0)
 	{
         try {
             // si la liste de chambres n'est pas vide
             if (count($lesChambres) != 0) {
-                $reqsql = "insert into reserver values ";
+                $requete = "insert into reserver values ";
                 foreach ($lesChambres as $uneChambre) {
-                    $reqsql .= "($nohotel, $uneChambre, $noResGlobale),";
+                    $requete .= "($nohotel, $uneChambre, $noResGlobale),";
                 }
-                $reqsql = substr($reqsql,0,-1);
-                $req = parent::getDb()->prepare($reqsql);
-                $req->execute();
+                $requete = substr($requete,0,-1);
+
+                $result = parent::getDb()->prepare($requete);
+                // $result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
+                // $result->bindParam(":noresglobale",$noResGlobale,PDO::PARAM_INT);
+                $result->execute();
             } 
             else return false;
         }catch (Exception $e) {
             return false;
         }
-        return true;
-    }
 
-    public function getNoResGlobale(){
-        $noRes = parent::getDb()->prepare("SELECT SCOPE_IDENTITY() AS last_id");
-        $noRes->execute();
-        $noRes = $noRes->fetch();
-        return $noRes["last_id"];
+        return true;
     }
 }
