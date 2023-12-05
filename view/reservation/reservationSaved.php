@@ -7,8 +7,8 @@ echo $nomHotel . "<br/>";
 
 echo $nom."<br/>";
 echo $mail."<br/>";
-echo $datedebut."<br/>";
-echo $datefin."<br/>";
+echo date("d-m-Y", strtotime($datedebut))."<br/>";
+echo date("d-m-Y", strtotime($datefin))."<br/>";
 echo $codeacces."<br/>";
 
 // affichage des chambre réservées
