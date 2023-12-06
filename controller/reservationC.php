@@ -16,6 +16,10 @@ class reservationC
         if (isset($unHotel)) require_once 'view/reservation/ficheReservation.php';
     }
 
+    function loadConsultation() {
+        require_once 'view/reservation/ficheConsulter.php';
+    }
+
     function saveReservation() {
         
         $hotelM = new HotelM();
@@ -75,6 +79,29 @@ class reservationC
         }
 
         if (isset($infoReservation)) require_once 'view/reservation/reservationSaved.php';
+    }
+
+    public function getReservation($nores, $codeacces) {
+        $modelRes = new ReservationM();
+        $modelHotel = new HotelM();
+
+        $infoReservation=$modelRes->getReservation($nores);
+        if ($infoReservation!=null) {
+            $infoHotel=$modelHotel->getHotel($infoReservation["nohotel"]);
+            if($codeacces == $infoReservation["codeacces"]) {
+                echo 
+                "<p> Hôtel :" . $infoHotel["nom"].
+                " Nom Client" . $infoReservation["nom"] .
+                " Mail Client" .$infoReservation["email"] .
+                " Dates reservation " . $infoReservation["datedeb"]     . $infoReservation["datefin"] .
+                "chambres réservées" ;
+                foreach ($infoReservation["chambres"] as $chambre) {
+                    echo "apagnan". $chambre["nochambre"];
+                } 
+                echo "</p>";
+            }
+        }
+
     }
 }
     

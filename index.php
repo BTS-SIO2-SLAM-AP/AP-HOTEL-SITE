@@ -28,6 +28,13 @@ switch ($page)
 		$classReservation->loadView();
 		break;
 	}
+	case 'ficheConsulter' :
+	{
+		require_once 'controller/reservationC.php';
+		$classReservation = new reservationC();
+		$classReservation->loadConsultation();
+		break;
+	}
 	case 'saveReservation':
 	{
 		require_once 'controller/reservationC.php';

@@ -47,7 +47,7 @@ ob_start();
 
 <div class="button-reservation">
     <form action="index.php" method="post">
-        <button onclick="this.submit()">Réserver dans cette hôtel</button>
+        <button onclick="this.submit()">Réserver dans cet hôtel</button>
         <input type="hidden" name="page" value="ficheReservation">
         <input type="hidden" name="nohotel" value="<?php echo $infoHotel["nohotel"] ?>">
     </form>
