@@ -4,7 +4,6 @@
     <ul>
         <script src='assets/js/pageManager.js'></script>
         <li><a href="index.php">Accueil</a></li>
-        <li><a onclick="pageRedirection('ficheReservation')">Autres</a></li>
         <li><a onclick="pageRedirection('ficheConsulter')">Consulter réservation</a></li>
     </ul>
 </nav>
