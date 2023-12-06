@@ -72,6 +72,7 @@ class reservationC
             $datefin = $infoReservation["datefin"];
             $codeacces = $infoReservation["codeacces"];
             $chambres = $infoReservation["chambres"];
+            $noresglobale = $infoReservation["noresglobale"];
         }
         else {
             echo "<script src='assets/js/pageManager.js'></script>".
@@ -96,7 +97,7 @@ class reservationC
                 " Dates reservation " . $infoReservation["datedeb"]     . $infoReservation["datefin"] .
                 "chambres réservées" ;
                 foreach ($infoReservation["chambres"] as $chambre) {
-                    echo "apagnan". $chambre["nochambre"];
+                    echo "apagnan". $chambre    ["nochambre"];
                 } 
                 echo "</p>";
             }

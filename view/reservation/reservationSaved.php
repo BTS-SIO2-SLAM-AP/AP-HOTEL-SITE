@@ -10,7 +10,7 @@ echo $mail."<br/>";
 echo date("d-m-Y", strtotime($datedebut))."<br/>";
 echo date("d-m-Y", strtotime($datefin))."<br/>";
 echo $codeacces."<br/>";
-
+echo $noresglobale."<br/>";
 // affichage des chambre réservées
 foreach ($chambres as $uneChambre) {
     echo $uneChambre["nochambre"]."<br/>";
