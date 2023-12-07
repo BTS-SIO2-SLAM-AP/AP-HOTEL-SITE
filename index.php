@@ -44,16 +44,16 @@ switch ($page)
 	}
 	case 'ficheConsulter' :
 	{
-		require_once 'controller/reservationC.php';
-		$classReservation = new reservationC();
-		$classReservation->loadConsultation();
+		require_once 'controller/consultationC.php';
+		$classConsultation = new consultationC();
+		$classConsultation->loadConsultation();
 		break;
 	}
 	case 'deleteReservation' :
 	{
-		require_once 'controller/reservationC.php';
-		$classReservation = new reservationC();
-		$classReservation->deleteReservation();
+		require_once 'controller/consultationC.php';
+		$classConsultation = new consultationC();
+		$classConsultation->deleteReservation();
 		break;
 	}
 	case '404' :
