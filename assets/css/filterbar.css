@@ -1,4 +1,41 @@
+@font-face {
+    font-family: 'Proxima Soft';
+    src: url('../font/ProximaSoft-Thin.eot');
+    src: local('Proxima Soft Thin'), local('ProximaSoft-Thin'),
+        url('../font/ProximaSoft-Thin.eot?#iefix') format('embedded-opentype'),
+        url('../font/ProximaSoft-Thin.woff2') format('woff2'),
+        url('../font/ProximaSoft-Thin.woff') format('woff'),
+        url('../font/ProximaSoft-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Proxima Soft';
+    src: url('../font/ProximaSoft-Bold.eot');
+    src: local('Proxima Soft Bold'), local('ProximaSoft-Bold'),
+        url('../font/ProximaSoft-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../font/ProximaSoft-Bold.woff2') format('woff2'),
+        url('../font/ProximaSoft-Bold.woff') format('woff'),
+        url('../font/ProximaSoft-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Proxima Soft';
+    src: url('../font/ProximaSoft-Regular.eot');
+    src: local('Proxima Soft Regular'), local('ProximaSoft-Regular'),
+        url('../font/ProximaSoft-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../font/ProximaSoft-Regular.woff2') format('woff2'),
+        url('../font/ProximaSoft-Regular.woff') format('woff'),
+        url('../font/ProximaSoft-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .filter-bar {
+    font-family: 'Proxima Soft';
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -6,13 +43,23 @@
     align-items: center;
     width: 200px;
     height: auto;
-    background-color: #f5f5f5;
+    background-color: #fece6a;
     padding: 20px;
     border-radius: 5px;
 }
 
+input, select, button, label {
+    font-family: 'Proxima Soft';
+}
+
+/* augmentation de la largeur de l'input list='city-list' */
+.filter-bar input[type="text"] {
+    width: 160px;
+}
+
 .filter-bar button {
-    background-color: #fece6a;
+    color: white;
+    background-color: #004983;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -20,8 +67,12 @@
     transition: 0.3s;
 }
 
+.filter-bar input[type="range"] {
+    color: #004983;
+}
+
 .filter-bar button:hover {
-    background-color: #f7b11a;
+    background-color: #003159;
 }
 
 .filter-section {
@@ -77,7 +128,7 @@
 }
 
 .equipement-item input:checked ~ .img-checkbox {
-    border: 3px solid #fece6a;
+    border: 3px solid #004983;
     opacity: 1;
 }
 
