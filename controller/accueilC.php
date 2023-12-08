@@ -11,7 +11,8 @@ $listEquipement=$equipementM->getAllEquipement();
 
 // Récupération de la liste des hotel pour affichage liste
 $hotelM = new HotelM();
-$listHotel=$hotelM->getAllHotel("nom");
+$listHotel=$hotelM->getAllHotel();
+$listVille=$hotelM->getAllVille();
 
 $prixMax = $hotelM->getMaxPrice();
 

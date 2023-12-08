@@ -98,7 +98,20 @@ class HotelM extends DBModel
 		catch (Exception $ex) {
 			return null;
 		}
-		
+	}
+
+	// Retourne la liste des villes
+	public function getAllVille() {
+		try{
+			$requete = "select distinct ville from hotel order by ville";
+			
+			$result = parent::getDb()->prepare($requete);
+			$result->execute();
+
+			return $result->fetchAll(PDO::FETCH_COLUMN);
+		} catch (Exception $ex) {
+			return null;
+		}
 	}
 
 	// Retourne le prix d'hotel le plus élévé

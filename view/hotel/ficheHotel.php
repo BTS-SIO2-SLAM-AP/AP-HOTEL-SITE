@@ -28,7 +28,7 @@ ob_start();
         <?php echo $infoHotel["prix"] ?>€/nuit<br /><br />
         <?php echo $infoHotel["deslong"] ?><br /><br />
 
-        <?php /*echo $infoHotel["nbchambresdispo"] */?> chambres disponibles / <?php echo count($infoHotel["chambres"]) ?>
+        <?php echo count($infoHotel["chambres"]) ?> chambres
         <br />
 
 
