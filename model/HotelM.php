@@ -12,80 +12,108 @@ class HotelM extends DBModel
 	// Retourne la liste complète des hôtels
     public function getAllHotel()
 	{
-		$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel order by nom";
+		try {
+			$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel order by nom";
 		
-		$result = parent::getDb()->prepare($requete);
-		$result->execute();
-
-		$lesHotels = $result->fetchAll();
-		
-		foreach ($lesHotels as &$unHotel) {
-			$ChambreM = new ChambreM();
-			$unHotel["chambres"] = $ChambreM->getChambresHotel($unHotel["nohotel"]);
-			$EquipementM = new EquipementM();
-			$unHotel["equipements"] = $EquipementM->getEquipementsHotel($unHotel["nohotel"]);
-			$ReservationM = new ReservationM();
-			$unHotel["reservations"] = $ReservationM->getReservationsHotel($unHotel["nohotel"]);
-			$unHotel["photos"] = $this->getPhotosHotel($unHotel["nohotel"]);
+			$result = parent::getDb()->prepare($requete);
+			$result->execute();
+	
+			$lesHotels = $result->fetchAll();
+			
+			foreach ($lesHotels as &$unHotel) {
+				$ChambreM = new ChambreM();
+				$unHotel["chambres"] = $ChambreM->getChambresHotel($unHotel["nohotel"]);
+				$EquipementM = new EquipementM();
+				$unHotel["equipements"] = $EquipementM->getEquipementsHotel($unHotel["nohotel"]);
+				$ReservationM = new ReservationM();
+				$unHotel["reservations"] = $ReservationM->getReservationsHotel($unHotel["nohotel"]);
+				$unHotel["photos"] = $this->getPhotosHotel($unHotel["nohotel"]);
+			}
+	
+			return $lesHotels;
 		}
-
-		return $lesHotels;
+		catch (Exception $ex) {
+			return null;
+		}
     }
 
 	//Retourne les photos d'un hôtel
 	public function getPhotosHotel($nohotel) {
-		$requete = 	"select nophoto, nomfichier from photo ".
-					"where nohotel = :nohotel";
+		try {
+			$requete = 	"select nophoto, nomfichier from photo ".
+			"where nohotel = :nohotel";
 
-		$result = parent::getDb()->prepare($requete);
-		$result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
-		$result->execute();
+			$result = parent::getDb()->prepare($requete);
+			$result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
+			$result->execute();
 
-		return $result->fetchAll();
+			return $result->fetchAll();
+		}
+		catch (Exception $ex) {
+			return null;
+		}
+		
 	}
 
 	//Retourne les informations d'un hôtel
 	public function getHotel($nohotel)
 	{
-		$requete = 	"select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel ".
-					"inner join equiper on equiper.nohotel=hotel.nohotel ".
-					"where hotel.nohotel = :nohotel";
+		try {
+			$requete = 	"select distinct hotel.nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel ".
+			"inner join equiper on equiper.nohotel=hotel.nohotel ".
+			"where hotel.nohotel = :nohotel";
+
+			$result = parent::getDb()->prepare($requete);
+			$result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
+			$result->execute();
+
+			$unHotel = $result->fetch();
+
+			$ChambreM = new ChambreM();
+			$unHotel["chambres"] = $ChambreM->getChambresHotel($nohotel);
+			$EquipementM = new EquipementM();
+			$unHotel["equipements"] = $EquipementM->getEquipementsHotel($nohotel);
+			$ReservationM = new ReservationM();
+			$unHotel["reservations"] = $ReservationM->getReservationsHotel($nohotel);
+			$unHotel["photos"] = $this->getPhotosHotel($nohotel);
+
+			return $unHotel;			
+		}
+		catch (Exception $ex) {
+			return null;
+		}
 		
-		$result = parent::getDb()->prepare($requete);
-		$result->bindParam(":nohotel",$nohotel,PDO::PARAM_INT);
-		$result->execute();
-
-		$unHotel = $result->fetch();
-
-		$ChambreM = new ChambreM();
-		$unHotel["chambres"] = $ChambreM->getChambresHotel($nohotel);
-		$EquipementM = new EquipementM();
-		$unHotel["equipements"] = $EquipementM->getEquipementsHotel($nohotel);
-		$ReservationM = new ReservationM();
-		$unHotel["reservations"] = $ReservationM->getReservationsHotel($nohotel);
-		$unHotel["photos"] = $this->getPhotosHotel($nohotel);
-
-		return $unHotel;
     }
 
 	// Retourne tous les id des hotels
 	public function getAllIdHotel() {
-		$requete = "select nohotel from hotel";
+		try {
+			$requete = "select nohotel from hotel";
 		
-		$result = parent::getDb()->prepare($requete);
-		$result->execute();
-
-		return $result->fetchAll(PDO::FETCH_COLUMN);
+			$result = parent::getDb()->prepare($requete);
+			$result->execute();
+	
+			return $result->fetchAll(PDO::FETCH_COLUMN);
+		}
+		catch (Exception $ex) {
+			return null;
+		}
+		
 	}
 
 	// Retourne le prix d'hotel le plus élévé
 	public function getMaxPrice() {
-		$requete = "select max(prix) as maxprice from hotel";
+		try {
+			$requete = "select max(prix) as maxprice from hotel";
 
-		$result = parent::getDb()->prepare($requete);
-		$result->execute();
-
-		return $result->fetch()["maxprice"];
+			$result = parent::getDb()->prepare($requete);
+			$result->execute();
+	
+			return $result->fetch()["maxprice"];
+		}
+		catch (Exception $ex) {
+			return null;
+		}
 	}
 }
 //Absence volontaire de la balise fermeture php

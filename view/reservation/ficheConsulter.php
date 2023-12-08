@@ -50,7 +50,7 @@ if(!isset($_POST["btnSupprimer"])){
     if (isset($messageErreur)) echo "<p>$messageErreur</p>";
 }
 else {
-    echo "<p>Votre réservation a bien été supprimer.</p>";
+    echo "<p>Votre réservation a bien été supprimée.</p>";
 }
 
 ?>
