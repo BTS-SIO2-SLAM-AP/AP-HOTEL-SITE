@@ -1,7 +1,13 @@
 <?php
 // ROUTEUR de l'application
 // Permet de sélectionner le controleur adapté, en fonction de la page dans l'URL
-if (isset($_POST['page'])) 
+if(isset($_GET['page']) && $_GET['page']=="getChambreDisponible")
+{
+	require_once 'controller/reservationC.php';
+		$classReservation = new reservationC();
+		$classReservation->getChambresDisponibles($_POST['nohotel'], $_POST['datedebut'], $_POST['datefin']);
+}else{
+	if (isset($_POST['page'])) 
 {
 	$page=$_POST['page'];
 }
@@ -71,6 +77,7 @@ switch ($page)
 		require('controller/accueilC.php');
 		break;
 	}
+}
 }
 
 //Absence volontaire de la balise fermeture php  (préconisation)

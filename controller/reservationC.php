@@ -77,32 +77,18 @@ class reservationC
         if (isset($infoReservation)) require_once 'view/reservation/reservationSaved.php';
     }
 
-    // // Retourne la liste des chambres disponibles pour une période donnée à afficher dans un select
-    // function getChambresDisponibles($nohotel, $datedebut, $datefin)
-    // {
-    //     $modelChambre = new ChambreM();
-    //     $modelHotel = new HotelM();
+    // Retourne la liste des chambres disponibles pour une période donnée à afficher dans un select
+    function getChambresDisponibles($nohotel, $datedebut, $datefin)
+    {
+        $modelChambre = new ChambreM();
+        $modelHotel = new HotelM();
 
-    //     if (in_array($nohotel, $modelHotel->getAllIdHotel())) {
-
-    //         $chambresDisponibles = $modelChambre->getChambresDispo($nohotel, $datedebut, $datefin);
-
-    //         return json_encode($chambresDisponibles);
-    //     }
-    // }
-
-    // public function getChambresDisponibles($nohotel, $datedebut, $datefin)
-    // {
-    //     $modelChambre = new ChambreM();
-    //     $modelHotel = new HotelM();
-
-    //     if (in_array($nohotel, $modelHotel->getAllIdHotel())) {
-
-    //         $chambresDisponibles = $modelChambre->getChambresDispo($nohotel, $datedebut, $datefin);
-
-    //         return json_encode($chambresDisponibles);
-    //     }
-    // }
+        if (in_array($nohotel, $modelHotel->getAllIdHotel())) {
+            // echo $nohotel ."-". $datedebut ."-". $datefin;
+            $chambresDisponibles = $modelChambre->getChambresDispo($nohotel, $datedebut, $datefin);
+            echo json_encode($chambresDisponibles);
+        }
+    }
 }
     
 

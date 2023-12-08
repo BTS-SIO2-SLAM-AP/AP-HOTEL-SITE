@@ -57,22 +57,27 @@ class ChambreM extends DBModel
     {
         try{
             $requete =  " SELECT nochambre FROM chambre
-            WHERE nohotel = :nohotel
+            WHERE nohotel = $nohotel
             AND   nochambre NOT IN ( SELECT nochambre FROM reserver
-                                                     WHERE nohotel=:nohotel
+                                                    INNER JOIN reservation
+                                                    ON reservation.noresglobale = reserver.noresglobale
+                                                     WHERE reservation.nohotel=$nohotel
                                                      AND (         (datedeb<='$datedebut') AND (datefin>='$datedebut')
                                                                  OR (datedeb<'$datefin') AND (datefin>'$datefin')
                                                                  OR (datedeb>='$datedebut') AND (datefin<'$datefin')
-                                                             )      )  ";
-    
+                                                             )  )";
             $result = parent::getDb()->prepare($requete);
-            $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
+            // $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
             $result->execute();
-            return $result->fetchAll();
+            $listChambresDispo = [];
+            foreach ($result->fetchAll() as $row) {
+                $listChambresDispo[] = $row['nochambre'];
+            }
+            return $listChambresDispo;
         }
         catch (Exception $ex)
         {
-            return null;
+            return $ex;
         }        
     }
 

@@ -42,6 +42,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
         <input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         function dateDebutChange() {
             var datedebut = new Date(document.getElementById('datedebut').value);
@@ -89,7 +90,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 
         //     var chambresSelector = document.getElementById('listeChambres');
 
-        //     var lesChambres = <?php echo json_encode($lesChambres); ?>;
+        //     var lesChambres = <?php // echo json_encode($lesChambres); ?>;
 
         //     // On parcourt les chambres
         //     for (var i = 0; i < lesChambres.length; i++) {
@@ -113,51 +114,56 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
         //     }
         // }
 
-        // // Update liste des chambres disponibles en fonction des dates sélectionnées
-        // function updateChambres() {
-        //     var datedebutValue = document.getElementById('datedebut').value;
-        //     var datefinValue = document.getElementById('datefin').value;
-        //     var chambresSelector = document.getElementById('listeChambres');
+        // Update liste des chambres disponibles en fonction des dates sélectionnées
+        function updateChambres() {
+            var datedebutValue = document.getElementById('datedebut').value;
+            var datefinValue = document.getElementById('datefin').value;
+            var chambresSelector = document.getElementById('listeChambres');
 
-        //     // Vérifier si les dates sont valides
-        //     if (!datedebutValue || !datefinValue) {
-        //         // Gérer le cas où une ou les deux dates ne sont pas sélectionnées
-        //         return;
-        //     }
+            // Vérifier si les dates sont valides
+            if (!datedebutValue || !datefinValue) {
+                // Gérer le cas où une ou les deux dates ne sont pas sélectionnées
+                return;
+            }
 
-        //     // Créer une instance XMLHttpRequest
-        //     var xhr = new XMLHttpRequest();
+            // Créer une instance XMLHttpRequest
+            var xhr = new XMLHttpRequest();
 
-        //     // Spécifier le type de requête, l'URL et si la requête doit être asynchrone
-        //     xhr.open('POST', 'votre_script_php.php', true);
+            // Spécifier le type de requête, l'URL et si la requête doit être asynchrone
+            // méthode getChambreDisponible() dans le fichier reservationC.php
+            xhr.open('POST', 'index.php?page=getChambreDisponible', true);
 
-        //     // Définir le type de données à envoyer au serveur
-        //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // Définir le type de données à envoyer au serveur
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        //     // Gérer l'événement de changement d'état de la requête
-        //     xhr.onreadystatechange = function() {
-        //         // Vérifier si la requête est terminée et la réponse est prête
-        //         if (xhr.readyState === 4 && xhr.status === 200) {
-        //             // Parsez la réponse JSON
-        //             var lesChambres = JSON.parse(xhr.responseText);
+            // Gérer l'événement de changement d'état de la requête
+            xhr.onreadystatechange = function() {
+                // Vérifier si la requête est terminée et la réponse est prête
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Parsez la réponse JSON
+                    var lesChambresDisponibles = JSON.parse(xhr.responseText);
 
-        //             // Effacer les options actuelles du sélecteur de chambres
-        //             chambresSelector.innerHTML = '';
+                    // afficher toutes les chambresSelector
+                    for (var i = 0; i < chambresSelector.options.length; i++) {
+                        chambresSelector.options[i].hidden = false;
+                    }
 
-        //             // Ajouter les nouvelles options en fonction des chambres disponibles
-        //             for (var i = 0; i < lesChambres.length; i++) {
-        //                 var option = document.createElement('option');
-        //                 option.value = lesChambres[i].nochambre;
-        //                 option.text = 'Chambre ' + lesChambres[i].nochambre;
-        //                 chambresSelector.add(option);
-        //             }
-        //         }
-        //     };
+                    // On parcourt les chambres et si la chambre n'est pas dans la liste des chambres disponibles (lesChambresDisponibles), on la cache
+                    for (var i = 0; i < chambresSelector.options.length; i++) {
+                        var chambre = chambresSelector.options[i].value;
+                        chambresSelector.options[i].hidden = !lesChambresDisponibles.includes(chambre);
+                        // desélect la chambre si elle n'est pas disponible
+                        if (chambresSelector.options[i].hidden) {
+                            chambresSelector.options[i].selected = false;
+                        }
+                    }
+                }
+            };
 
-        //     // Envoyer la requête avec les dates en tant que données
-        //     var data = 'datedebut=' + encodeURIComponent(datedebutValue) + '&datefin=' + encodeURIComponent(datefinValue);
-        //     xhr.send(data);
-        // }
+            // Envoyer la requête avec les dates en tant que données
+            var data = 'nohotel=' + encodeURIComponent(<?php echo $unHotel["nohotel"] ?>) + '&datedebut=' + encodeURIComponent(datedebutValue) + '&datefin=' + encodeURIComponent(datefinValue);
+            xhr.send(data);
+        }
     </script>
 </div>
 <?php
