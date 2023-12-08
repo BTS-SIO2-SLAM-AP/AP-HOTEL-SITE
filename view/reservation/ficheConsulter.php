@@ -6,7 +6,7 @@ if(!isset($_POST["btnSupprimer"])){
     ?>
         <form method='post' action='index.php'>
             <label for='txtNoRes'> Rentrez votre numéro de réservation :</label></br>
-            <input type='text' name='txtNoRes' value='<?php if (isset($_POST["txtNoRes"])) echo $_POST["txtNoRes"]; ?>' required>
+            <input type='number' name='txtNoRes' value='<?php if (isset($_POST["txtNoRes"])) echo $_POST["txtNoRes"]; ?>' required>
             </br></br>
             <label for='txtCodeAcces'> Rentrez votre code d'accès :</label></br>
             <input type='text' name='txtCodeAcces' value='<?php if (isset($_POST["txtCodeAcces"])) echo $_POST["txtCodeAcces"]; ?>' required>
