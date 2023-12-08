@@ -30,7 +30,12 @@
             <label for="city-search">Rechercher par ville :</label>
         </div>
         <div class="filter-input">
-            <input type="text" id="city-search" name="city_search" oninput="filterHotels()" placeholder="Entrez le nom de la ville">
+            <input type="text" list="city-list" id="city-search" name="city_search" oninput="filterHotels()" placeholder="Entrez le nom de la ville">
+            <datalist id="city-list">
+                <?php foreach ($listVille as $uneville) { ?>
+                    <option value="<?php echo $uneville ?>"></option>
+                <?php } ?>
+            </datalist>
         </div>
     </div>
 
