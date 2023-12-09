@@ -27,6 +27,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 
         <br />
         <label for="chambres">Chambres disponibles :</label>
+        <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates</p>
         <select id="listeChambres" name="chambres[]" multiple required>
             <?php
             foreach ($unHotel["chambres"] as $uneChambre) {
@@ -35,7 +36,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             ?>
         </select>
         <br /><br />
-        <input type='submit' name='btnvalider' value='valider'>
+        <input type='submit' id="btnSubmit" name='btnvalider' value='Valider la réservation'>
 
         <input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
         <input type='hidden' name='page' value='saveReservation'>
@@ -44,6 +45,16 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        var lesChambresDisponiblesListe = [];
+
+        // filter les hotels après que la page soit chargée
+        window.addEventListener("load", function() {
+            dateDebutChange();
+            dateFinChange();
+            updateChambresDispo();
+            updateAffichage();
+        });
+
         function dateDebutChange() {
             var datedebut = new Date(document.getElementById('datedebut').value);
             var datefin = new Date(document.getElementById('datefin').value);
@@ -57,7 +68,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             if (datedebut >= datefin) {
                 document.getElementById('datefin').value = formatDate(new Date(datedebut.getFullYear(), datedebut.getMonth(), datedebut.getDate() + 1));
             }
-            updateChambres();
+            updateChambresDispo();
         }
 
         function dateFinChange() {
@@ -73,7 +84,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             if (datefin <= datedebut && datefin >= datemin) {
                 document.getElementById('datedebut').value = formatDate(new Date(datefin.getFullYear(), datefin.getMonth(), datefin.getDate() - 1));
             }
-            updateChambres();
+            updateChambresDispo();
         }
 
         function formatDate(date) {
@@ -84,10 +95,12 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
         }
 
         // Update liste des chambres disponibles en fonction des dates sélectionnées
-        function updateChambres() {
+        function updateChambresDispo() {
             var datedebutValue = document.getElementById('datedebut').value;
             var datefinValue = document.getElementById('datefin').value;
             var chambresSelector = document.getElementById('listeChambres');
+            var labelInfo = document.getElementById('aucuneChambreDispo');
+            var btnSubmit = document.getElementById('btnSubmit');
 
             // Vérifier si les dates sont valides
             if (!datedebutValue || !datefinValue) {
@@ -126,12 +139,34 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
                             chambresSelector.options[i].selected = false;
                         }
                     }
+                    updateAffichage();
+                    
                 }
             };
 
             // Envoyer la requête avec les dates en tant que données
             var data = 'nohotel=' + encodeURIComponent(<?php echo $unHotel["nohotel"] ?>) + '&datedebut=' + encodeURIComponent(datedebutValue) + '&datefin=' + encodeURIComponent(datefinValue);
             xhr.send(data);
+        }
+
+        function updateAffichage() {
+            var btnSubmit = document.getElementById('btnSubmit');
+            var chambresSelector = document.getElementById('listeChambres');
+            var labelInfo = document.getElementById('aucuneChambreDispo');
+        
+            // recupération du nombre d'options visibles dans le select
+            var nbChambresDispo = Array.from(chambresSelector.options).filter(option => !option.hidden);
+
+            if (nbChambresDispo == 0) {
+                btnSubmit.style.display = 'none';
+                labelInfo.style.display = 'block';
+                chambresSelector.style.display = 'none';
+
+            } else {
+                btnSubmit.style.display = 'block';
+                labelInfo.style.display = 'none';
+                chambresSelector.style.display = 'block';
+            }
         }
     </script>
 </div>
