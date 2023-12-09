@@ -12,8 +12,10 @@ class reservationC
         // Récupération de la liste des hotel pour affichage liste
         $hotelM = new HotelM();
         $chambreM = new ChambreM();
-        if (isset($_POST["nohotel"]) && in_array($_POST["nohotel"], $hotelM->getAllIdHotel())) {$unHotel = $hotelM->getHotel($_POST["nohotel"]); $lesChambres = $chambreM->getAllChambres($unHotel["nohotel"]);}
-        else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Hotel inconnu'});});</script>";
+        if (isset($_POST["nohotel"]) && in_array($_POST["nohotel"], $hotelM->getAllIdHotel())) {
+            $unHotel = $hotelM->getHotel($_POST["nohotel"]);
+            $lesChambres = $chambreM->getAllChambres($unHotel["nohotel"]);
+        } else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Hotel inconnu'});});</script>";
 
         // Affichage du résultat dans la vue
         if (isset($unHotel)) require_once 'view/reservation/ficheReservation.php';
@@ -26,30 +28,32 @@ class reservationC
         if (isset($_POST["nohotel"]) && in_array($_POST["nohotel"], $hotelM->getAllIdHotel())) $unHotel = $hotelM->getHotel($_POST["nohotel"]);
         else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Hotel inconnu'});});</script>";
 
-        if (isset($unHotel)) {
-            $nohotel = $_POST["nohotel"];
+        if (isset($unHotel) && isset($_POST["txtnom"]) && isset($_POST["txtmail"]) && isset($_POST["datedebut"]) && isset($_POST["datefin"]) && isset($_POST["listchambres"])) {
+            ?>
+            <script>alert('<?php echo $_POST["listchambres"] ?>')</script>
+
+            <?php
+            $nohotel = $unHotel["nohotel"];
             $nom = $_POST["txtnom"];
             $mail = $_POST["txtmail"];
             $datedebut = $_POST["datedebut"];
             $datefin = $_POST["datefin"];
-            $chambres = $_POST["chambres"];
-
+            $chambres = array_map('intval', explode(',', trim($_POST["listchambres"])));;
 
             // génération du code d'accès à 5 chiffres
             $codeacces = str_pad(rand(0, 99999), 5, "0", STR_PAD_LEFT);
 
             $modelRes = new ReservationM();
             $noresglobale = $modelRes->saveReservation($nohotel, $chambres, $datedebut, $datefin, $nom, $mail, $codeacces);
-
-            ob_start();
-            if ($noresglobale != 0) {
-                echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('reservationSaved', {noresglobale: $noresglobale});});</script>";
-            } else {
-                echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la réservation'});});</script>";
-            }
-            $content = ob_get_clean();
-            require('view/template.php');
         }
+        ob_start();
+        if ($noresglobale != 0) {
+            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('reservationSaved', {noresglobale: $noresglobale});});</script>";
+        } else {
+            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la réservation'});});</script>";
+        }
+        $content = ob_get_clean();
+        require('view/template.php');
     }
 
     function loadReservationSaved()

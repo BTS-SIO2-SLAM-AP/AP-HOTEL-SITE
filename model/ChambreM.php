@@ -62,7 +62,8 @@ class ChambreM extends DBModel
 
             $requete = "SELECT DISTINCT nochambre
             FROM chambre
-            WHERE nochambre NOT IN (
+            WHERE chambre.nohotel = $nohotel AND 
+                nochambre NOT IN (
                     SELECT DISTINCT nochambre
                     FROM reserver
                     INNER JOIN reservation
@@ -83,6 +84,7 @@ class ChambreM extends DBModel
             foreach ($result->fetchAll() as $row) {
                 $listChambresDispo[] = $row['nochambre'];
             }
+           
             return $listChambresDispo;
         }
         catch (Exception $ex)

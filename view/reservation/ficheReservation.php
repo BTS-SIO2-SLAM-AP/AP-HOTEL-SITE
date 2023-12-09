@@ -9,51 +9,68 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 
 <div class="ficheReservation">
     <form method='post' action="index.php">
-        <label for="datedebut">Réserver du </label>
-        <input type="date" id="datedebut" name="datedebut" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" onchange="dateDebutChange()" required>
+        <table>
+            <td style="width: 50%;">
+                <div class="datesReservation">
+                    <label for="datedebut">Réserver du</label>
+                    <input type="date" id="datedebut" name="datedebut" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" onchange="dateDebutChange()" required>
 
-        <label for="datefin"> au </label>
-        <input type="date" id="datefin" name="datefin" value="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" onchange="dateFinChange()" required style="background-color:pink;">
+                    <label for="datefin">au</label>
+                    <input type="date" id="datefin" name="datefin" value="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" onchange="dateFinChange()" required style="background-color:pink;">
+                </div>
 
+                <div>
+                    <label for="email">Email :</label>
+                    <input type="email" name="txtmail" required>
+                </div>
 
+                <div>
+                    <label for="txtnom">Nom :</label>
+                    <input type="text" name="txtnom" required>
+                </div>
+            </td>
+            <td id="chambreSelector">
+                <div class="chambreSelector">
+                    <link rel="stylesheet" href="assets/css/multi-select.css">
 
-        <br />
-        <label for="email">Email :</label>
-        <input type="email" name="txtmail" required>
+                    <div id="multi-select">
+                        <label for="items-selected" style="display: none;">Chambres sélectionnés</label>
+                        <div id="items-selected" data-items-selected></div>
+                        <label for="items-available">Chambres disponibles</label>
+                        <div id="items-available" data-items-available></div>
+                    </div>
+                    <script src="assets/js/multi-select.js"></script>
 
-        <br />
-        <label for="txtnom">Nom :</label>
-        <input type="text" name="txtnom" required>
+                </div>
+            </td>
+        </table>
 
-        <br />
-        <label for="chambres">Chambres disponibles :</label>
-        <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates</p>
-        <select id="listeChambres" name="chambres[]" multiple required>
-            <?php
-            foreach ($unHotel["chambres"] as $uneChambre) {
-                echo "<option value='$uneChambre[nochambre]'>N°$uneChambre[nochambre]</option>";
-            }
-            ?>
-        </select>
-        <br /><br />
+        <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates.</p>
+
         <input type='submit' id="btnSubmit" name='btnvalider' value='Valider la réservation'>
 
         <input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
         <input type='hidden' name='page' value='saveReservation'>
         <input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
+        <input type='hidden' name='listchambres' value=''>
     </form>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="assets/js/jquery-3.6.4.min.js"></script>
     <script>
         var lesChambresDisponiblesListe = [];
 
         // filter les hotels après que la page soit chargée
         window.addEventListener("load", function() {
-            dateDebutChange();
-            dateFinChange();
             updateChambresDispo();
             updateAffichage();
         });
+
+        document.getElementsByName('btnvalider')[0].addEventListener('click', function() {
+            var lesChambresDisponibles = document.getElementById('items-selected').getAttribute('data-items-selected').split(',');
+            document.getElementsByName('listchambres')[0].value = lesChambresDisponibles.join(',');
+        }); 
+
+
 
         function dateDebutChange() {
             var datedebut = new Date(document.getElementById('datedebut').value);
@@ -125,22 +142,8 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
                     // Parsez la réponse JSON
                     var lesChambresDisponibles = JSON.parse(xhr.responseText);
 
-                    // afficher toutes les chambresSelector
-                    for (var i = 0; i < chambresSelector.options.length; i++) {
-                        chambresSelector.options[i].hidden = false;
-                    }
-
-                    // On parcourt les chambres et si la chambre n'est pas dans la liste des chambres disponibles (lesChambresDisponibles), on la cache
-                    for (var i = 0; i < chambresSelector.options.length; i++) {
-                        var chambre = chambresSelector.options[i].value;
-                        chambresSelector.options[i].hidden = !lesChambresDisponibles.includes(chambre);
-                        // desélect la chambre si elle n'est pas disponible
-                        if (chambresSelector.options[i].hidden) {
-                            chambresSelector.options[i].selected = false;
-                        }
-                    }
+                    UpdateItems(lesChambresDisponibles, <?php echo json_encode(implode(', ', array_column($unHotel['chambres'], 'nochambre'))) ?>);
                     updateAffichage();
-                    
                 }
             };
 
@@ -151,21 +154,23 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 
         function updateAffichage() {
             var btnSubmit = document.getElementById('btnSubmit');
-            var chambresSelector = document.getElementById('listeChambres');
+            var chambreSelector = document.getElementById('chambreSelector');
             var labelInfo = document.getElementById('aucuneChambreDispo');
-        
-            // recupération du nombre d'options visibles dans le select
-            var nbChambresDispo = Array.from(chambresSelector.options).filter(option => !option.hidden);
 
-            if (nbChambresDispo == 0) {
+            // recupération du nombre d'options visibles dans le select
+            // var nbChambresDispo = Array.from(document.getElementById('multi-select').options).filter(option => !option.hidden);
+            // nombre d'attributs data-items-available
+            var nbChambresDispo = document.getElementById('items-available').getAttribute('data-items-available').split(',').length;
+
+            if (nbChambresDispo <= 1) {
                 btnSubmit.style.display = 'none';
                 labelInfo.style.display = 'block';
-                chambresSelector.style.display = 'none';
+                chambreSelector.style.display = 'none';
 
             } else {
                 btnSubmit.style.display = 'block';
                 labelInfo.style.display = 'none';
-                chambresSelector.style.display = 'block';
+                chambreSelector.style.display = 'block';
             }
         }
     </script>
