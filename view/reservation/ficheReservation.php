@@ -83,37 +83,6 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             return year + '-' + month + '-' + day;
         }
 
-        // // Update liste des chambres disponibles en fonction des dates sélectionnées
-        // function updateChambres() {
-        //     var datedebut = new Date(document.getElementById('datedebut').value);
-        //     var datefin = new Date(document.getElementById('datefin').value);
-
-        //     var chambresSelector = document.getElementById('listeChambres');
-
-        //     var lesChambres = <?php // echo json_encode($lesChambres); ?>;
-
-        //     // On parcourt les chambres
-        //     for (var i = 0; i < lesChambres.length; i++) {
-        //         var chambre = lesChambres[i];
-        //         var chambreDisponible = true; // Drapeau pour indiquer si la chambre est disponible
-
-        //         // On parcourt les réservations de la chambre
-        //         for (var j = 0; j < chambre.reservations.length; j++) {
-        //             var reservation = chambre.reservations[j];
-
-        //             // On vérifie si la réservation est dans l'intervalle de dates sélectionnées
-        //             if (reservation.datedebut <= datefin && reservation.datefin >= datedebut) {
-        //                 // La chambre est réservée, on met à jour le drapeau
-        //                 chambreDisponible = false;
-        //                 break;
-        //             }
-        //         }
-
-        //         // On met à jour la visibilité de l'option en fonction du drapeau
-        //         chambresSelector.options[i].hidden = !chambreDisponible;
-        //     }
-        // }
-
         // Update liste des chambres disponibles en fonction des dates sélectionnées
         function updateChambres() {
             var datedebutValue = document.getElementById('datedebut').value;

@@ -56,18 +56,28 @@ class ChambreM extends DBModel
     public function getChambresDispo($nohotel, $datedebut, $datefin)
     {
         try{
-            $requete =  " SELECT nochambre FROM chambre
-            WHERE nohotel = $nohotel
-            AND   nochambre NOT IN ( SELECT nochambre FROM reserver
-                                                    INNER JOIN reservation
-                                                    ON reservation.noresglobale = reserver.noresglobale
-                                                     WHERE reservation.nohotel=$nohotel
-                                                     AND (         (datedeb<='$datedebut') AND (datefin>='$datedebut')
-                                                                 OR (datedeb<'$datefin') AND (datefin>'$datefin')
-                                                                 OR (datedeb>='$datedebut') AND (datefin<'$datefin')
-                                                             )  )";
+            // convertion des dates en format SQL DATETIME pour pouvoir les comparer
+            $dateTimeDebut = date("Y-m-d\T00:00:00", strtotime($datedebut));
+            $dateTimeFin = date("Y-m-d\T23:59:59", strtotime($datefin));
+
+            $requete = "SELECT DISTINCT nochambre
+            FROM chambre
+            WHERE nochambre NOT IN (
+                    SELECT DISTINCT nochambre
+                    FROM reserver
+                    INNER JOIN reservation
+                        ON reservation.noresglobale = reserver.noresglobale
+                    WHERE 
+                    reservation.nohotel = $nohotel
+                    AND (reservation.datefin BETWEEN '$dateTimeDebut' AND '$dateTimeFin'
+                        OR reservation.datedeb BETWEEN '$dateTimeDebut' AND '$dateTimeFin')
+                    )
+            ORDER BY nochambre;";
+
             $result = parent::getDb()->prepare($requete);
             // $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
+            // $result->bindParam(":datedebut", $dateTimeDebut, PDO::PARAM_STR);
+            // $result->bindParam(":datefin", $dateTimeFin, PDO::PARAM_STR);
             $result->execute();
             $listChambresDispo = [];
             foreach ($result->fetchAll() as $row) {

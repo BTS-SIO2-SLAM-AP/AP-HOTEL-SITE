@@ -36,10 +36,97 @@
 
 .ficheReservation form {
     font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
     margin: auto;
-    width: 50%;
+    width: 60%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
+    /* grossir les éléments */
+    font-size: 1.5em;
+}
+
+.ficheReservation form input {
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+}
+
+select {
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+}
+
+.ficheReservation form input[type="submit"] {
+    cursor: pointer;
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+}
+
+.ficheReservation form input[type="submit"]:hover {
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+    background-color: #ccc;
 }
