@@ -95,23 +95,25 @@ function CreateButtonsItems() {
     // ajout des boutons de la liste des items sélectionnés
     if (itemsSelectedDataArray != "" && itemsSelectedDataArray[0] != "") {
         itemsSelectedDataArray.forEach(function (item) {
-            var button = document.createElement('button');
-            button.setAttribute('type', 'button');
-            button.setAttribute('id', 'item');
-            button.setAttribute('data-value', item);
-            button.title = "Retirer la chambre";
-            button.style.order = item;
-            button.addEventListener('click', function () {
-                moveItem(this);
-            });
-            button.innerHTML = 'N°' + item + ' ✖';
-            itemsSelected.appendChild(button);
+            if (item != "x") {
+                var button = document.createElement('button');
+                button.setAttribute('type', 'button');
+                button.setAttribute('id', 'item');
+                button.setAttribute('data-value', item);
+                button.title = "Retirer la chambre";
+                button.style.order = item;
+                button.addEventListener('click', function () {
+                    moveItem(this);
+                });
+                button.innerHTML = 'N°' + item + ' ✖';
+                itemsSelected.appendChild(button);
+            }
         });
     }
 }
 
 // Fonction pour update data-all-items avec une liste json de chambres via une liste php
-function UpdateItems(listChambresDisponible, listChambresHotel) {
+function UpdateItems(listChambresDisponibleStr, listChambresHotelStr) {
     var itemsAvailable = document.querySelector('#items-available');
 
     var itemsSelected = document.querySelector('#items-selected');
@@ -119,35 +121,36 @@ function UpdateItems(listChambresDisponible, listChambresHotel) {
 
     var newItemsSelectedData = oldItemsSelectedData.endsWith(',') ? oldItemsSelectedData.slice(0, -1) : oldItemsSelectedData;
 
-    // Récupération de la liste des chambres indisponibles
-    var itemsToRemove = '';
+    var listChambresDisponible = listChambresDisponibleStr.map(Number);
+    var listChambresHotel = listChambresHotelStr.split(", ").map(Number);
 
-    listChambresHotel.split(',').forEach(item => {
-        if (!listChambresDisponible.includes(item)) {
-            itemsToRemove = itemsToRemove.length === 0 ? item : itemsToRemove + ',' + item;
-        }
-    });
+    var itemsToRemove = listChambresHotel.filter(function(chambre) {
+        return !listChambresDisponible.includes(chambre);
+    });    
 
-    itemsToRemove = Array.from(new Set(itemsToRemove.split(','))).join(',');
-    alert(itemsToRemove);
-    itemsToRemove = Array(itemsToRemove);
-    alert(itemsToRemove);
-
-    // Pour chaque chambre de la liste des chambres disponibles, on ajoute un bouton dans la liste des items disponibles si elle n'est pas déjà dans la liste des items sélectionnés
     itemsToRemove.forEach(item => {
-        if (oldItemsSelectedData.split(',').includes(item)) {
-            newItemsSelectedData = newItemsSelectedData.length === 0 ? item : newItemsSelectedData.split(',').filter(i => i !== item).join(',');
-            alert(item);
+        if (!oldItemsSelectedData.includes(item) && listChambresDisponible.includes()) {
+            // alert("item : " + item);
+            // alert("newItemsSelectedData : " + newItemsSelectedData);
+            // newItemsSelectedData.slice(newItemsSelectedData.indexOf(item));
+            // alert("index : " + newItemsSelectedData.indexOf(item));
+            // alert("newItemsSelectedData : " + newItemsSelectedData[newItemsSelectedData.indexOf(item)]);
+
+            // newItemsSelectedData = newItemsSelectedData.replace(","+item+",", ",x,");
+            // alert("newItemsSelectedData : " + newItemsSelectedData);
+            // on ajoute un x pour marquer la chambre comme indisponible
+            alert("item : " + item);
+            newItemsSelectedData = newItemsSelectedData.length == 0 ? item : newItemsSelectedData.split(',').concat([item]).join(',');
         }
     });
 
-    alert(newItemsSelectedData);
+    // alert("Items indisponible : " + itemsToRemove + "\nItems selectionné disponible : " + newItemsSelectedData);
 
     // supprime le contenu de la liste des items disponibles data-items-available
-    newItemsAvailableData = '';
+    newItemsAvailableData = "";
 
     // Ajout des nouvelles chambres disponibles
-    listChambresDisponible.forEach(function (item) {
+    listChambresDisponibleStr.forEach(function (item) {
         if (!newItemsSelectedData.includes(item) && !newItemsAvailableData.includes(item)) {
             newItemsAvailableData = newItemsAvailableData.length == 0 ? item : newItemsAvailableData.split(',').concat([item]).join(',');
         }
