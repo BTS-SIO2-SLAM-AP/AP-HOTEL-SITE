@@ -1,3 +1,13 @@
+// paramètres de button d'item 3
+titleAvailable = "Ajouter la chambre";
+titleSelected = "Retirer la chambre";
+innerHTMLLeftAvailable = "N°";
+innerHTMLLeftSelected = "N°";
+innerHTMLRightAvailable = "";
+innerHTMLRightSelected = " ✖";
+idItem = "item";
+
+
 function moveItem(item) {
     var itemValue = item.getAttribute('data-value');
     var itemParent = item.parentNode;
@@ -9,8 +19,8 @@ function moveItem(item) {
 
     if (itemParentId == 'items-selected') {
         itemsSelected.removeChild(item);
-        item.title = "Ajouter la chambre";
-        item.innerHTML = 'N°' + itemValue;
+        item.title = titleAvailable;
+        item.innerHTML = innerHTMLLeftAvailable + itemValue + innerHTMLRightAvailable;
         itemsAvailable.appendChild(item);
 
         var newListItemsAvailable = itemsAvailableData ? itemsAvailableData.split(',').concat([itemValue]).join(',') : itemValue;
@@ -23,8 +33,8 @@ function moveItem(item) {
 
     } else if (itemParentId == 'items-available') {
         itemsAvailable.removeChild(item);
-        item.title = "Retirer la chambre";
-        item.innerHTML = 'N°' + itemValue + ' ✖';
+        item.title = titleSelected;
+        item.innerHTML = innerHTMLLeftSelected + itemValue + innerHTMLRightSelected;
         itemsSelected.appendChild(item);
 
         var newListItemsAvailable = itemsAvailableData ? itemsAvailableData.split(',').filter(function (value) {
@@ -57,29 +67,29 @@ function switchVisibilityLabel() {
     }
 }
 
-// Fonction pour ajouter un element button dans la liste des items disponibles pour chaque chambre de data-all-items
-function CreateButtonsItems() {
+// Function to initialize the buttons associated to the items lists (available and selected)
+function InitItemsButton() {
     var itemsAvailable = document.querySelector('#items-available');
     var itemsAvailableDataArray = itemsAvailable.getAttribute('data-items-available').split(',');
 
-    // suppression de tout les boutons de la liste des items disponibles
+    // deletion of all buttons of the list of available items
     while (itemsAvailable.firstChild) {
         itemsAvailable.removeChild(itemsAvailable.firstChild);
     }
     if (itemsAvailableDataArray.length != "" && itemsAvailableDataArray[0] != "") {
-        // ajout des boutons de la liste des items disponibles
+        // addition of buttons of the list of available items
         itemsAvailableDataArray.forEach(function (item) {
             if (item != "") {
                 var button = document.createElement('button');
                 button.setAttribute('type', 'button');
-                button.setAttribute('id', 'item');
+                button.setAttribute('id', idItem);
                 button.setAttribute('data-value', item);
-                button.title = "Ajouter la chambre";
+                button.title = titleAvailable;
                 button.style.order = item;
                 button.addEventListener('click', function () {
                     moveItem(this);
                 });
-                button.innerHTML = 'N°' + item;
+                button.innerHTML = innerHTMLLeftAvailable + item + innerHTMLRightAvailable;
                 itemsAvailable.appendChild(button);
             }
         });
@@ -88,77 +98,63 @@ function CreateButtonsItems() {
     var itemsSelected = document.querySelector('#items-selected');
     var itemsSelectedDataArray = itemsSelected.getAttribute('data-items-selected').split(',');
 
-    // suppression de tout les boutons de la liste des items sélectionnés
+    // deletion of all buttons of the list of selected items
     while (itemsSelected.firstChild) {
         itemsSelected.removeChild(itemsSelected.firstChild);
     }
-    // ajout des boutons de la liste des items sélectionnés
     if (itemsSelectedDataArray != "" && itemsSelectedDataArray[0] != "") {
+        // addition of buttons of the list of selected items
         itemsSelectedDataArray.forEach(function (item) {
-            if (item != "x") {
-                var button = document.createElement('button');
-                button.setAttribute('type', 'button');
-                button.setAttribute('id', 'item');
-                button.setAttribute('data-value', item);
-                button.title = "Retirer la chambre";
-                button.style.order = item;
-                button.addEventListener('click', function () {
-                    moveItem(this);
-                });
-                button.innerHTML = 'N°' + item + ' ✖';
-                itemsSelected.appendChild(button);
-            }
+            var button = document.createElement('button');
+            button.setAttribute('type', 'button');
+            button.setAttribute('id', idItem);
+            button.setAttribute('data-value', item);
+            button.title = titleSelected;
+            button.style.order = item;
+            button.addEventListener('click', function () {
+                moveItem(this);
+            });
+            button.innerHTML = innerHTMLLeftSelected + item + innerHTMLRightSelected;
+            itemsSelected.appendChild(button);
         });
     }
 }
 
-// Fonction pour update data-all-items avec une liste json de chambres via une liste php
+// Function to update the lists of available and selected items
 function UpdateItems(listChambresDisponibleStr, listChambresHotelStr) {
     var itemsAvailable = document.querySelector('#items-available');
-
     var itemsSelected = document.querySelector('#items-selected');
-    var oldItemsSelectedData = itemsSelected.getAttribute('data-items-selected');
 
-    var newItemsSelectedData = oldItemsSelectedData.endsWith(',') ? oldItemsSelectedData.slice(0, -1) : oldItemsSelectedData;
+    var oldItemsSelectedData = [];
+    itemsSelected.getAttribute('data-items-selected').split(',').map(Number).forEach(function (item) {
+        if (item != "") {
+            oldItemsSelectedData.push(item);
+        }
+    });
 
     var listChambresDisponible = listChambresDisponibleStr.map(Number);
     var listChambresHotel = listChambresHotelStr.split(", ").map(Number);
 
-    var itemsToRemove = listChambresHotel.filter(function(chambre) {
-        return !listChambresDisponible.includes(chambre);
-    });    
-
-    itemsToRemove.forEach(item => {
-        if (!oldItemsSelectedData.includes(item) && listChambresDisponible.includes()) {
-            // alert("item : " + item);
-            // alert("newItemsSelectedData : " + newItemsSelectedData);
-            // newItemsSelectedData.slice(newItemsSelectedData.indexOf(item));
-            // alert("index : " + newItemsSelectedData.indexOf(item));
-            // alert("newItemsSelectedData : " + newItemsSelectedData[newItemsSelectedData.indexOf(item)]);
-
-            // newItemsSelectedData = newItemsSelectedData.replace(","+item+",", ",x,");
-            // alert("newItemsSelectedData : " + newItemsSelectedData);
-            // on ajoute un x pour marquer la chambre comme indisponible
-            alert("item : " + item);
-            newItemsSelectedData = newItemsSelectedData.length == 0 ? item : newItemsSelectedData.split(',').concat([item]).join(',');
-        }
+    var itemsToRemove = listChambresHotel.filter(function(item) {
+        return !listChambresDisponible.includes(item);
     });
 
-    // alert("Items indisponible : " + itemsToRemove + "\nItems selectionné disponible : " + newItemsSelectedData);
+    var newItemsSelectedData = oldItemsSelectedData.filter(function(item) {
+        return !itemsToRemove.includes(item);
+    }).map(Number);
 
-    // supprime le contenu de la liste des items disponibles data-items-available
-    newItemsAvailableData = "";
+    var newItemsAvailableData = [];
 
     // Ajout des nouvelles chambres disponibles
-    listChambresDisponibleStr.forEach(function (item) {
+    listChambresDisponible.forEach(function (item) {
         if (!newItemsSelectedData.includes(item) && !newItemsAvailableData.includes(item)) {
-            newItemsAvailableData = newItemsAvailableData.length == 0 ? item : newItemsAvailableData.split(',').concat([item]).join(',');
+            newItemsAvailableData.push(item);
         }
     });
 
     itemsAvailable.setAttribute('data-items-available', newItemsAvailableData);
     itemsSelected.setAttribute('data-items-selected', newItemsSelectedData);
 
-    CreateButtonsItems();
+    InitItemsButton();
     switchVisibilityLabel();
 }

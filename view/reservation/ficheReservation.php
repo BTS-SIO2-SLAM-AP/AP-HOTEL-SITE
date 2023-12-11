@@ -31,12 +31,12 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             </td>
             <td id="chambreSelector">
                 <div class="chambreSelector">
+                    
                     <link rel="stylesheet" href="assets/css/multi-select.css">
-
                     <div id="multi-select">
-                        <label for="items-selected" style="display: none;">Chambres sélectionnés</label>
+                        <label for="items-selected" style="display: none;">Chambre(s) sélectionnée(s)</label>
                         <div id="items-selected" data-items-selected></div>
-                        <label for="items-available">Chambres disponibles</label>
+                        <label for="items-available">Chambre(s) disponible(s)</label>
                         <div id="items-available" data-items-available></div>
                     </div>
                     <script src="assets/js/multi-select.js"></script>
