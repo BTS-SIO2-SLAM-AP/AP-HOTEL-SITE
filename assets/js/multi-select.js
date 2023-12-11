@@ -7,9 +7,8 @@ innerHTMLRightAvailable = "";
 innerHTMLRightSelected = " ✖";
 idItem = "item";
 
-
+// Function to move an item from one list to another (available to selected or selected to available)
 function moveItem(item) {
-    var itemValue = item.getAttribute('data-value');
     var itemParent = item.parentNode;
     var itemParentId = itemParent.getAttribute('id');
     var itemsSelected = document.querySelector('#items-selected');
@@ -20,13 +19,11 @@ function moveItem(item) {
     if (itemParentId == 'items-selected') {
         itemsSelected.removeChild(item);
         item.title = titleAvailable;
-        item.innerHTML = innerHTMLLeftAvailable + itemValue + innerHTMLRightAvailable;
+        item.innerHTML = innerHTMLLeftAvailable + item.value + innerHTMLRightAvailable;
         itemsAvailable.appendChild(item);
 
-        var newListItemsAvailable = itemsAvailableData ? itemsAvailableData.split(',').concat([itemValue]).join(',') : itemValue;
-        var newListItemsSelected = itemsSelectedData ? itemsSelectedData.split(',').filter(function (value) {
-            return value !== itemValue;
-        }).join(',') : '';
+        var newListItemsAvailable = itemsAvailableData ? itemsAvailableData.split(',').concat([item.value]).join(',') : item.value;
+        var newListItemsSelected = itemsSelectedData.split(',').map(String).filter(function (value) { return value !== item.value; });
 
         itemsAvailable.setAttribute('data-items-available', newListItemsAvailable);
         itemsSelected.setAttribute('data-items-selected', newListItemsSelected);
@@ -34,13 +31,11 @@ function moveItem(item) {
     } else if (itemParentId == 'items-available') {
         itemsAvailable.removeChild(item);
         item.title = titleSelected;
-        item.innerHTML = innerHTMLLeftSelected + itemValue + innerHTMLRightSelected;
+        item.innerHTML = innerHTMLLeftSelected + item.value + innerHTMLRightSelected;
         itemsSelected.appendChild(item);
 
-        var newListItemsAvailable = itemsAvailableData ? itemsAvailableData.split(',').filter(function (value) {
-            return value !== itemValue;
-        }).join(',') : '';
-        var newListItemsSelected = itemsSelectedData ? itemsSelectedData.split(',').concat([itemValue]).join(',') : itemValue;
+        var newListItemsAvailable = itemsAvailableData.split(',').map(String).filter(function (value) { return value !== item.value; });
+        var newListItemsSelected = itemsSelectedData ? itemsSelectedData.split(',').concat([item.value]).join(',') : item.value;
 
         itemsAvailable.setAttribute('data-items-available', newListItemsAvailable);
         itemsSelected.setAttribute('data-items-selected', newListItemsSelected);
@@ -48,6 +43,7 @@ function moveItem(item) {
     switchVisibilityLabel();
 }
 
+// Function to switch the visibility of the labels of the lists of available and selected items (if there are no items in the list, the label is hidden)
 function switchVisibilityLabel() {
     var itemsSelected = document.querySelector('#items-selected');
     var itemsAvailable = document.querySelector('#items-available');
@@ -79,19 +75,7 @@ function InitItemsButton() {
     if (itemsAvailableDataArray.length != "" && itemsAvailableDataArray[0] != "") {
         // addition of buttons of the list of available items
         itemsAvailableDataArray.forEach(function (item) {
-            if (item != "") {
-                var button = document.createElement('button');
-                button.setAttribute('type', 'button');
-                button.setAttribute('id', idItem);
-                button.setAttribute('data-value', item);
-                button.title = titleAvailable;
-                button.style.order = item;
-                button.addEventListener('click', function () {
-                    moveItem(this);
-                });
-                button.innerHTML = innerHTMLLeftAvailable + item + innerHTMLRightAvailable;
-                itemsAvailable.appendChild(button);
-            }
+            itemsAvailable.appendChild(CreateButton(item, titleAvailable, innerHTMLLeftAvailable, innerHTMLRightAvailable));
         });
     }
 
@@ -105,48 +89,47 @@ function InitItemsButton() {
     if (itemsSelectedDataArray != "" && itemsSelectedDataArray[0] != "") {
         // addition of buttons of the list of selected items
         itemsSelectedDataArray.forEach(function (item) {
-            var button = document.createElement('button');
-            button.setAttribute('type', 'button');
-            button.setAttribute('id', idItem);
-            button.setAttribute('data-value', item);
-            button.title = titleSelected;
-            button.style.order = item;
-            button.addEventListener('click', function () {
-                moveItem(this);
-            });
-            button.innerHTML = innerHTMLLeftSelected + item + innerHTMLRightSelected;
-            itemsSelected.appendChild(button);
+            itemsSelected.appendChild(CreateButton(item, titleSelected, innerHTMLLeftSelected, innerHTMLRightSelected));
         });
     }
 }
 
+// Function to create a button
+function CreateButton(value, title = "", innerHTMLLeft = "", innerHTMLRight = "") {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.id = idItem;
+    button.value = value;
+    button.title = title;
+    button.style.order = value;
+    button.addEventListener('click', function () {
+        moveItem(this);
+    });
+    button.innerHTML = innerHTMLLeft + value + innerHTMLRight;
+    return button;
+}
+
 // Function to update the lists of available and selected items
-function UpdateItems(listChambresDisponibleStr, listChambresHotelStr) {
+function UpdateItems(listItemsUpdateStr, listAllItemsStr) {
     var itemsAvailable = document.querySelector('#items-available');
     var itemsSelected = document.querySelector('#items-selected');
 
-    var oldItemsSelectedData = [];
-    itemsSelected.getAttribute('data-items-selected').split(',').map(Number).forEach(function (item) {
-        if (item != "") {
-            oldItemsSelectedData.push(item);
-        }
-    });
-
-    var listChambresDisponible = listChambresDisponibleStr.map(Number);
-    var listChambresHotel = listChambresHotelStr.split(", ").map(Number);
+    var listItemsUpdate = listItemsUpdateStr.map(String);
+    var listChambresHotel = listAllItemsStr.split(", ").map(String);
 
     var itemsToRemove = listChambresHotel.filter(function(item) {
-        return !listChambresDisponible.includes(item);
+        return !listItemsUpdate.includes(item);
     });
+
+    var oldItemsSelectedData = itemsSelected.getAttribute('data-items-selected').split(',').map(String);
 
     var newItemsSelectedData = oldItemsSelectedData.filter(function(item) {
         return !itemsToRemove.includes(item);
-    }).map(Number);
+    }).map(String);
 
     var newItemsAvailableData = [];
 
-    // Ajout des nouvelles chambres disponibles
-    listChambresDisponible.forEach(function (item) {
+    listItemsUpdate.forEach(function (item) {
         if (!newItemsSelectedData.includes(item) && !newItemsAvailableData.includes(item)) {
             newItemsAvailableData.push(item);
         }
