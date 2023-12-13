@@ -40,6 +40,16 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
                         <div id="items-available" data-items-available></div>
                     </div>
                     <script src="assets/js/multi-select.js"></script>
+                    <script>
+                        // paramètres de button d'item
+                        titleAvailable = "Ajouter la chambre";
+                        titleSelected = "Retirer la chambre";
+                        innerHTMLLeftAvailable = "N°";
+                        innerHTMLLeftSelected = "N°";
+                        innerHTMLRightAvailable = "";
+                        innerHTMLRightSelected = " ✖";
+                        idItem = "item";
+                    </script>
 
                 </div>
             </td>

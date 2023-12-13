@@ -1,8 +1,8 @@
-// paramètres de button d'item 3
-titleAvailable = "Ajouter la chambre";
-titleSelected = "Retirer la chambre";
-innerHTMLLeftAvailable = "N°";
-innerHTMLLeftSelected = "N°";
+// paramètres de button d'item
+titleAvailable = "Add";
+titleSelected = "Remove";
+innerHTMLLeftAvailable = "";
+innerHTMLLeftSelected = "";
 innerHTMLRightAvailable = "";
 innerHTMLRightSelected = " ✖";
 idItem = "item";
