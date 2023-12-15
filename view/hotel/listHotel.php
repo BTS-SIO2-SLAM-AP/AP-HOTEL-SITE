@@ -10,7 +10,7 @@ include 'view/layouts/filtre.php';
 	foreach ($listHotel as $unHotel) { 
 		$noHotel = $unHotel["nohotel"];
 		?>
-		<div class='hotel-item' onclick="document.getElementById('form_<?php echo $noHotel?>').submit()" style='cursor: pointer' data-equipements="<?php echo implode(",", array_column($unHotel["equipements"], "noequ")); ?>" data-ville="<?php echo $unHotel["ville"] ?>" data-prix="<?php echo $unHotel["prix"] ?>" data-nom="<?php echo $unHotel["nom"] ?>">
+		<div class='hotel-item' onclick="pageRedirection('ficheHotel', {nohotel: <?php echo $unHotel['nohotel'] ?>})" style='cursor: pointer' data-equipements="<?php echo implode(",", array_column($unHotel["equipements"], "noequ")); ?>" data-ville="<?php echo $unHotel["ville"] ?>" data-prix="<?php echo $unHotel["prix"] ?>" data-nom="<?php echo $unHotel["nom"] ?>">
 			<div class="hotel-item-content">
 				<?php echo "<h1>$unHotel[nom]</h1>";?>
 				
@@ -24,9 +24,7 @@ include 'view/layouts/filtre.php';
 				};
 				echo "<br/>";
 				echo "$unHotel[tel]<br/>";
-				echo "$unHotel[prix]€/nuit<br/>";?>
-
-				Les équipements : <br/>
+				echo "$unHotel[prix]€/nuit<br/>";?><br/>
 				<div class="equipements-container">
 					<?php
 					// Parcours liste des equipements
@@ -36,12 +34,6 @@ include 'view/layouts/filtre.php';
 						</div>
 					<?php } ?>
 				</div>
-				
-				<form id='form_<?php echo $unHotel["nohotel"] ?>' method='post' action="index.php">
-					<input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
-					<input type='hidden' name='page' value='ficheHotel'>
-					<input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
-				</form>
 			</div>
 		</div>
 	<?php } ?>

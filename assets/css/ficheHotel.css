@@ -1,0 +1,65 @@
+.fiche-hotel-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #a1caeb;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, .3);
+    margin: 20px;
+    /* taille ^police */
+    font-size: 1.2rem;
+    height: 100%;
+}
+
+.fiche-hotel-info .fiche-hotel-photo {
+    /* centrer image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* taille image */
+    width: 100%;
+    height: 400px;
+    /* arrondir les bords */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fiche-hotel-equipements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+}
+
+.equipement-item img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 75px;
+    border-radius: 100%;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #ccc;
+}

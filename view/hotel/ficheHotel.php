@@ -3,6 +3,8 @@
 //Préparation flux HTML pour le template
 ob_start();
 ?>
+<link rel="stylesheet" href="assets/css/ficheHotel.css">
+
 <!-- photo de l'hotel -->
 <div class="fiche-hotel">
     <div class="fiche-hotel-info">
@@ -18,33 +20,36 @@ ob_start();
             <?php } ?>
         </div>
 
-        <?php echo $infoHotel["ville"] ?><br />
-        <?php echo $infoHotel["adr1"] ?>
-        <?php if (isset($infoHotel["adr2"])) {
-            echo " - " . $infoHotel["adr2"];
-        }; ?><br />
+        <table>
+            <td style="width: 60%; padding: 20px">
+                <?php echo $infoHotel["ville"] ?><br />
+                <?php echo $infoHotel["adr1"] ?>
+                <?php if (isset($infoHotel["adr2"])) {
+                    echo " - " . $infoHotel["adr2"];
+                }; ?><br />
 
-        <?php echo $infoHotel["tel"] ?><br />
-        <?php echo $infoHotel["prix"] ?>€/nuit<br /><br />
-        <?php echo $infoHotel["deslong"] ?><br /><br />
+                <?php echo $infoHotel["tel"] ?><br />
+                <?php echo $infoHotel["prix"] ?>€/nuit<br /><br />
+                <?php echo $infoHotel["deslong"] ?><br /><br />
 
-        <?php echo count($infoHotel["chambres"]) ?> chambres
-        <br />
-
-
-    </div>
-    <div class="fiche-hotel-equipements">
-        <h1>Equipements</h1>
-        <?php
-        // Parcours liste des equipements
-        foreach ($infoHotel["equipements"] as $unEquipement) { ?>
-            <div class="equipement-item">
-                <img src='assets/media/logo/<?php echo $unEquipement["imgequ"] ?>' title='<?php echo $unEquipement["lib"] ?>'>
-            </div>
-        <?php } ?>
+                Contient <?php echo count($infoHotel["chambres"]) ?> chambres<br />
+            </td>
+            <td>
+                <h1>Equipements</h1>
+                <div class="fiche-hotel-equipements">
+                    <?php
+                    // Parcours liste des equipements
+                    foreach ($infoHotel["equipements"] as $unEquipement) { ?>
+                        <div class="equipement-item">
+                            <img src='assets/media/logo/<?php echo $unEquipement["imgequ"] ?>' title='<?php echo $unEquipement["lib"] ?>'>
+                        </div>
+                    <?php } ?>
+                </div>
+            </td>
+        </table>
+        <button class="button-reservation" onclick="pageRedirection('formReservation', {nohotel: <?php echo $infoHotel['nohotel'] ?>})">Réserver dans cet hôtel</button>
     </div>
 </div>
-<button class="button-reservation" onclick="pageRedirection('formReservation', {nohotel: <?php echo $infoHotel['nohotel'] ?>})">Réserver dans cet hôtel</button>
 <?php
 //Ouverture du template
 $title = "Balladins - Hotel $infoHotel[nom]";

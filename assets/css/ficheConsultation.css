@@ -1,0 +1,105 @@
+.fiche-consultation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #a1caeb;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, .3);
+    margin: auto;
+    font-size: 1.2rem;
+    height: 100%;
+    width: 80%;
+}
+
+.fiche-consultation form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.fiche-consultation form input {
+    width: 50%;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    /* text centré */
+    text-align: center;
+
+}
+
+.fiche-consultation form input[type="submit"] {
+    cursor: pointer;
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #f2f2f2;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+}
+
+.fiche-consultation form input[type="submit"]:hover {
+    background-color: #dbdbdb;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Proxima Soft';
+    /* centrer le contenu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* couleur de fond */
+    background-color: #cc3232;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #cc3232;
+    border-radius: 10px;
+    text-align: center;
+    /* grossir les éléments */
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #e44f4f;
+}
+
+.fiche-consultation table {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    /* text centré */
+    text-align: center;
+}
+
+.fiche-consultation table .tdl {
+    text-align: right;
+}
+
+.fiche-consultation table .tdr {
+    text-align: left;
+    font-weight: bold;
+}
+
+.fiche-consultation table .trc {
+    text-align: center;
+}
+
+.fiche-consultation table td {
+    width: 50%;
+    padding: 10px;
+}

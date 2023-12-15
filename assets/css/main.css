@@ -214,9 +214,8 @@
 
 body {
     font-family: 'Proxima Soft';
+    background-color: #ffebc0;
 }
-
-
 
 input, select {
     font-family: 'Proxima Soft';
@@ -235,7 +234,7 @@ input, select {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px;
+    width: 300px;
     background-color: #004983;
     border-radius: 8px;
     padding: 10px;
@@ -254,7 +253,7 @@ input, select {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 300px;
+    height: 100px;
     border-radius: 8px;
     overflow: hidden;
 }

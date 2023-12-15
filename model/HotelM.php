@@ -13,7 +13,7 @@ class HotelM extends DBModel
     public function getAllHotel()
 	{
 		try {
-			$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel order by nom";
+			$requete = "select nohotel, nom, adr1, adr2, cp, ville, tel, descourt, deslong, prix from hotel where nohotel != 1 order by nom";
 		
 			$result = parent::getDb()->prepare($requete);
 			$result->execute();
