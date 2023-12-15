@@ -36,19 +36,6 @@
 
 .formReservation {
     font-family: 'Proxima Soft';
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #f2f2f2;
-    margin: auto;
-    width: 80%;
-    height: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 1.5em; */
     width: 80%;
     margin: auto;
     padding: 10px;
@@ -60,23 +47,11 @@
 
 .formReservation form input {
     font-family: 'Proxima Soft';
-    /* centrer le contenu */
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f2f2f2;
-    margin: auto;
-    padding: 10px;*/
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
     font-size: 1em; 
     margin: 10px;
-}
-
-.formReservation form .inputForm {
-    /* margin: auto;
-    width: 70%; */
 }
 
 .formReservation form input[type="submit"] {
