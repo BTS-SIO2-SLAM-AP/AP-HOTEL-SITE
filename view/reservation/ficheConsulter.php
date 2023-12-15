@@ -32,9 +32,7 @@ if(!isset($_POST["btnSupprimer"])){
             "Mail Client $mailClient<br/>" .
     
             "Réservation du " . $formatter->format($dateDebutResConvert) . " au " . $formatter->format($dateFinResConvert) . "<br/>" .
-    
-            "Réservation du " . date("d/m/Y", strtotime($dateDebutRes)) . " au " . date("d/m/Y", strtotime($dateFinRes)) . "<br/>" .
-    
+        
             "Chambres réservées : <br/>N°" .
             implode(", N°", array_column($chambresRes, 'nochambre')) .
             "</p>";

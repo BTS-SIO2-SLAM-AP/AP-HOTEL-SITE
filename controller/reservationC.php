@@ -29,10 +29,6 @@ class reservationC
         else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Hotel inconnu'});});</script>";
 
         if (isset($unHotel) && isset($_POST["txtnom"]) && isset($_POST["txtmail"]) && isset($_POST["datedebut"]) && isset($_POST["datefin"]) && isset($_POST["listchambres"])) {
-            ?>
-            <script>alert('<?php echo $_POST["listchambres"] ?>')</script>
-
-            <?php
             $nohotel = $unHotel["nohotel"];
             $nom = $_POST["txtnom"];
             $mail = $_POST["txtmail"];

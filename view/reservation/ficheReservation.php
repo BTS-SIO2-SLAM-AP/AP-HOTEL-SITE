@@ -55,6 +55,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             </td>
         </table>
 
+        <p id="noneChambreSelected" hidden>Veuillez sélectionner au moins une chambre.</p>
         <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates.</p>
 
         <input type='submit' id="btnSubmit" name='btnvalider' value='Valider la réservation'>
@@ -165,25 +166,38 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
         function updateAffichage() {
             var btnSubmit = document.getElementById('btnSubmit');
             var chambreSelector = document.getElementById('chambreSelector');
-            var labelInfo = document.getElementById('aucuneChambreDispo');
+            var aucuneChambreDispo = document.getElementById('aucuneChambreDispo');
+            var noneChambreSelected = document.getElementById('noneChambreSelected');
+            aucuneChambreDispo.style.display = 'none';
+            noneChambreSelected.style.display = 'none';
+            btnSubmit.style.display = 'none';
+            chambreSelector.style.display = 'none';
 
-            // recupération du nombre d'options visibles dans le select
-            // var nbChambresDispo = Array.from(document.getElementById('multi-select').options).filter(option => !option.hidden);
-            // nombre d'attributs data-items-available
-            var nbChambresDispo = document.getElementById('items-available').getAttribute('data-items-available').split(',').length;
+            var HasChambresDispo = document.getElementById('items-available').getAttribute('data-items-available').split(',') != "";
+            var HasChambreSelected = document.getElementById('items-selected').getAttribute('data-items-selected').split(',') != "";
 
-            if (nbChambresDispo <= 1) {
-                btnSubmit.style.display = 'none';
-                labelInfo.style.display = 'block';
-                chambreSelector.style.display = 'none';
-
+            if (!HasChambresDispo && !HasChambreSelected) {
+                aucuneChambreDispo.style.display = 'block';
             } else {
-                btnSubmit.style.display = 'block';
-                labelInfo.style.display = 'none';
                 chambreSelector.style.display = 'block';
+                if (HasChambreSelected) {
+                    btnSubmit.style.display = 'block';
+                } else {
+                    noneChambreSelected.style.display = 'block';
+                }
+                
             }
         }
+
+        // détecter si un button d'item est cliqué
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id == idItem) {
+                updateAffichage();
+            }
+        });
+
     </script>
+
 </div>
 <?php
 //Ouverture du template

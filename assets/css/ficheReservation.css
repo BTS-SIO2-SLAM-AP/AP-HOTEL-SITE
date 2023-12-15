@@ -40,7 +40,7 @@
 }
 
 .ficheReservation table {
-    height: 700px;
+    height: auto;
 }
 
 .ficheReservation form {

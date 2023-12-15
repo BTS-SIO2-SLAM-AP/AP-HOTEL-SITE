@@ -43,8 +43,7 @@ label[for="items-available"]+#items-available:empty {
 #items-available {
     background-color: white;
     color: white;
-    width: 80%;
-    height: auto;
+    /* height: auto; */
     float: left;
     margin-right: 10px;
     display: flex;
@@ -54,14 +53,15 @@ label[for="items-available"]+#items-available:empty {
     justify-content: center;
     border-radius: 3px;
     margin: 5px;
+    width: 90%;
 }
 
 #items-available {
-    max-height: 500px;
+    max-height: 150px;
 }
 
 #items-selected {
-    height: auto;
+    max-height: 200px;
 }
 
 #items-selected button {
