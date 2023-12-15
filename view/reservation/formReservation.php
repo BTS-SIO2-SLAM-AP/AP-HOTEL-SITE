@@ -3,68 +3,63 @@
 //Préparation flux HTML pour le template
 ob_start();
 ?>
-<link rel="stylesheet" href="assets/css/ficheReservation.css">
+<link rel="stylesheet" href="assets/css/formReservation.css">
 Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 <br /><br />
 
-<div class="ficheReservation">
+<div class="formReservation">
     <form method='post' action="index.php">
+        <div class="datesReservation inputForm">
+            <label for="datedebut">Réserver du</label>
+            <input type="date" id="datedebut" name="datedebut" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" onchange="dateDebutChange()" onclick="click()" required>
+
+            <label for="datefin">au</label>
+            <input type="date" id="datefin" name="datefin" value="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" onchange="dateFinChange()" required style="background-color:pink;">
+        </div>
         <table>
-            <td style="width: 50%;">
-                <div class="datesReservation">
-                    <label for="datedebut">Réserver du</label>
-                    <input type="date" id="datedebut" name="datedebut" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" onchange="dateDebutChange()" required>
-
-                    <label for="datefin">au</label>
-                    <input type="date" id="datefin" name="datefin" value="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" onchange="dateFinChange()" required style="background-color:pink;">
-                </div>
-
-                <div>
+            <td>
+                <div class="inputForm">
                     <label for="email">Email :</label>
                     <input type="email" name="txtmail" required>
                 </div>
 
-                <div>
+                <div class="inputForm">
                     <label for="txtnom">Nom :</label>
                     <input type="text" name="txtnom" required>
                 </div>
             </td>
             <td id="chambreSelector">
-                <div class="chambreSelector">
-                    
-                    <link rel="stylesheet" href="assets/css/multi-select.css">
-                    <div id="multi-select">
-                        <label for="items-selected" style="display: none;">Chambre(s) sélectionnée(s)</label>
-                        <div id="items-selected" data-items-selected></div>
-                        <label for="items-available">Chambre(s) disponible(s)</label>
-                        <div id="items-available" data-items-available></div>
-                    </div>
-                    <script src="assets/js/multi-select.js"></script>
-                    <script>
-                        // paramètres de button d'item
-                        titleAvailable = "Ajouter la chambre";
-                        titleSelected = "Retirer la chambre";
-                        innerHTMLLeftAvailable = "N°";
-                        innerHTMLLeftSelected = "N°";
-                        innerHTMLRightAvailable = "";
-                        innerHTMLRightSelected = " ✖";
-                        idItem = "item";
-                    </script>
-
+                <link rel="stylesheet" href="assets/css/multi-select.css">
+                <div id="multi-select">
+                    <label for="items-selected" style="display: none;">Chambre(s) sélectionnée(s)</label>
+                    <div id="items-selected" data-items-selected></div>
+                    <label for="items-available">Chambre(s) disponible(s)</label>
+                    <div id="items-available" data-items-available></div>
                 </div>
+                <script src="assets/js/multi-select.js"></script>
+                <script>
+                    // paramètres de button d'item
+                    titleAvailable = "Ajouter la chambre";
+                    titleSelected = "Retirer la chambre";
+                    innerHTMLLeftAvailable = "N°";
+                    innerHTMLLeftSelected = "N°";
+                    innerHTMLRightAvailable = "";
+                    innerHTMLRightSelected = " ✖";
+                    idItem = "item";
+                </script>
             </td>
         </table>
-
-        <p id="noneChambreSelected" hidden>Veuillez sélectionner au moins une chambre.</p>
-        <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates.</p>
 
         <input type='submit' id="btnSubmit" name='btnvalider' value='Valider la réservation'>
 
         <input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
         <input type='hidden' name='page' value='saveReservation'>
-        <input type='hidden' name='titre' value='<?php echo urlencode($unHotel["nom"]) ?>'>
-        <input type='hidden' name='listchambres' value=''>
+        <input type='hidden' name='listchambres'>
+
+        <p id="noneChambreSelected" hidden>Veuillez sélectionner au moins une chambre.</p>
+        <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates.</p>
     </form>
+
 
     <script src="assets/js/jquery-3.6.4.min.js"></script>
     <script>
@@ -79,10 +74,9 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
         document.getElementsByName('btnvalider')[0].addEventListener('click', function() {
             var lesChambresDisponibles = document.getElementById('items-selected').getAttribute('data-items-selected').split(',');
             document.getElementsByName('listchambres')[0].value = lesChambresDisponibles.join(',');
-        }); 
+        });
 
-
-
+        // Gestion de la date de début
         function dateDebutChange() {
             var datedebut = new Date(document.getElementById('datedebut').value);
             var datefin = new Date(document.getElementById('datefin').value);
@@ -99,6 +93,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             updateChambresDispo();
         }
 
+        // Gestion de la date de fin
         function dateFinChange() {
             var datedebut = new Date(document.getElementById('datedebut').value);
             var datefin = new Date(document.getElementById('datefin').value);
@@ -115,6 +110,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             updateChambresDispo();
         }
 
+        // Formater une date en YYYY-MM-DD
         function formatDate(date) {
             var year = date.getFullYear();
             var month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -141,7 +137,7 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
 
             // Spécifier le type de requête, l'URL et si la requête doit être asynchrone
             // méthode getChambreDisponible() dans le fichier reservationC.php
-            xhr.open('POST', 'index.php?page=getChambreDisponible', true);
+            xhr.open('POST', 'index.php', true);
 
             // Définir le type de données à envoyer au serveur
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -159,33 +155,34 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
             };
 
             // Envoyer la requête avec les dates en tant que données
-            var data = 'nohotel=' + encodeURIComponent(<?php echo $unHotel["nohotel"] ?>) + '&datedebut=' + encodeURIComponent(datedebutValue) + '&datefin=' + encodeURIComponent(datefinValue);
+            var data = 'page=getChambreDisponible&nohotel=' + encodeURIComponent(<?php echo $unHotel["nohotel"] ?>) + '&datedebut=' + encodeURIComponent(datedebutValue) + '&datefin=' + encodeURIComponent(datefinValue);
             xhr.send(data);
         }
 
+        // Modifie les éléments informatifs à afficher
         function updateAffichage() {
             var btnSubmit = document.getElementById('btnSubmit');
             var chambreSelector = document.getElementById('chambreSelector');
             var aucuneChambreDispo = document.getElementById('aucuneChambreDispo');
             var noneChambreSelected = document.getElementById('noneChambreSelected');
-            aucuneChambreDispo.style.display = 'none';
-            noneChambreSelected.style.display = 'none';
             btnSubmit.style.display = 'none';
-            chambreSelector.style.display = 'none';
+            chambreSelector.hidden = true;
+            aucuneChambreDispo.hidden = true;
+            noneChambreSelected.hidden = true;
 
             var HasChambresDispo = document.getElementById('items-available').getAttribute('data-items-available').split(',') != "";
             var HasChambreSelected = document.getElementById('items-selected').getAttribute('data-items-selected').split(',') != "";
 
             if (!HasChambresDispo && !HasChambreSelected) {
-                aucuneChambreDispo.style.display = 'block';
+                aucuneChambreDispo.hidden = false;
             } else {
-                chambreSelector.style.display = 'block';
+                chambreSelector.hidden = false;
                 if (HasChambreSelected) {
                     btnSubmit.style.display = 'block';
                 } else {
-                    noneChambreSelected.style.display = 'block';
+                    noneChambreSelected.hidden = false;
                 }
-                
+
             }
         }
 
@@ -195,7 +192,6 @@ Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
                 updateAffichage();
             }
         });
-
     </script>
 
 </div>

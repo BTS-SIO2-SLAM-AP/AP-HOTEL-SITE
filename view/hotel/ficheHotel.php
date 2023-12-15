@@ -44,14 +44,7 @@ ob_start();
         <?php } ?>
     </div>
 </div>
-
-<div class="button-reservation">
-    <form action="index.php" method="post">
-        <button onclick="this.submit()">Réserver dans cet hôtel</button>
-        <input type="hidden" name="page" value="ficheReservation">
-        <input type="hidden" name="nohotel" value="<?php echo $infoHotel["nohotel"] ?>">
-    </form>
-</div>
+<button class="button-reservation" onclick="pageRedirection('formReservation', {nohotel: <?php echo $infoHotel['nohotel'] ?>})">Réserver dans cet hôtel</button>
 <?php
 //Ouverture du template
 $title = "Balladins - Hotel $infoHotel[nom]";

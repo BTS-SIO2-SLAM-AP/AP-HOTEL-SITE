@@ -18,7 +18,7 @@ class reservationC
         } else echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Hotel inconnu'});});</script>";
 
         // Affichage du résultat dans la vue
-        if (isset($unHotel)) require_once 'view/reservation/ficheReservation.php';
+        if (isset($unHotel)) require_once 'view/reservation/formReservation.php';
     }
 
     function saveReservation()
@@ -41,10 +41,11 @@ class reservationC
 
             $modelRes = new ReservationM();
             $noresglobale = $modelRes->saveReservation($nohotel, $chambres, $datedebut, $datefin, $nom, $mail, $codeacces);
+            
         }
         ob_start();
         if ($noresglobale != 0) {
-            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('reservationSaved', {noresglobale: $noresglobale});});</script>";
+            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {txtNoRes: $noresglobale, txtCodeAcces: $codeacces, consultation: 'consultation'});});</script>";
         } else {
             echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la réservation'});});</script>";
         }
@@ -52,41 +53,21 @@ class reservationC
         require('view/template.php');
     }
 
-    function loadReservationSaved()
-    {
-        $modelRes = new ReservationM();
-        $modelHotel = new HotelM();
-
-        if (isset($_POST["noresglobale"]) && in_array($_POST["noresglobale"], $modelRes->getAllIdReservation())) {
-            $infoReservation = $modelRes->getReservation($_POST["noresglobale"]);
-            $infoHotel = $modelHotel->getHotel($infoReservation["nohotel"]);
-
-            $nomHotel = $infoHotel["nom"];
-            $nom = $infoReservation["nom"];
-            $mail = $infoReservation["email"];
-            $datedebut = $infoReservation["datedeb"];
-            $datefin = $infoReservation["datefin"];
-            $codeacces = $infoReservation["codeacces"];
-            $chambres = $infoReservation["chambres"];
-            $noresglobale = $infoReservation["noresglobale"];
-        } else {
-            echo "<script src='assets/js/pageManager.js'></script>" .
-                "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Réservation inconnue'});});</script>";
-        }
-
-        if (isset($infoReservation)) require_once 'view/reservation/reservationSaved.php';
-    }
-
     // Retourne la liste des chambres disponibles pour une période donnée à afficher dans un select
-    function getChambresDisponibles($nohotel, $datedebut, $datefin)
+    function getChambresDisponibles()
     {
         $modelChambre = new ChambreM();
         $modelHotel = new HotelM();
-
-        if (in_array($nohotel, $modelHotel->getAllIdHotel())) {
-            // echo $nohotel ."-". $datedebut ."-". $datefin;
-            $chambresDisponibles = $modelChambre->getChambresDispo($nohotel, $datedebut, $datefin);
-            echo json_encode($chambresDisponibles);
+        if (isset($_POST['nohotel']) && isset($_POST['datedebut']) && isset($_POST['datefin'])) {
+            $nohotel = $_POST['nohotel'];
+            $datedebut = $_POST['datedebut'];
+            $datefin = $_POST['datefin'];
+            if (in_array($nohotel, $modelHotel->getAllIdHotel())) {
+                $chambresDisponibles = $modelChambre->getChambresDispo($nohotel, $datedebut, $datefin);
+                echo json_encode($chambresDisponibles);
+            }
+        } else {
+            echo json_encode(array());
         }
     }
 }

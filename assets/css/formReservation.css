@@ -34,72 +34,52 @@
     font-style: normal;
 }
 
-.ficheReservation {
+.formReservation {
     font-family: 'Proxima Soft';
-    height: 80%;
-}
-
-.ficheReservation table {
-    height: auto;
-}
-
-.ficheReservation form {
-    font-family: 'Proxima Soft';
-    /* centrer le contenu */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* couleur de fond */
     background-color: #f2f2f2;
     margin: auto;
     width: 80%;
+    height: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
-    /* grossir les éléments */
+    font-size: 1.5em; */
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    text-align: center;
     font-size: 1.5em;
 }
 
-.ficheReservation form input {
+.formReservation form input {
     font-family: 'Proxima Soft';
     /* centrer le contenu */
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: center;
-    /* couleur de fond */
     background-color: #f2f2f2;
     margin: auto;
-    padding: 10px;
+    padding: 10px;*/
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
-    /* grossir les éléments */
-    font-size: 1em;
+    font-size: 1em; 
+    margin: 10px;
 }
 
-select {
-    font-family: 'Proxima Soft';
-    /* centrer le contenu */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* couleur de fond */
-    background-color: #f2f2f2;
-    margin: auto;
-    width: 60%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    text-align: center;
-    /* grossir les éléments */
-    font-size: 1em;
-    height: 500px;
+.formReservation form .inputForm {
+    /* margin: auto;
+    width: 70%; */
 }
 
-.ficheReservation form input[type="submit"] {
+.formReservation form input[type="submit"] {
     cursor: pointer;
     font-family: 'Proxima Soft';
     /* centrer le contenu */
@@ -119,75 +99,28 @@ select {
     font-size: 1em;
 }
 
-.ficheReservation form input[type="submit"]:hover {
-    font-family: 'Proxima Soft';
+.formReservation form input[type="submit"]:hover {
     background-color: #ccc;
 }
 
-.ficheReservation div {
-    padding: 10px;
-}
-
-.ficheReservation .datesReservation {
+.formReservation .datesReservation {
     font-family: 'Proxima Soft';
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #62bebe;
     padding: 10px;
     border-radius: 10px;
     text-align: center;
     font-size: 1em;
+    width: 80%;
+    margin: auto;
 }
 
-.sellect-destination-list .sellect-item{
-    padding-top: 3px;
-    padding-bottom: 0;
-    font-size: 11px;
+.formReservation table {
+    width: 90%;
+    margin: auto;
 }
 
-.sellect-origin-list .sellect-item{
-    font-size: 11px;
-}
-
-.sellect-destination-list .sellect-item:hover,
-.sellect-origin-list .sellect-item:hover{
-    color: #6fbb95;
-}
-
-.sellect-container{
-    background: #efefef;
-}
-
-.demo-list{
-    width: 49%;
-    background: #fff;
-    min-height: 100px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-top: 40px;
-    padding: 10px;
-}
-
-.demo-list span{
-    display: block;
-    font-size: 10px;
-    line-height: 2;
-    font-style: italic;
-}
-
-.selected-list{
-    float: left;
-}
-
-.selected-list:before{
-    content: 'selected items:';
-}
-
-.unselected-list{
-    float: right;
-}
-
-.unselected-list:before{
-    content: 'unselected items:';
+.formReservation table td {
+    width: 50%;
 }

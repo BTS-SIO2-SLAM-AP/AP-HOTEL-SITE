@@ -76,6 +76,7 @@
             sortHotels();
         });
 
+        // Filtre les hôtels en fonction des critères sélectionnés par l'utilisateur (prix, équipements, ville)
         function filterHotels() {
             var maxPrice = parseFloat(document.getElementById("price-range").value);
 
@@ -121,6 +122,7 @@
             document.getElementById("hotel-count").textContent = displayedHotelCountStr
         }
 
+        // Met à jour le label du prix
         function updatePriceLabel() {
             var priceLabel = document.getElementById("price-label");
             var priceRange = document.getElementById("price-range").value;
@@ -131,6 +133,7 @@
             filterHotels();
         }
 
+        // Tri des hôtels par prix ou par nom
         function sortHotels() {
             var sortingSelect = document.getElementById("sorting");
             var sortOrder = sortingSelect.value;
@@ -158,6 +161,7 @@
             });
         }
 
+        // Réinitialise les filtres
         function resetFilters() {
             // unchecked all checkboxes
             document.querySelectorAll("#equipement-checkbox:checked").forEach(function(checkbox) {

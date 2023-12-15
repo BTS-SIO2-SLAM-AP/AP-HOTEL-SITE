@@ -10,8 +10,9 @@ class consultationC
 
     function loadConsultation()
     {
-        $isConsultation = isset($_POST["btnConsulter"]);
+        $isConsultation = isset($_POST["consultation"]);
 
+        // Mode consultation
         if ($isConsultation) {
             if (isset($_POST["txtNoRes"]) && isset($_POST["txtCodeAcces"])) {
                 $modelRes = new ReservationM();
@@ -29,14 +30,25 @@ class consultationC
                         $codeaccesRes = $infoReservation["codeacces"];
                         $chambresRes = $infoReservation["chambres"];
                         $noresglobale = $infoReservation["noresglobale"];
+
+                        // Créer un formateur pour afficher la date
+                        $formatter = new IntlDateFormatter('fr_FR');
+                        $formatter->setPattern('EEEE d MMMM y');
+
+                        // Convertir la chaîne en objet DateTime
+                        $dateDebutResConvert = DateTime::createFromFormat('d/m/Y', date("d/m/Y", strtotime($dateDebutRes)));
+                        $dateFinResConvert = DateTime::createFromFormat('d/m/Y', date("d/m/Y", strtotime($dateFinRes)));
+
+                        $dateDebutStr = $formatter->format($dateDebutResConvert);
+                        $dateFinStr = $formatter->format($dateFinResConvert);
                     } else {
-                        $messageErreur = "Code d'accès incorrect";
+                        $messageFormErreur = "Code d'accès incorrect";
                     }
                 } else {
-                    $messageErreur = "Réservation inconnue";
+                    $messageFormErreur = "Réservation inconnue";
                 }
             } else {
-                $messageErreur = "Champs invalides";
+                $messageFormErreur = "Champs invalides";
             }
         }
 
@@ -52,15 +64,14 @@ class consultationC
         if (isset($_POST["nores"]) && in_array($_POST["nores"], $modelRes->getAllIdReservation())) {
             $suppressionWork = $modelRes->deleteReservation($_POST["nores"], $_POST["codeacces"]);
         } else {
-            echo "<script src='assets/js/pageManager.js'></script>" .
-                "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Réservation inconnue'});});</script>";
+            echo "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Réservation inconnue'});});</script>";
         }
 
         ob_start();
         if ($suppressionWork) {
-            echo "<script src='assets/js/pageManager.js'></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {btnSupprimer: 'deleted' });});</script>";
+            echo "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {deleted: 'deleted' });});</script>";
         } else {
-            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la suppression'});});</script>";
+            echo "<script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la suppression'});});</script>";
         }
         $content = ob_get_clean();
         require('view/template.php');

@@ -41,7 +41,6 @@ label[for="items-available"]+#items-available:empty {
 
 #items-selected,
 #items-available {
-    background-color: white;
     color: white;
     /* height: auto; */
     float: left;
