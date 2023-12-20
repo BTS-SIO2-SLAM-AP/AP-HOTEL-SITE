@@ -31,6 +31,7 @@ ob_start();
             <td id="chambreSelector">
                 <link rel="stylesheet" href="assets/css/multi-select.css">
                 <div id="multi-select">
+                    <input type='hidden' id='inputSelectedItems' name="listchambres">
                     <label for="items-selected" style="display: none;">Chambre(s) sélectionnée(s)</label>
                     <div id="items-selected" data-items-selected></div>
                     <label for="items-available">Chambre(s) disponible(s)</label>
@@ -54,7 +55,6 @@ ob_start();
 
         <input type='hidden' name='nohotel' value='<?php echo $unHotel["nohotel"] ?>'>
         <input type='hidden' name='page' value='saveReservation'>
-        <input type='hidden' name='listchambres'>
 
         <p id="noneChambreSelected" hidden>Veuillez sélectionner au moins une chambre.</p>
         <p id="aucuneChambreDispo" hidden>Aucune chambre disponible pour ces dates.</p>
@@ -69,11 +69,6 @@ ob_start();
         window.addEventListener("load", function() {
             updateChambresDispo();
             updateAffichage();
-        });
-
-        document.getElementsByName('btnvalider')[0].addEventListener('click', function() {
-            var lesChambresDisponibles = document.getElementById('items-selected').getAttribute('data-items-selected').split(',');
-            document.getElementsByName('listchambres')[0].value = lesChambresDisponibles.join(',');
         });
 
         // Gestion de la date de début
