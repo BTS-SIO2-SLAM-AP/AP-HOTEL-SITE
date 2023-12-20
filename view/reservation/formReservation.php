@@ -4,10 +4,10 @@
 ob_start();
 ?>
 <link rel="stylesheet" href="assets/css/formReservation.css">
-Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
-<br /><br />
 
 <div class="formReservation">
+    Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
+    <br /><br />
     <form method='post' action="index.php">
         <div class="datesReservation inputForm">
             <label for="datedebut">Réserver du</label>
