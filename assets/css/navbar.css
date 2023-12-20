@@ -8,12 +8,15 @@ nav {
     left: 0;
     z-index: 100;
     margin-bottom: 20px;
+    align-items: center;
+    height: 50px;
 }
 
 nav .logo {
     display: flex;
     align-items: center;
     height: 50px;
+    margin-right: 20px;
 }
 
 nav ul {
@@ -27,15 +30,21 @@ nav ul li {
     height: 100%;
 }
 
-nav ul li:hover {
-    color: #fece6a;
-    background-color: #9e2929;
+nav a:hover {
+    background-color: #fdb824;
+    transition: all 0.2s ease-in-out;
 }
 
-nav ul li a {
+nav a {
+    transition: all 0.3s ease-in-out;
     text-decoration: none;
     color: #000;
     font-weight: bold;
-    font-size: 200;
     cursor: pointer;
+    height: 100%;
+    padding: 0 10px 0 10px;
+    /* centrer vertical */
+    display: flex;
+    align-items: center;
+
 }

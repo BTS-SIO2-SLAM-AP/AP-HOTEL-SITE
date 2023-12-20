@@ -20,7 +20,7 @@ ob_start();
                 <input type="hidden" name="page" value="ficheConsulter">
             </form>
         <?php
-            if (isset($messageFormErreur)) echo "<p>$messageFormErreur</p>";
+            if (isset($messageFormErreur)) echo "<p style='color: red; font-weight: bold;'>$messageFormErreur</p>";
         } else if (!isset($messageFormErreur)) { ?>
             <table>
                 <tr><td class="tdl">Numéro de réservation : </td><td class="tdr"><b><?php echo $noresglobale ?></b></td></tr>

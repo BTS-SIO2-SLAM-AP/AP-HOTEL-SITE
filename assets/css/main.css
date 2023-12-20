@@ -239,6 +239,13 @@ input, select {
     border-radius: 8px;
     padding: 10px;
     box-shadow: 6px 6px 6px rgba(0,0,0,.3);
+    transition: all 0.2s ease-in-out;
+}
+
+.hotel-item:hover {
+    background-color: #013763;
+    box-shadow: 6px 6px 6px rgba(0,0,0,.6);
+    transition: all 0.2s ease-in-out;
 }
 
 .hotel-item-content {
