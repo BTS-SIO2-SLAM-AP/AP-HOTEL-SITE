@@ -5,37 +5,23 @@ ob_start();
 ?>
 <link rel="stylesheet" href="assets/css/ficheHotel.css">
 
-<!-- photo de l'hotel -->
 <div class="fiche-hotel">
     <div class="fiche-hotel-info">
-        <h1><?php echo $infoHotel["nom"] ?></h1>
-
-        <div class="fiche-hotel-photo">
-            <?php
-            // Parcours liste des photos
-            foreach ($infoHotel["photos"] as $unePhoto) { ?>
-                <div class="photo-item">
-                    <img src='assets/media/photo/<?php echo $unePhoto["nomfichier"] ?>' title='Photo hôtel <?php echo $infoHotel["nom"] ?>'>
-                </div>
-            <?php } ?>
-        </div>
-
+        <h1>Hôtel <?php echo $infoHotel["nom"] ?></h1>
         <table>
-            <td style="width: 60%; padding: 20px">
-                <?php echo $infoHotel["ville"] ?><br />
-                <?php echo $infoHotel["adr1"] ?>
-                <?php if (isset($infoHotel["adr2"])) {
-                    echo " - " . $infoHotel["adr2"];
-                }; ?><br />
+            <td style="width: 50%; padding: 20px">
+                <p>Adresse : <b><?php echo $infoHotel["cp"] . " " . $infoHotel["ville"] . ", " . $infoHotel["adr1"] ?><?php if (isset($infoHotel["adr2"])) {
+                                                                                                                            echo " - " . $infoHotel["adr2"];
+                                                                                                                        };   ?></b></p>
 
-                <?php echo $infoHotel["tel"] ?><br />
-                <?php echo $infoHotel["prix"] ?>€/nuit<br /><br />
-                <?php echo $infoHotel["deslong"] ?><br /><br />
+                <p>Téléphone : <b><?php echo $infoHotel["tel"] ?></b></p>
+                <p class="prix"><?php echo $infoHotel["prix"] ?>€/nuit</p>
+                <p class="description"><?php echo $infoHotel["deslong"] ?></p>
 
                 Contient <?php echo count($infoHotel["chambres"]) ?> chambres<br />
-            </td>
-            <td>
-                <h1>Equipements</h1>
+
+
+                <h3>Equipements</h3>
                 <div class="fiche-hotel-equipements">
                     <?php
                     // Parcours liste des equipements
@@ -45,6 +31,12 @@ ob_start();
                         </div>
                     <?php } ?>
                 </div>
+            </td>
+            <td style="width: 50%;">
+                <?php
+                if (isset($infoHotel["photos"][0])) { ?>
+                    <img class="photo-item" src='assets/media/photo/<?php echo $infoHotel["photos"][0]["nomfichier"] ?>' title='Photo hôtel <?php echo $infoHotel["nom"] ?>'>
+                <?php } ?>
             </td>
         </table>
         <button class="button-reservation" onclick="pageRedirection('formReservation', {nohotel: <?php echo $infoHotel['nohotel'] ?>})">Réserver dans cet hôtel</button>

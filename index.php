@@ -4,6 +4,8 @@ if (isset($_POST['page'])) {
 } else {
 	$page = "";
 }
+
+// Gestion des pages du site (routing)
 switch ($page) {
 	case 'listhotel': {
 			require('controller/accueilC.php');

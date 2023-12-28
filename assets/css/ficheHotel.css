@@ -25,6 +25,27 @@
     overflow: hidden;
 }
 
+.fiche-hotel-info .description {
+    background-color: white; 
+    padding: 10px; 
+    border-radius: 5px;
+}
+
+.fiche-hotel-info .prix {
+    background-color: #fece6a;
+    padding: 10px;
+    font-weight: bold;
+    /* prix en haut à droite de fiche-hotel-info sans sortir de fiche-hotel-info*/
+    position: absolute;
+    top: 100px;
+    right: 50px;
+}
+
+.photo-item {
+    width: 100%;
+    object-fit: cover;
+}
+
 .fiche-hotel-equipements {
     display: flex;
     flex-wrap: wrap;
@@ -36,7 +57,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 75px;
+    height: 50px;
     border-radius: 100%;
 }
 

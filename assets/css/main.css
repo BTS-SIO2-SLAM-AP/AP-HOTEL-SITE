@@ -255,6 +255,17 @@ input, select {
     width: 100%;
 }
 
+.hotel-item .prix {
+    background-color: #fece6a;
+    padding: 10px;
+    font-weight: bold;
+    position: absolute;
+    margin-right: -225px;
+    margin-top: -10px;
+    color: #b31920;
+    border-radius: 0 8px 0 8px;
+}
+
 .hotel-item .photo-container {
     display: flex;
     flex-direction: column;
@@ -276,6 +287,7 @@ input, select {
     flex-wrap: wrap;
     gap: 5px;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .equipement-item img {
