@@ -34,11 +34,13 @@ ob_start();
             </td>
             <td style="width: 50%;">
                 <?php
+                // Affichage de la photo de l'hotel si elle existe
                 if (isset($infoHotel["photos"][0])) { ?>
                     <img class="photo-item" src='assets/media/photo/<?php echo $infoHotel["photos"][0]["nomfichier"] ?>' title='Photo hôtel <?php echo $infoHotel["nom"] ?>'>
                 <?php } ?>
             </td>
         </table>
+        <!-- Bouton de redirection vers la page de réservation -->
         <button class="button-reservation" onclick="pageRedirection('formReservation', {nohotel: <?php echo $infoHotel['nohotel'] ?>})">Réserver dans cet hôtel</button>
     </div>
 </div>

@@ -8,7 +8,9 @@ ob_start();
 <div class="formReservation">
     Réserver dans l'hôtel <?php echo $unHotel["nom"] ?>
     <br /><br />
+    <!-- Formulaire pour créer un réservation -->
     <form method='post' action="index.php">
+        <!-- Zones de saisie des dates début et fin de réservation -->
         <div class="datesReservation inputForm">
             <label for="datedebut">Réserver du</label>
             <input type="date" id="datedebut" name="datedebut" value="<?php echo date("Y-m-d"); ?>" min="<?php echo date("Y-m-d"); ?>" onchange="dateDebutChange()" onclick="click()" required>
@@ -18,16 +20,20 @@ ob_start();
         </div>
         <table>
             <td>
+                <!-- Zone de saisie de l'email du client -->
                 <div class="inputForm">
                     <label for="email">Email :</label>
-                    <input type="email" name="txtmail" required>
+                    <input type="email" name="txtmail" placeholder="Saisissez votre email" required>
                 </div>
 
+                <!-- Zone de saisie du nom du client -->
                 <div class="inputForm">
                     <label for="txtnom">Nom :</label>
-                    <input type="text" name="txtnom" required>
+                    <input type="text" name="txtnom" placeholder="Saisissez votre nom" required>
                 </div>
             </td>
+
+            <!-- Select pour choisir les chambres à réserver -->
             <td id="chambreSelector">
                 <link rel="stylesheet" href="assets/css/multi-select.css">
                 <div id="multi-select">

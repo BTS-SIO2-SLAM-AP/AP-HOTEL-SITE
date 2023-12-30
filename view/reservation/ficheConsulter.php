@@ -8,6 +8,7 @@ ob_start();
     if (!isset($_POST["deleted"])) {
         if (!$isConsultation || isset($messageFormErreur)) {
     ?>
+            <!-- Formulaire de saisi du numéro de réservation et de son code d'accès pour accéder aux informations de la réservation -->
             <form method='post' action='index.php'>
                 <label for='txtNoRes'>Numéro de réservation :</label></br>
                 <input type='number' name='txtNoRes' value='<?php if (isset($_POST["txtNoRes"])) echo $_POST["txtNoRes"]; ?>' placeholder="Saisissez votre numéro de réservation" required>
@@ -20,8 +21,10 @@ ob_start();
                 <input type="hidden" name="page" value="ficheConsulter">
             </form>
         <?php
+            // Affichage du message d'erreur si l'un des champs n'est pas valide
             if (isset($messageFormErreur)) echo "<p style='color: red; font-weight: bold;'>$messageFormErreur</p>";
         } else if (!isset($messageFormErreur)) { ?>
+            <!-- Affichage des informations de la réservation -->
             <table>
                 <tr><td class="tdl">Numéro de réservation : </td><td class="tdr"><b><?php echo $noresglobale ?></b></td></tr>
                 
@@ -33,11 +36,14 @@ ob_start();
                 <tr><td class="tdl">Chambres réservées : <b><?php echo "N°" . implode(", N°", array_column($chambresRes, 'nochambre')) ?></b></td></tr>
             </table>
 
+            <!-- Bouton pour annuler la réservation -->
             <button onclick="confirmationDelete()">Annuler cette réservation.</button>
 
             <script>
+                // Fonction de confirmation de l'annulation de la réservation
                 function confirmationDelete() {
                     if (confirm("Êtes-vous sûr de vouloir annuler cette réservation ?")) {
+                        // Redirection vers la page de suppression de la réservation si l'utilisateur confirme
                         pageRedirection('deleteReservation', {
                             nores: <?php echo $noresglobale; ?>,
                             codeacces: '<?php echo $codeaccesRes; ?>'
@@ -48,6 +54,7 @@ ob_start();
         <?php
         }
     } else { ?>
+        <!-- Affichage du message de confirmation de l'annulation de la réservation -->
         <p>Votre réservation a bien été annulée.</p>
         <p>Vous allez être redirigé vers la page d'accueil...</p>
         <META http-equiv="refresh" content="3; URL=index.php">

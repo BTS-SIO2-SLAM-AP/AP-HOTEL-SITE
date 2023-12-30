@@ -8,6 +8,7 @@ require_once 'model/ReservationM.php';
 class consultationC
 {
 
+    // Affichage de la page de consultation de réservation
     function loadConsultation()
     {
         $isConsultation = isset($_POST["consultation"]);
@@ -17,8 +18,10 @@ class consultationC
             if (isset($_POST["txtNoRes"]) && isset($_POST["txtCodeAcces"])) {
                 $modelRes = new ReservationM();
                 $infoReservation = $modelRes->getReservation($_POST["txtNoRes"]);
+                // Vérifie que la réservation existe
                 if ($infoReservation !== null) {
                     $codeacces = $_POST["txtCodeAcces"];
+                    // Vérifie que le code d'accès est correct
                     if ($codeacces == $infoReservation["codeacces"]) {
                         $modelHotel = new HotelM();
                         $infoHotel = $modelHotel->getHotel($infoReservation["nohotel"]);
@@ -61,16 +64,21 @@ class consultationC
         $modelRes = new ReservationM();
         $modelHotel = new HotelM();
 
+        // Vérifie que la réservation existe
         if (isset($_POST["nores"]) && in_array($_POST["nores"], $modelRes->getAllIdReservation())) {
             $suppressionWork = $modelRes->deleteReservation($_POST["nores"], $_POST["codeacces"]);
         } else {
+            // Si la réservation n'existe pas, on redirige vers la page d'erreur 404 avec un message d'erreur
             echo "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Réservation inconnue'});});</script>";
         }
 
         ob_start();
+        // Vérifie que la suppression a bien fonctionné
         if ($suppressionWork) {
+            // Si oui, on affiche que la suppression a bien fonctionné
             echo "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {deleted: 'deleted' });});</script>";
         } else {
+            // Sinon, on redirige vers la page d'erreur 404 avec un message d'erreur
             echo "<script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la suppression'});});</script>";
         }
         $content = ob_get_clean();
