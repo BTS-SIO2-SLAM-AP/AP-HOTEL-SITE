@@ -9,11 +9,11 @@ ob_start();
         if (!$isConsultation || isset($messageFormErreur)) {
     ?>
             <form method='post' action='index.php'>
-                <label for='txtNoRes'> Saisissez votre numéro de réservation :</label></br>
-                <input type='number' name='txtNoRes' value='<?php if (isset($_POST["txtNoRes"])) echo $_POST["txtNoRes"]; ?>' required>
+                <label for='txtNoRes'>Numéro de réservation :</label></br>
+                <input type='number' name='txtNoRes' value='<?php if (isset($_POST["txtNoRes"])) echo $_POST["txtNoRes"]; ?>' placeholder="Saisissez votre numéro de réservation" required>
                 </br></br>
-                <label for='txtCodeAcces'> Saisissez votre code d'accès :</label></br>
-                <input type='text' name='txtCodeAcces' value='<?php if (isset($_POST["txtCodeAcces"])) echo $_POST["txtCodeAcces"]; ?>' required>
+                <label for='txtCodeAcces'>Code d'accès :</label></br>
+                <input type='text' name='txtCodeAcces' value='<?php if (isset($_POST["txtCodeAcces"])) echo $_POST["txtCodeAcces"]; ?>' placeholder="Saisissez votre code d'accès" required>
                 </br></br>
                 <input type='submit' name='consultation' value='Consulter ma réservation'>
 
@@ -48,7 +48,7 @@ ob_start();
         <?php
         }
     } else { ?>
-        <p>Votre réservation a bien été supprimée.</p>
+        <p>Votre réservation a bien été annulée.</p>
         <p>Vous allez être redirigé vers la page d'accueil...</p>
         <META http-equiv="refresh" content="3; URL=index.php">
 </div>
