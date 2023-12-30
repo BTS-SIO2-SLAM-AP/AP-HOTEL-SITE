@@ -136,6 +136,14 @@ class ReservationM extends DBModel
         try {
             if ($nohotel != null) {
                 try {
+                    // Bloquage des injections XSS
+                    $nohotel = htmlentities($nohotel);
+                    $datedebut = htmlentities($datedebut);
+                    $datefin = htmlentities($datefin);
+                    $nom = htmlentities($nom);
+                    $email = htmlentities($email);
+                    $codeacces = htmlentities($codeacces);
+
                     $requete =  "insert into reservation(nohotel, nores, datedeb, datefin, nom, email, codeacces) " .
                         "values (:nohotel, :nores, :datedeb, :datefin, :nom, :email, :codeacces)";
 
@@ -172,7 +180,14 @@ class ReservationM extends DBModel
         try {
             // si la liste de chambres n'est pas vide
             if (count($lesChambres) != 0) {
+                // Bloquage des injections XSS
+                $nohotel = htmlentities($nohotel);
+                $noResGlobale = htmlentities($noResGlobale);
+
                 foreach ($lesChambres as $uneChambre) {
+                    // Bloquage des injections XSS
+                    $uneChambre = htmlentities($uneChambre);
+
                     $requete = "insert into reserver values (:nohotel, :nochambre, :noresglobale)";
 
                     $result = parent::getDb()->prepare($requete);
