@@ -33,14 +33,14 @@ ob_start();
                 <tr><td class="tdl">Chambres réservées : <b><?php echo "N°" . implode(", N°", array_column($chambresRes, 'nochambre')) ?></b></td></tr>
             </table>
 
-            <button onclick="confirmationDelete()">Supprimer cette réservation.</button>
+            <button onclick="confirmationDelete()">Annuler cette réservation.</button>
 
             <script>
                 function confirmationDelete() {
-                    if (confirm("Êtes-vous sûr de vouloir supprimer cette réservation ?")) {
+                    if (confirm("Êtes-vous sûr de vouloir annuler cette réservation ?")) {
                         pageRedirection('deleteReservation', {
                             nores: <?php echo $noresglobale; ?>,
-                            codeacces: <?php echo $codeaccesRes; ?>
+                            codeacces: '<?php echo $codeaccesRes; ?>'
                         });
                     }
                 }

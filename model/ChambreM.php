@@ -12,50 +12,47 @@ class ChambreM extends DBModel
     {
         try {
             $requete =  "select nochambre from chambre " .
-            "where nohotel = :nohotel order by nochambre";
+                "where nohotel = :nohotel order by nochambre";
 
-        $result = parent::getDb()->prepare($requete);
-        $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
-        $result->execute();
+            $result = parent::getDb()->prepare($requete);
+            $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
+            $result->execute();
 
-        $lesChambres = $result->fetchAll();
+            $lesChambres = $result->fetchAll();
 
-        foreach ($lesChambres as &$uneChambre) {
-            $ReservationM = new ReservationM();
-            $uneChambre["reservations"] = $ReservationM->getReservationsChambre($nohotel, $uneChambre["nochambre"]);
-        }
+            foreach ($lesChambres as &$uneChambre) {
+                $ReservationM = new ReservationM();
+                $uneChambre["reservations"] = $ReservationM->getReservationsChambre($nohotel, $uneChambre["nochambre"]);
+            }
 
-        return $lesChambres;
-        }
-        catch (Exception $ex) {
+            return $lesChambres;
+        } catch (Exception $ex) {
             return null;
         }
     }
 
     // Retourne toutes les chambres d'une réservation en fonction de son numéro
     public function getChambresReservation($noresglobale)
-
     {
         try {
             $requete =  "select reserver.nochambre from reserver " .
-            "inner join reservation on reserver.noresglobale = reservation.noresglobale " .
-            "where reservation.noresglobale = :noresglobale order by nochambre;";
+                "inner join reservation on reserver.noresglobale = reservation.noresglobale " .
+                "where reservation.noresglobale = :noresglobale order by nochambre;";
 
-        $result = parent::getDb()->prepare($requete);
-        $result->bindParam(":noresglobale", $noresglobale, PDO::PARAM_INT);
-        $result->execute();
+            $result = parent::getDb()->prepare($requete);
+            $result->bindParam(":noresglobale", $noresglobale, PDO::PARAM_INT);
+            $result->execute();
 
-        return $result->fetchAll();
-        }
-        catch (Exception $ex) {
-           return null;
+            return $result->fetchAll();
+        } catch (Exception $ex) {
+            return null;
         }
     }
 
     // Retourne la liste complète des chambres disponibles pour une date donnée (début et fin de séjour) de l'hotel passé en paramètre
     public function getChambresDispo($nohotel, $datedebut, $datefin)
     {
-        try{
+        try {
             // convertion des dates en format SQL DATETIME pour pouvoir les comparer
             $dateTimeDebut = date("Y-m-d\T00:00:00", strtotime($datedebut));
             $dateTimeFin = date("Y-m-d\T23:59:59", strtotime($datefin));
@@ -80,17 +77,11 @@ class ChambreM extends DBModel
             // $result->bindParam(":datedebut", $dateTimeDebut, PDO::PARAM_STR);
             // $result->bindParam(":datefin", $dateTimeFin, PDO::PARAM_STR);
             $result->execute();
-            $listChambresDispo = [];
-            foreach ($result->fetchAll() as $row) {
-                $listChambresDispo[] = $row['nochambre'];
-            }
-           
-            return $listChambresDispo;
+
+            return array_column($result->fetchAll(), 'nochambre');
+        } catch (Exception $ex) {
+            return null;
         }
-        catch (Exception $ex)
-        {
-            return $ex;
-        }        
     }
 
     // Retourne la liste complète des chambres de l'hotel passé en paramètre
@@ -98,47 +89,42 @@ class ChambreM extends DBModel
     {
         try {
             $requete =  "select nochambre from chambre " .
-            "where nohotel = :nohotel order by nochambre";
+                "where nohotel = :nohotel order by nochambre";
 
-        $result = parent::getDb()->prepare($requete);
-        $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
-        $result->execute();
+            $result = parent::getDb()->prepare($requete);
+            $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
+            $result->execute();
 
-        $lesChambres = $result->fetchAll();
+            $lesChambres = $result->fetchAll();
 
-        // On parcourt les chambres
-        foreach ($lesChambres as &$uneChambre) {
-            $ReservationM = new ReservationM();
-            $uneChambre["reservations"] = $this->getReservationsChambreDate($nohotel, $uneChambre["nochambre"]);
-        }
+            // On parcourt les chambres
+            foreach ($lesChambres as &$uneChambre) {
+                $ReservationM = new ReservationM();
+                $uneChambre["reservations"] = $this->getReservationsChambreDate($nohotel, $uneChambre["nochambre"]);
+            }
 
-        return $lesChambres;
-        }
-        catch (Exception $ex)
-        {
+            return $lesChambres;
+        } catch (Exception $ex) {
             return null;
-        }    
-}
+        }
+    }
 
     // Retourne la date debut et la date fin des réservations d'une chambre
     public function getReservationsChambreDate($nohotel, $nochambre)
     {
         try {
             $requete =  "select datedeb, datefin from reserver " .
-            "inner join reservation on reservation.noresglobale = reserver.noresglobale ".
-            "where reservation.nohotel = :nohotel and nochambre = :nochambre";
+                "inner join reservation on reservation.noresglobale = reserver.noresglobale " .
+                "where reservation.nohotel = :nohotel and nochambre = :nochambre";
 
-        $result = parent::getDb()->prepare($requete);
-        $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
-        $result->bindParam(":nochambre", $nochambre, PDO::PARAM_INT);
-        $result->execute();
+            $result = parent::getDb()->prepare($requete);
+            $result->bindParam(":nohotel", $nohotel, PDO::PARAM_INT);
+            $result->bindParam(":nochambre", $nochambre, PDO::PARAM_INT);
+            $result->execute();
 
-        return $result->fetchAll();
-        }
-        catch (Exception $ex)
-        {
+            return $result->fetchAll();
+        } catch (Exception $ex) {
             return null;
-        }    
-}
-
+        }
+    }
 }
