@@ -41,17 +41,19 @@ class reservationC
             $chambres = array_map('intval', explode(',', trim($_POST["listchambres"])));;
 
             // génération du code d'accès à 5 chiffres
-            $codeacces = str_pad(rand(0, 99999), 5, "0", STR_PAD_LEFT);
+            // $codeacces = str_pad(rand(0, 99999), 5, "0", STR_PAD_LEFT);
+
+            // génération d'un code d'accès (a-z, A-Z, 0-9) de 5 caractères
+            $codeacces = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 5)), 0, 5);
 
             $modelRes = new ReservationM();
             // Sauvegarde de la réservation dans la base de données
             $noresglobale = $modelRes->saveReservation($nohotel, $chambres, $datedebut, $datefin, $nom, $mail, $codeacces);
-            
         }
         ob_start();
         if ($noresglobale != 0) {
             // Affichage de la page d'information de la réservation
-            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {txtNoRes: $noresglobale, txtCodeAcces: $codeacces, consultation: 'consultation'});});</script>";
+            echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {txtNoRes: $noresglobale, txtCodeAcces: '$codeacces', consultation: 'consultation'});});</script>";
         } else {
             // Affichage de la page d'erreur en cas d'échec de la réservation
             echo "<script src='assets/js/pageManager.js'></script><script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la réservation'});});</script>";
