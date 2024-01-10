@@ -20,7 +20,7 @@ L'application permet de :
 
 ![](imagesProjet/schema_bdd.png)
 
-## Visuels de l'interface de l'application
+## Visuels des pages de l'application web
 
 ### Page d'accueil :
 ![](imagesProjet/preview_index.png)
@@ -50,19 +50,10 @@ Dans MSSMS, faites *clic-droit* sur "**Bases de données**" -> "**Joindre**" -> 
 
 ## Comment lier une base de données au projet ?
 
-Dans le dossier du projet, ouvrir le fichier "**App.config**".
---> Cherchez la balise suivante :
+Dans le dossier "model" du projet, ouvrir le fichier "**DBModel.php**".
+--> Cherchez les variables suivantes et complétez les avec vos propres valeurs :
 
-    <connectionStrings>
-	    ...
-    </connectionStrings>
-
- --> Dans cette balise, modifier le nom du serveur et de l'instance suivant le paramètre "***data source=***" par votre propre serveur et instance
-
-    <add name="connexiondb" 
-	    ...
-	    data source=VGTOM\SQLSERVEREXPRESS;
-	    ...
-    />
-
-Si vous lancez directement le .exe situé dans  "`bin/Debug/`", réalisez la même opération mais dans le fichier  "**AP-HOTEL-APPLI.exe.config**".
+	$server = "<nom_du_serveur_sql_server>";
+	$dbname = "<nom_de_la_bdd>";
+	$user = "<identifiant_de_connexion_a_la_bdd>";
+	$password = "<mot_de_passe_de_connexion_a_la_bdd>";
