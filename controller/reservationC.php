@@ -41,10 +41,7 @@ class reservationC
             $chambres = array_map('intval', explode(',', trim($_POST["listchambres"])));;
 
             // génération du code d'accès à 5 chiffres
-            // $codeacces = str_pad(rand(0, 99999), 5, "0", STR_PAD_LEFT);
-
-            // génération d'un code d'accès (a-z, A-Z, 0-9) de 5 caractères
-            $codeacces = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 5)), 0, 5);
+            $codeacces = str_pad(rand(0, 99999), 5, "0", STR_PAD_LEFT);
 
             $modelRes = new ReservationM();
             // Sauvegarde de la réservation dans la base de données
