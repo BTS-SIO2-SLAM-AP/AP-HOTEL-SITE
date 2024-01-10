@@ -10,12 +10,12 @@ ob_start();
     ?>
             <!-- Formulaire de saisi du numéro de réservation et de son code d'accès pour accéder aux informations de la réservation -->
             <form method='post' action='index.php'>
-                <label for='txtNoRes'>Numéro de réservation :</label></br>
+                <label for='txtNoRes'>Numéro de réservation :</label><br />
                 <input type='number' name='txtNoRes' value='<?php if (isset($_POST["txtNoRes"])) echo $_POST["txtNoRes"]; ?>' placeholder="Saisissez votre numéro de réservation" required>
-                </br></br>
-                <label for='txtCodeAcces'>Code d'accès :</label></br>
+                <br /><br />
+                <label for='txtCodeAcces'>Code d'accès :</label><br />
                 <input type='text' name='txtCodeAcces' value='<?php if (isset($_POST["txtCodeAcces"])) echo $_POST["txtCodeAcces"]; ?>' placeholder="Saisissez votre code d'accès" required>
-                </br></br>
+                <br /><br />
                 <input type='submit' name='consultation' value='Consulter ma réservation'>
 
                 <input type="hidden" name="page" value="ficheConsulter">
