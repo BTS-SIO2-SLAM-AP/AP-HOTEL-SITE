@@ -14,7 +14,6 @@
     </head>
     <body>
       <?php include 'view/layouts/navbar.php'; ?>
-
 		  <?php echo $content ?>
     </body>
 </html>

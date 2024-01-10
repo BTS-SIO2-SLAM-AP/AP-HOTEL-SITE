@@ -1,4 +1,3 @@
-<script src='assets/js/pageManager.js'></script>
 <?php
 if (isset($_POST['page'])) {
 	$page = $_POST['page'];

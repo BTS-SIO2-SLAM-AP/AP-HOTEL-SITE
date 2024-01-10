@@ -69,17 +69,17 @@ class consultationC
             $suppressionWork = $modelRes->deleteReservation($_POST["nores"], $_POST["codeacces"]);
         } else {
             // Si la réservation n'existe pas, on redirige vers la page d'erreur 404 avec un message d'erreur
-            echo "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Réservation inconnue'});});</script>";
+            echo "<script src='assets/js/pageManager.js'></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Réservation inconnue'});});</script>";
         }
 
         ob_start();
         // Vérifie que la suppression a bien fonctionné
         if ($suppressionWork) {
             // Si oui, on affiche que la suppression a bien fonctionné
-            echo "<script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {deleted: 'deleted' });});</script>";
+            echo "<script src='assets/js/pageManager.js'></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('ficheConsulter', {deleted: 'deleted' });});</script>";
         } else {
             // Sinon, on redirige vers la page d'erreur 404 avec un message d'erreur
-            echo "<script></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la suppression'});});</script>";
+            echo "<script src='assets/js/pageManager.js'></script><script>document.addEventListener('DOMContentLoaded', function() {pageRedirection('404', {messageErreur: 'Erreur pendant la suppression'});});</script>";
         }
         $content = ob_get_clean();
         require('view/template.php');
