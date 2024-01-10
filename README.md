@@ -22,20 +22,23 @@ L'application permet de :
 
 ## Visuels de l'interface de l'application
 
-### Interface d'accueil :
-![](imagesProjet/APPLI_HOTEL_accueil.png)
+### Page d'accueil :
+![](imagesProjet/preview_index.png)
 
-### Interface de gestion des informations hôtel :
-![](imagesProjet/APPLI_HOTEL_info.png)
+### Page de visualisation des informations d'un hôtel :
+![](imagesProjet/preview_hotel.png)
 
-### Interface de gestion des chambres :
-![](imagesProjet/APPLI_HOTEL_chambre.png)
+### Page de formulaire de création de réservation :
+![](imagesProjet/preview_reservation.png)
 
-### Interface de visualisation et d'édition des réservations :
-![](imagesProjet/APPLI_HOTEL_visuRes.png)
+### Page de formulaire pour consulter une réservation :
+![](imagesProjet/preview_consulter.png)
 
-### Interface de création de réservation :
-![](imagesProjet/APPLI_HOTEL_addRes.png)
+### Page de visualisation des informations d'une réservation :
+![](imagesProjet/preview_consultation.png)
+
+### Page de redirection avec confirmation de l'annulation :
+![](imagesProjet/preview_deleteRes.png)
 
 # Installation
 
